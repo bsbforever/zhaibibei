@@ -1,0 +1,13 @@
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python:
+*.so
+*.egg
+*.egg-info
+ghostdriver.log
+# My configurations:
+db.ini
+deploy_key_rsa
