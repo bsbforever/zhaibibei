@@ -10,190 +10,102 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
     	game_time=float(time.time())
         delete=gamelist.objects.all().delete()
-	#print 'overwatch'
-        douyuname='overwatch'
-        pandaname='overwatch'
-        huyaname='2174'
-        douyugame=douyu(douyuname)
-        for i in douyugame:
-            insert=gamelist(platform='douyu',game_name='overwatch',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        
-        pandagame=panda(pandaname)
-        for i in pandagame:
-            insert=gamelist(platform='panda',game_name='overwatch',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-	try:
-            huyagame=huya(huyaname)
-            for i in huyagame:
-                insert=gamelist(platform='huya',game_name='overwatch',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-                insert.save()
-	except Exception, e:
-	    print 'huya overwatch skip....'
-        zhanqiname='chns/blizzard/watch'
-        zhanqigame=zhanqi(zhanqiname)
-        for i in zhanqigame:
-            insert=gamelist(platform='zhanqi',game_name='overwatch',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        quanminname='overwatch'
-        quanmingame=quanmin(quanminname)
-        for i in quanmingame:
-            insert=gamelist(platform='quanmin',game_name='overwatch',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-
-        douyuname='dota2'
-        pandaname='dota2'
-        huyaname='7'
-        douyugame=douyu(douyuname)
-        for i in douyugame:
-            insert=gamelist(platform='douyu',game_name='dota2',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        
-        pandagame=panda(pandaname)
-        for i in pandagame:
-            insert=gamelist(platform='panda',game_name='dota2',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-	try:
-            huyagame=huya(huyaname)
-            for i in huyagame:
-                insert=gamelist(platform='huya',game_name='dota2',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-                insert.save()
-	except Exception, e:
-	    print 'huya overwatch skip....'
-        zhanqiname='games/dota2'
-        zhanqigame=zhanqi(zhanqiname)
-        for i in zhanqigame:
-            insert=gamelist(platform='zhanqi',game_name='dota2',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        quanminname='dota2'
-        quanmingame=quanmin(quanminname)
-        for i in quanmingame:
-            insert=gamelist(platform='quanmin',game_name='dota2',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
 	
-	#print 'hearthstone'
-        douyuname='how'
-        pandaname='hearthstone'
-        huyaname='393'
-        douyugame=douyu(douyuname)
-        for i in douyugame:
-            insert=gamelist(platform='douyu',game_name='hearthstone',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
-            insert.save()
+	
+	game_dic={}
+	game_dic['douyu']=['sc:sc','overwatch:ow','dota2:dota2','how:hs','lol:lol','tvgame:tvgame','yz:girl']
+	game_dic['panda']=['starcraft:sc','overwatch:ow','dota2:dota2','hearthstone:hs','lol:lol','zhuji:tvgame','yzdr:girl']
+	game_dic['huya']=['starcraft:sc','2174:ow','7:dota2','393:hs','lol:lol','1964:tvgame','2168:girl']
+	game_dic['zhanqi']=['chns/blizzard/sc2:sc','chns/blizzard/watch:ow','games/dota2:dota2','chns/blizzard/how:hs','games/lol:lol','games/danji:tvgame']
+	game_dic['quanmin']=['overwatch:ow','dota2:dota2','hearthstone:hs','lol:lol','tvgame:tvgame','beauty:girl']
+	
+	print 'douyu'
+	for game_name in game_dic['douyu']:
+	    j=game_name.split(':')
+	    try:
+	        douyuname=douyu(j[0])
+	        for i in douyuname:
+		    try:
+		        insert=gamelist(platform='douyu',game_name=j[1],game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
+                        insert.save()
+		    except Exception, e:
+		        print 'douyu '+game_name+' insert error!'+str(e)
+	    except Exception ,e:
+		print 'douyu '+game_name+' get error!'+str(e)
 
-        pandagame=panda(pandaname)
-        for i in pandagame:
-            insert=gamelist(platform='panda',game_name='hearthstone',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
-            insert.save()
-	try:
-            huyagame=huya(huyaname)
-            for i in huyagame:
-                insert=gamelist(platform='huya',game_name='hearthstone',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-                insert.save()
-	except Exception, e:
-	    print 'huya hs skip.....'
-        zhanqiname='chns/blizzard/how'
-        zhanqigame=zhanqi(zhanqiname)
-        for i in zhanqigame:
-            insert=gamelist(platform='zhanqi',game_name='hearthstone',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        quanminname='heartstone'
-        quanmingame=quanmin(quanminname)
-        for i in quanmingame:
-            insert=gamelist(platform='quanmin',game_name='hearthstone',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
+	
+	print 'panda'
+	for game_name in game_dic['panda']:
+	    j=game_name.split(':')
+	    try:
+	        pandaname=panda(j[0])
+	        for i in pandaname:
+		    try:
+		        insert=gamelist(platform='panda',game_name=j[1],game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
+                        insert.save()
+		    except Exception, e:
+		        print 'panda '+game_name+' insert error!'+str(e)
+	    except Exception ,e:
+		print 'panda '+game_name+' get error!'+str(e)
+
+	print 'huya'
+	for game_name in game_dic['huya']:
+	    try:
+		j=game_name.split(':')
+	        huyaname=huya(j[0])
+	        for i in huyaname:
+		    try:
+		        insert=gamelist(platform='huya',game_name=j[1],game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
+                        insert.save()
+		    except Exception, e:
+		        print 'huya '+game_name+' insert error!'+str(e)
+	    except Exception ,e:
+		print 'huya '+game_name+' get error!'+str(e)
+	
 
 
-
-
-	#print 'lol'
-
-        douyuname='lol'
-        pandaname='lol'
-        huyaname='lol'
-        douyugame=douyu(douyuname)
-        for i in douyugame:
-            insert=gamelist(platform='douyu',game_name=douyuname,game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
-            insert.save()
-
-        pandagame=panda(pandaname)
-        for i in pandagame:
-            insert=gamelist(platform='panda',game_name=pandaname,game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
-            insert.save()
-	try:
-            huyagame=huya(huyaname)
-            for i in huyagame:
-                insert=gamelist(platform='huya',game_name='lol',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-                insert.save()
-	except Exception, e:
-	    print 'huya lol skip.....'
-        zhanqiname='games/lol'
-        zhanqigame=zhanqi(zhanqiname)
-        for i in zhanqigame:
-            insert=gamelist(platform='zhanqi',game_name='lol',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        quanminname='lol'
-        quanmingame=quanmin(quanminname)
-        for i in quanmingame:
-            insert=gamelist(platform='quanmin',game_name='lol',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-
-	#print 'tvgame'
-        douyuname='tvgame'
-        pandaname='zhuji'
-        huyaname='1964'
-        douyugame=douyu(douyuname)
-        for i in douyugame:
-            insert=gamelist(platform='douyu',game_name=douyuname,game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
-            insert.save()
-
-        pandagame=panda(pandaname)
-        for i in pandagame:
-            insert=gamelist(platform='panda',game_name='tvgame',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
-            insert.save()
-	try:
-            huyagame=huya(huyaname)
-            for i in huyagame:
-                insert=gamelist(platform='huya',game_name='tvgame',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-                insert.save()
-	except Exception, e:
-	    print 'huya tvgame skip......'
-        zhanqiname='games/danji'
-        zhanqigame=zhanqi(zhanqiname)
-        for i in zhanqigame:
-            insert=gamelist(platform='zhanqi',game_name='tvgame',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        quanminname='tvgame'
-        quanmingame=quanmin(quanminname)
-        for i in quanmingame:
-            insert=gamelist(platform='quanmin',game_name='tvgame',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
+	print 'zhanqi'
+	for game_name in game_dic['zhanqi']:
+	    try:
+		j=game_name.split(':')
+	        zhanqiname=zhanqi(j[0])
+	        for i in zhanqiname:
+		    try:
+		        insert=gamelist(platform='zhanqi',game_name=j[1],game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
+                        insert.save()
+		    except Exception, e:
+		        print 'zhanqi '+game_name+' insert error!'+str(e)
+	    except Exception ,e:
+		print 'zhanqi '+game_name+' get error!'+str(e)
+	
+	print 'quanmin'
+	for game_name in game_dic['quanmin']:
+	    try:
+		j=game_name.split(':')
+	        quanminname=quanmin(j[0])
+	        for i in quanminname:
+		    try:
+		        insert=gamelist(platform='quanmin',game_name=j[1],game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
+                        insert.save()
+		    except Exception, e:
+		        print 'quanmin '+game_name+' insert error!'+str(e)
+	    except Exception ,e:
+		print 'quanmin '+game_name+' get error!'+str(e)
 
 
 
-	#print 'girl'
-        douyuname='yz'
-        pandaname='yzdr'
-        huyaname='2168'
-        douyugame=douyu(douyuname)
-        for i in douyugame:
-            insert=gamelist(platform='douyu',game_name='girl',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
+
+	print 'badminton'
+	sports='badminton'
+        zhangyu1=zhangyu(sports)
+        for i in zhangyu1:
+            insert=gamelist(platform='zhangyu',game_name='badminton',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
             insert.save()
 
-        pandagame=panda(pandaname)
-        for i in pandagame:
-            insert=gamelist(platform='panda',game_name='girl',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
+	print 'football'
+	sports='football'
+        zhangyu1=zhangyu(sports)
+        for i in zhangyu1:
+            insert=gamelist(platform='zhangyu',game_name='football',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=i['game_count'],game_time=game_time)
             insert.save()
-	try:
-            huyagame=huya(huyaname)
-            for i in huyagame:
-                insert=gamelist(platform='huya',game_name='girl',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-                insert.save()
-	except Exception, e:
-	    print 'huya girl skip.....'
-        quanminname='beauty'
-        quanmingame=quanmin(quanminname)
-        for i in quanmingame:
-            insert=gamelist(platform='quanmin',game_name='girl',game_link=i['game_link'],game_title=i['game_title'],game_picture=i['game_picture'],game_nickname=i['game_nickname'],game_count=float(i['game_count']),game_time=game_time)
-            insert.save()
-        print 'over'
-
+	print 'over'

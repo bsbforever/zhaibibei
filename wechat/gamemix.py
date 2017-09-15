@@ -50,17 +50,18 @@ def panda(pandagame):
     r = requests.get(url)
     content=r.content
     soup = BeautifulSoup(content,"lxml")
-    live_list=soup.find_all('li',attrs = {'class' : 'video-list-item video-no-tag video-no-cate'})
+    live_list=soup.find_all('li',attrs = {'class' : 'video-list-item video-no-tag video-no-cate '})
     for i in live_list:
         try:
             all_game=i.find('a')
            # print all_game
             game_count=all_game.find('span',attrs = {'class' : 'video-number'}).text
+	    game_count=game_count[0:-1]
 	    if '.' in game_count:
 		game_count=float(game_count[0:-1])*10000
             if  float(game_count)>8000:
                 game_link='http://www.panda.tv'+all_game['href']
-                game_title=all_game.find('div',attrs = {'class' : 'video-title'})['title']
+                game_title=all_game.find('span',attrs = {'class' : 'video-title'})['title']
                 game_picture= all_game.find('img',attrs = {'class' : 'video-img video-img-lazy'})['data-original']
                 game_nickname=all_game.find('span',attrs = {'class' : 'video-nickname'}).text
                # print all_game
@@ -167,7 +168,63 @@ def zhanqi(zhanqigame):
     #print game_list
     return game_list
 
+
 def quanmin(quanminname):
+    game_list=[]
+    #driver = selenium.webdriver.PhantomJS()
+    #url=quanminname
+    url='http://www.quanmin.tv/game/'+quanminname
+    #driver.get(url)
+    #content=driver.page_source
+    r = requests.get(url)
+    content=r.content
+    soup = BeautifulSoup(content,"lxml")
+    #print (soup)
+    #live_list=soup.find('ul',attrs = {'class' : 'list_w-videos_video-list'})
+    live_list=soup.find_all('li',attrs = {'class' : 'list_w-video'})
+    #print (live_list)
+
+    for i in live_list:
+        try:
+
+            all_game=i
+            game_count=all_game.find('span',attrs = {'class' : 'common_w-card_views-num'}).text.strip()
+            if  float(game_count)>8000:
+                #print(all_game)
+                game_nickname=all_game.find('span',attrs = {'class' : 'common_w-card_host-name'}).text.strip()
+                #print(game_nickname)
+                #game_link='http://www.quanmin.tv'+all_game.find('a',attrs = {'class' : 'common_w-card_href'})['href']
+                game_link='http:'+all_game.find('a',attrs = {'class' : 'common_w-card_href'})['href']
+                #print(game_link)
+                game_title=all_game.find('p',attrs = {'class' : 'common_w-card_title'}).text.strip()
+                #print( game_title)
+               #game_picture= all_game.find('img',attrs = {'class' : 'w-video_thumb'})['src']
+                game_picture= all_game.find('img',attrs = {'class' : 'common_w-card_cover'})['src']
+                #print(game_picture)
+                #print(all_game)
+               # print( all_game)
+                #print(game_author.strip())
+                #print (game_link)
+                #print (game_title)
+                #print (picture)
+                #print (game_count)
+                #print ('\n')
+                #break
+                game_dic={}
+                game_dic['game_link']=game_link
+                game_dic['game_title']=game_title
+                game_dic['game_picture']=game_picture
+                game_dic['game_nickname']=game_nickname
+                game_dic['game_count']=game_count
+                game_list.append(game_dic)
+        except Exception as  e:
+            print (e)
+        #print (game_list)
+        #break
+    return game_list
+
+
+def quanmin1(quanminname):
     game_list=[]
     driver = selenium.webdriver.PhantomJS()
     driver.implicitly_wait(30)
@@ -179,11 +236,9 @@ def quanmin(quanminname):
     live_list=soup.find_all('li',attrs = {'class' : 'w-video animated fadeInUp'})
     for i in live_list:
         try:
-            #print i
             all_game=i.find('a')
             game_count=all_game.find('span',attrs = {'class' : 'w-video_view-num'}).text
             game_count=str(game_count).strip().replace(',','')
-            #print all_game
             if '.' in game_count:
                 game_count=float(game_count[0:-1])*10000
             if  float(game_count)>8000:
@@ -191,8 +246,10 @@ def quanmin(quanminname):
                 game_link='http://www.quanmin.tv'+all_game['href']
                 #game_title=all_game.find('img',attrs = {'class' : 'w-video_thumb'})['alt']
                 #game_picture= all_game.find('img',attrs = {'class' : 'w-video_thumb'})['src']
-                game_title=all_game.find('h3',attrs = {'class' : 'ellipsis w-video_title'}).text.strip()
+                game_title=all_game.find('h3',attrs = {'class' : 'ellipsis w-video_title '}).text.strip()
                 game_picture= all_game.find_all('img',attrs = {'alt' : ''})[1]['src']
+                #print game_picture
+	        #break
                # print( all_game)
                 #print(game_author.strip())
                 #print (game_link)
@@ -212,6 +269,51 @@ def quanmin(quanminname):
             #pass
             print e
     return game_list
+
+def zhangyu(sports):
+    sport_list=[]
+    url='http://www.zhangyu.tv/channeltypes/'+sports
+    r = requests.get(url)
+    content=r.content
+    soup = BeautifulSoup(content,"lxml")
+
+    #print (soup)
+
+    #sports=soup.find_all('ul',attrs = {'class' : 'clear'})[0]
+    sports=soup.find('ul',attrs = {'class' : 'clear'})
+    all_sports=sports.find_all('li')
+    for i in all_sports:
+        #print (i)
+
+        try:
+            sport_count=i.find('span').text
+            #print (sport_count)
+            #break
+            if  float(sport_count)>1:
+                #print (sport_count)
+                sport_link='http://www.zhangyu.tv'+i.find('a')['href']
+                #print (sport_link)
+                sport_title=i.find('div',attrs = {'class' : 'channel-title'}).text.strip()
+                #print (sport_title)
+                sport_picture= i.find('img',attrs = {'class' : 'lazyload'})['data-zimg']
+                #print (sport_picture)
+                sport_nickname=i.find('div',attrs = {'class' : 'channel-name'}).text.strip()
+                #print (sport_nickname)
+                #print game_count
+                #print '\n'
+                game_dic={}
+                game_dic['game_link']=sport_link
+                game_dic['game_title']=sport_title
+                game_dic['game_picture']=sport_picture
+                game_dic['game_nickname']=sport_nickname
+                game_dic['game_count']=sport_count
+                sport_list.append(game_dic)
+        except Exception as e:
+            print (e)
+    return sport_list
+
+
+
 
 
 def nowplay(type):
@@ -425,10 +527,10 @@ if __name__=="__main__":
     pandagame='overwatch'
     huyagame='2174'
     #douyu(douyugame)
-    quanminname='overwatch'
+    quanminname='badminton'
     #panda(pandagame)
     type=''
-    result=moviesuggest(type)
+    result=zhangyu(quanminname)
 
     for i in result:
        print i

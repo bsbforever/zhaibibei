@@ -9,6 +9,7 @@ from parse import *
 from lxml import etree
 from qiushibaike import joke
 from movie import *
+from getlyric import *
 from gamemix import *
 from ora import *
 from tuling import *
@@ -17,6 +18,8 @@ from wechat.models import movielist
 from wechat.models import tvlist
 from wechat.models import laterlist
 from wechat.models import moviesuggest
+from wechat.models import lyrics
+from wechat.models import matchlist
 from django.shortcuts import render
 from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
@@ -55,9 +58,28 @@ def  check(request):
             if dic['Content'].lower()=='time':
                 dic['Content']=time.ctime()
                 return render_to_response('reply_message.html',dic)
-            elif dic['Content'].lower()=='joke':
+            elif dic['Content'].lower()=='joke1':
 	        dic['Content']=joke()
 		return render_to_response('reply_message.html',dic)
+            elif 'l:'in dic['Content'].lower():
+		name=dic['Content'].split(':')[1]
+	        #dic['Content']='sss'
+		song=get_name(name)
+		lyric_url1='http://www.shiyue.wiki/lyric'+song['url']
+		if lyrics.objects.filter(lyric_url=lyric_url1).exists():
+		    queryset=lyrics.objects.get(lyric_url=lyric_url1)
+		    dic['title']=queryset.lyric_title
+		    dic['description']=queryset.lyric_title
+		    dic['pic']=queryset.lyric_pic
+		    dic['url']=queryset.lyric_url
+		    return render_to_response('reply_lyrics.html',dic)
+		else:
+		    content=get_lyric('https://genius.com'+song['url'])
+		    insert=lyrics(lyric_title=song['title'],lyric_url=lyric_url1,lyric_pic=song['pic'],lyric_content=content)
+                    insert.save()
+		    dic['Content']='歌词下载完毕，请重新输入歌名'
+		    return render_to_response('reply_message.html',dic)
+		time.sleep(1)
             elif 'm:' in dic['Content'].lower():
 		moviename=dic['Content'].split()[-1]
 		moviename=urllib.quote(moviename.encode('utf8'))
@@ -83,7 +105,7 @@ def  check(request):
 	            dic['Content']='请输入正确的日期格式:20160101235959'
                     return render_to_response('reply_message.html',dic)
             elif  'help' in dic['Content'].lower() or '?' in dic['Content'] or len(dic['Content'])<2:
-	        dic['Content']='欢迎关注公众号，以下为具体功能:\n\n\n个人网站:http://www.shiyue.wiki\n\n\n输入ORA-00600查询Oracle错误\n\n(支持ORA IMP EXP RMAN等错误)\n\n\n输入m行尸走肉查看电影评分\n\n\n'
+	        dic['Content']='欢迎关注公众号，以下为具体功能:\n\n\n个人网站:http://120.77.154.136/\n\n\n输入ORA-00600查询Oracle错误\n\n(支持ORA IMP EXP RMAN等错误)\n\n\n输入青椒肉丝查看做法\n\n\n输入快递+快递单号查询位置\n\n\n可以讲笑话等\n\n\n输入m:行尸走肉查看电影评分\n\n\n输入l:shape of you查看歌曲歌词\n\n\n已接入机器人，可进行自动对话'
                 return render_to_response('reply_message.html',dic)
 	    else:
 	        #dic['Content']='欢迎关注公众号，以下为具体功能:\n\n\n个人网站:http://www.shiyue.wiki\n\n\n输入ORA-00600查询Oracle 错误\n\n\n输入Joke 查看最新笑话\n\n\n输入m行尸走肉查看电影评分\n\n\n输入d行尸走肉获取下载链接\n\n\n'
@@ -149,19 +171,36 @@ def index(request):
     #return render_to_response('index.html')
     #return HttpResponse(result)
 
+def lyric(request,title):
+    #return HttpResponse(title)
+    content = lyrics.objects.get(lyric_url='http://www.shiyue.wiki/lyric/'+title).lyric_content
+    dic={'title':title,'content':content}
+    return render_to_response('sop.html',dic)
+
+def marathon(request):
+    #return HttpResponse(title)
+    content = matchlist.objects.all().order_by('match_date')
+    dic={'content':content}
+    return render_to_response('sop.html',dic)
 
 
 def game_ow(request):
     game_time1=time.time()
     #result=gamelist.objects.filter(float(game_time)+600>=float(game_time1)).filter(game_name='overwatch').order_by('-game_count')
-    result=gamelist.objects.filter(game_name='overwatch').order_by('-game_count')
+    result=gamelist.objects.filter(game_name='ow').order_by('-game_count')
     dic={'result':result}
     return render_to_response('ow.html',dic)
 
+def game_sc(request):
+    game_time1=time.time()
+    #result=gamelist.objects.filter(float(game_time)+600>=float(game_time1)).filter(game_name='overwatch').order_by('-game_count')
+    result=gamelist.objects.filter(game_name='sc').order_by('-game_count')
+    dic={'result':result}
+    return render_to_response('sc.html',dic)
 
 def game_hs(request):
     gametime=float(time.time())
-    result=gamelist.objects.filter(game_name='hearthstone').order_by('-game_count')
+    result=gamelist.objects.filter(game_name='hs').order_by('-game_count')
     #result=gamelist.objects.all().filter(game_time__range=(gametime-600,game_time)).filter(game_name='hearthstone').order_by('-game_count')
     #result=gamelist.objects.filter(game_time=game_time).order_by('-game_count')
     dic={'result':result}
@@ -198,6 +237,22 @@ def game_dota2(request):
     result=gamelist.objects.filter(game_name='dota2').order_by('-game_count')
     dic={'result':result}
     return render_to_response('dota2.html',dic)
+
+def game_badminton(request):
+    #result=gamelist.objects.filter(game_time=game_time).order_by('-game_count')
+    game_time1=time.time()
+    #result=gamelist.objects.filter(float(game_time)+600>=float(game_time1)).filter(game_name='girl').order_by('-game_count')
+    result=gamelist.objects.filter(game_name='badminton').order_by('-game_count')
+    dic={'result':result}
+    return render_to_response('badminton.html',dic)
+
+def game_football(request):
+    #result=gamelist.objects.filter(game_time=game_time).order_by('-game_count')
+    game_time1=time.time()
+    #result=gamelist.objects.filter(float(game_time)+600>=float(game_time1)).filter(game_name='girl').order_by('-game_count')
+    result=gamelist.objects.filter(game_name='football').order_by('-game_count')
+    dic={'result':result}
+    return render_to_response('football.html',dic)
 
 def game_hot(request):
     #result=gamelist.objects.filter(game_time=game_time).order_by('-game_count')

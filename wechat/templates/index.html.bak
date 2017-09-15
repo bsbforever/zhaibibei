@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +14,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand" style="padding:0;"><img src="/static/django.png" height="50" alt="游戏聚集网"></a>
-            <a href="#" class="navbar-brand" style="padding:0;">{% if result != 5 %} <img src="/static/warning.png" height="50">{% endif %}</a>
+            <a href="#" class="navbar-brand" style="padding:0;">{% if result != 6 %} <img src="/static/warning.png" height="50">{% endif %}</a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -24,9 +25,9 @@
             <ul class="nav navbar-nav navbar-right" style="margin-top:0">
                 <li class="active"><a href="/wechat"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
                 <li><a href="/wechat/hot"><span class="glyphicon glyphicon-list"></span> 游戏直播</a></li>
+                <li><a href="/wechat/badminton"><span class="glyphicon glyphicon-list"></span>体育直播</a></li>
                 <li><a href="/wechat/nowplay"><span class="glyphicon glyphicon-list"></span> 影视推荐</a></li>
                 <li><a target=_blank href="http://music.163.com/#/discover/toplist?id=60198"><span class="glyphicon glyphicon-list"></span> 音乐推荐</a></li>
-                <li><a target=_blank href="http://pianyuan.net/"><span class="glyphicon glyphicon-list"></span> 电影下载</a></li>
                 <li><a target=_blank href="http://www.dygod.net/"><span class="glyphicon glyphicon-list"></span> 剧集下载</a></li>
                 <li><a href="/static/zhaibibei.png" target=_blank ><span class="glyphicon glyphicon-list"></span> 公众号关注</a></li>
             </ul>
@@ -102,6 +103,7 @@
     <h3 class="ellipsis">全民星秀</h3>
 </a>
 </div>
+
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 a">
 <a target=_blank href="/wechat/tvgame" title="主机游戏"  >
   <span class="imgbox">
@@ -110,6 +112,17 @@
   <img src="/static/tvgame.jpg" width="283" height="163">
 </span>
   <h3 class="ellipsis">主机游戏</h3>
+</a>
+</div>
+
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 a">
+<a target=_blank href="/wechat/badminton" title="Sports"  >
+  <span class="imgbox">
+  <b></b>
+  <i class="black"></i>
+  <img src="/static/sports.jpeg" width="283" height="163">
+</span>
+  <h3 class="ellipsis">体育直播</h3>
 </a>
 </div>
 
@@ -135,11 +148,15 @@
 </span>
   <h3 class="ellipsis">剧集推荐</h3>
 </a>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261136620'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261136620%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
 </div>
 
 </div>
 </div>
-
+<div id="footer">
+<p align="center">Powered By Zhabibei <a href="http://www.miitbeian.gov.cn">苏ICP备17053688号</a></p>
+</div>
 </body>
 </html>
-
+{% endblock %}

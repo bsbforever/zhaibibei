@@ -35,6 +35,19 @@ class movielist(models.Model):
     class Meta:
         app_label='wechat'
 
+class matchlist(models.Model):
+    match_name=models.CharField(max_length=100)
+    match_address=models.CharField(max_length=100)
+    match_date=models.CharField(max_length=20)
+    match_website=models.CharField(max_length=500)
+    match_count=models.CharField(max_length=100)
+    match_detail=models.CharField(max_length=500)
+    def __unicode__(self):
+        return self.match_name
+    class Meta:
+        app_label='wechat'
+
+
 class laterlist(models.Model):
     movie_name=models.CharField(max_length=50)
     movie_link=models.CharField(max_length=100)
@@ -78,5 +91,17 @@ class oraerror(models.Model):
     error_action=models.TextField()
     def __unicode__(self):
         return self.error_code
+    class Meta:
+        app_label='wechat'
+
+
+
+class lyrics(models.Model):
+    lyric_url=models.CharField(max_length=255,primary_key=True)
+    lyric_title=models.CharField(max_length=100)
+    lyric_pic=models.CharField(max_length=500)
+    lyric_content=models.TextField()
+    def __unicode__(self):
+        return self.lyric_title
     class Meta:
         app_label='wechat'
