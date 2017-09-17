@@ -79,7 +79,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'wechat',
         'USER': 'root',
-        #'PASSWORD': 'dgvtG@ng6',
         'PASSWORD': os.environ['MYSQL_PASSWORD'],
         'HOST': 'localhost',
         'PORT': '',
