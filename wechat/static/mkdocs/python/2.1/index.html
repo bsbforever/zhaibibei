@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Zhaibibei">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>1.MySQL安装 - 时悦的个人网站     Python自动化运维</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "1.MySQL\u5b89\u88c5";
+    var mkdocs_page_input_path = "2.1.md";
+    var mkdocs_page_url = "/2.1/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> 时悦的个人网站     Python自动化运维</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">首页</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Python运维</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../1.1/">1.Python3.6的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.2/">2.cx_Oracle模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.3/">3.cx_Oracle模块连接oracle(基础篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.4/">4.使用cx_Oracle连接Oracle(高级篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.5/">5.使用Python发送邮件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.6/">6.自动化监控Oracle表空间并发送报警</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.7/">7.自动化监控多个Oracle表空间</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Oracle索引</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">1.MySQL安装</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#mysql">MySQL安装</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#mysql_1">安装MySQL数据库</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.2/">2.使用Python连接MySQL</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.3/">3.使用Python获取Oracle索引信息</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.4/">4.将Oracle已使用过索引存入MySQL中</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Linux/Unix系统</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../3.1/">1.paramiko模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.2/">2.获取linux系统CPU使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.3/">3.获取linux系统内存使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.4/">4.获取linux系统磁盘使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.5/">5.获取HP-Unix系统性能数据</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.6/">6.监控Oracle alert日志</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">时悦的个人网站     Python自动化运维</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>使用Python监控Oracle索引 &raquo;</li>
+        
+      
+    
+    <li>1.MySQL安装</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="mysql">MySQL安装</h1>
+<p>这个专题讲述如何讲这些监控数据保存在MySQL中为日后所用</p>
+<p>无论是关系型数据库还是NoSQL，MySQL现在是仅次与Oracle的数据库</p>
+<p>特别是被Oracle收购后无论是大小还是功能都在向Oracle靠拢，默认的innodb引擎支持事务和undo功能，大大简化了日常的运维难度</p>
+<p>这个专题将监控数据保存在MySQL中</p>
+<p><strong>环境设置</strong></p>
+<p>Linux系统为 Centos 6.8 </p>
+<p>Python环境为 Python 3.6 </p>
+<p>MySQL版本 MySQL 5.7 (GA)</p>
+<h2 id="mysql_1">安装MySQL数据库</h2>
+<p>为了简化安装我们采用yum源的方式安装，这里参照的是官方的安装手册</p>
+<p>官网地址:</p>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/linux-installation.html">https://dev.mysql.com/doc/refman/5.7/en/linux-installation.html</a></p>
+<p>注意：如果是在公司内部安装，可能防火墙会阻止yum的端口，需让网路管理员放行</p>
+<p><strong>下载yum源</strong></p>
+<p><a href="https://dev.mysql.com/downloads/repo/yum/">https://dev.mysql.com/downloads/repo/yum/</a></p>
+<p>这里我们选择Red Hat 6版本</p>
+<pre><code>wget https://dev.mysql.com/get/mysql57-community-release-el6-11.noarch.rpm
+</code></pre>
+
+<p><strong>安装yum源</strong></p>
+<pre><code> yum localinstall mysql57-community-release-el6-11.noarch.rpm
+</code></pre>
+
+<p><strong>安装MySQL数据库</strong></p>
+<pre><code>yum install mysql-community-server
+</code></pre>
+
+<p><strong>启动数据库</strong></p>
+<pre><code>service mysqld start
+</code></pre>
+
+<p><strong>修改默认密码</strong></p>
+<p>默认密码通过如下命令获取</p>
+<pre><code> grep 'temporary password' /var/log/mysqld.log
+ [Note] A temporary password is generated for root@localhost: lbUz9e3g8M,G
+</code></pre>
+
+<p><strong>登陆MySQL并修改密码</strong></p>
+<p>注意密码有复杂度需求</p>
+<pre><code>mysql -uroot -p
+mysql&gt; ALTER USER 'root'@'localhost' IDENTIFIED BY 'passw@rd1';
+</code></pre>
+
+<p><strong>其他MySQL命令</strong></p>
+<pre><code>service mysqld start
+service mysqld stop
+service mysqld status
+</code></pre>
+
+<p>至此MySQL已经安装完毕，这里只是默认的配置，详细的配置如文件路径，buffer等参数的设置后续再讲 </p>
+<p>下期讲如何利用Python连接MySQL数据库</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../2.2/" class="btn btn-neutral float-right" title="2.使用Python连接MySQL">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../1.7/" class="btn btn-neutral" title="7.自动化监控多个Oracle表空间"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>苏ICP备17053688号</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../1.7/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../2.2/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

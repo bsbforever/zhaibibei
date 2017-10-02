@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Zhaibibei">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>4.将Oracle已使用过索引存入MySQL中 - 时悦的个人网站     Python自动化运维</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "4.\u5c06Oracle\u5df2\u4f7f\u7528\u8fc7\u7d22\u5f15\u5b58\u5165MySQL\u4e2d";
+    var mkdocs_page_input_path = "2.4.md";
+    var mkdocs_page_url = "/2.4/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> 时悦的个人网站     Python自动化运维</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">首页</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Python运维</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../1.1/">1.Python3.6的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.2/">2.cx_Oracle模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.3/">3.cx_Oracle模块连接oracle(基础篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.4/">4.使用cx_Oracle连接Oracle(高级篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.5/">5.使用Python发送邮件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.6/">6.自动化监控Oracle表空间并发送报警</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.7/">7.自动化监控多个Oracle表空间</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Oracle索引</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../2.1/">1.MySQL安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.2/">2.使用Python连接MySQL</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.3/">3.使用Python获取Oracle索引信息</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">4.将Oracle已使用过索引存入MySQL中</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#oraclemysql">将Oracle已使用过索引存入MySQL中</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#mysql">存入MySQL脚本内容</a></li>
+        
+            <li><a class="toctree-l4" href="#_1">运行结果</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Linux/Unix系统</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../3.1/">1.paramiko模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.2/">2.获取linux系统CPU使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.3/">3.获取linux系统内存使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.4/">4.获取linux系统磁盘使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.5/">5.获取HP-Unix系统性能数据</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.6/">6.监控Oracle alert日志</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">时悦的个人网站     Python自动化运维</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>使用Python监控Oracle索引 &raquo;</li>
+        
+      
+    
+    <li>4.将Oracle已使用过索引存入MySQL中</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="oraclemysql">将Oracle已使用过索引存入MySQL中</h1>
+<p>这个专题讲述如何讲这些监控数据保存在MySQL中为日后所用</p>
+<p>上节讲到如何利用Python获取Oracle已使用过的索引名称</p>
+<p>这节讲如何将他们存入MySQL数据库中</p>
+<p><strong>环境设置</strong> </p>
+<p>Linux系统为 Centos 6.8 </p>
+<p>Python环境为 Python 3.6 </p>
+<p>MySQL版本 MySQL 5.7 (GA) </p>
+<p>连接Oracle模块:cx_Oracle </p>
+<p>连接MySQL模块:PyMySQL</p>
+<h2 id="mysql">存入MySQL脚本内容</h2>
+<p>将上节获取Oracle索引的脚本增加存入MySQL数据库的代码</p>
+<p>脚本名称依然为:checkindex.py</p>
+<pre><code>#!/usr/bin/python
+#coding=utf8
+import cx_Oracle
+import pymysql
+from sendmail_phone import *
+
+def getindex(oracle_cursor):
+    fp=open('/home/oracle/script/getindex.sql','r')
+    fp1=fp.read()
+    s=oracle_cursor.execute(fp1)
+    fp.close()
+    result=[]
+    row=s.fetchall()
+    for i in row:
+        result.append(i[0]+'.'+i[1])
+    return result
+
+if __name__==&quot;__main__&quot;:
+    mailcontent=[] 
+    ipaddress='10.60.14.70'
+    username='sys'
+    password='sys_password'
+    port='1527'
+    tnsname='NP1'
+    #首先获取v$sql_plan中的索引名称保存至变量data
+    try:
+        oracle = cx_Oracle.connect(username+'/'+password+'@'+ipaddress+':'+port+'/'+tnsname ,mode=cx_Oracle.SYSDBA)
+    except Exception as e:
+        content= (tnsname+' is Unreachable,The reason is '+ str(e)).strip()
+        print (content)
+    else:
+        oracle_cursor = oracle.cursor()
+        data=getindex(oracle_cursor)
+        oracle_cursor.close()
+        oracle.close()
+        #接下来连接本地MySQL数据库
+        mysql = pymysql.connect(&quot;localhost&quot;,&quot;root&quot;,&quot;Oracle@123&quot;,&quot;oracle&quot; )
+        mysql_cursor = mysql.cursor()
+        #遍历每个索引
+        for index in data:
+            #首先检查该索引是否存在于数据库中
+            checkifexist='select count(*) from oracle_indexmonitor where index_name=\''+index+'\' and ipaddress=\''+ipaddress+'\' and tnsname=\''+tnsname+'\''
+            mysql_cursor.execute(checkifexist)
+            count = mysql_cursor.fetchone()
+            #如结果等于0说明该索引未记录，则插入到MySQL数据库中
+            if int(count[0])==0:
+                try:
+                    insertsql='insert into oracle_indexmonitor(index_name,ipaddress,tnsname) values(\''+index+'\',\''+ipaddress+'\',\''+tnsname+'\')'
+                    mysql_cursor.execute(insertsql)
+                    mysql.commit()
+                except:
+                    mysql.rollback()
+
+        mysql_cursor.close()
+        mysql.close()
+
+</code></pre>
+
+<p>思路为先获取索引信息</p>
+<ol>
+<li>
+<p>再遍历每个索引</p>
+</li>
+<li>
+<p>针对不在MySQL的数据库的存入MySQL数据库中</p>
+</li>
+<li>
+<p>经过一段时间的运行即可知道哪些索引未被使用过</p>
+</li>
+</ol>
+<h2 id="_1">运行结果</h2>
+<p>运行完脚本后我们查看MySQL数据库，应该可以看到表里应该有数据，而且没有重复数据</p>
+<p>由于v$sql_plan中的数据可能被刷出内存空间，我们需要较为频繁的运行该程序</p>
+<p>我在实际监控中是每隔十五分钟，大家可以使用crontab 来设定</p>
+<p>这样经过一段时间(半年甚至一年)，可知道哪些索引未被使用过</p>
+<p><img alt="Alt text" src="../image/1497961554900.png" /></p>
+<p><img alt="Alt text" src="../image/1497961554901.png" /></p>
+<p><strong>源码位置</strong></p>
+<p>全部代码请查看我的Github主页</p>
+<p><a href="https://github.com/bsbforever/wechat_oms">https://github.com/bsbforever/wechat_oms</a></p>
+<p>至此该专题已经讲解完毕，介绍了监控索引的一种思路，日常运维中可横向展开对其他指标进行监控，这个下次说。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../3.1/" class="btn btn-neutral float-right" title="1.paramiko模块的安装">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../2.3/" class="btn btn-neutral" title="3.使用Python获取Oracle索引信息"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>苏ICP备17053688号</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../2.3/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../3.1/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

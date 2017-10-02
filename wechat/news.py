@@ -109,22 +109,14 @@ def weibo():
     #print (soup)
     print ('实时热搜:')
     print ('\n')
-    weibo=soup.find_all('div',attrs = {'class' : 'hot_ranklist2'})[0]
+    weibo=soup.find_all('div',attrs = {'class' : 'hot_ranklist'})[0]
     weibo_content=weibo.find_all('a',attrs = {'href' :True})
     #print ('实时热搜:')
     for j in weibo_content:
-        content=j.text
+        content=j.text.strip()
         print (content)
 
-    print ('热点热搜:')
-    print ('\n')
-    weibo=soup.find_all('div',attrs = {'class' : 'hot_ranklist2'})[2]
-    weibo_content=weibo.find_all('a',attrs = {'href' :True})
-    #print ('实时热搜:')
-    for j in weibo_content:
-        content=j.text
-        print (content)
-toutiao()
+#toutiao()
 print ('\n')
 cnbeta()
 print ('\n')

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Zhaibibei">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>5.获取HP-Unix系统性能数据 - 时悦的个人网站     Python自动化运维</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "5.\u83b7\u53d6HP-Unix\u7cfb\u7edf\u6027\u80fd\u6570\u636e";
+    var mkdocs_page_input_path = "3.5.md";
+    var mkdocs_page_url = "/3.5/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> 时悦的个人网站     Python自动化运维</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">首页</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Python运维</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../1.1/">1.Python3.6的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.2/">2.cx_Oracle模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.3/">3.cx_Oracle模块连接oracle(基础篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.4/">4.使用cx_Oracle连接Oracle(高级篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.5/">5.使用Python发送邮件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.6/">6.自动化监控Oracle表空间并发送报警</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.7/">7.自动化监控多个Oracle表空间</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Oracle索引</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../2.1/">1.MySQL安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.2/">2.使用Python连接MySQL</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.3/">3.使用Python获取Oracle索引信息</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.4/">4.将Oracle已使用过索引存入MySQL中</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Linux/Unix系统</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../3.1/">1.paramiko模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.2/">2.获取linux系统CPU使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.3/">3.获取linux系统内存使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.4/">4.获取linux系统磁盘使用率</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">5.获取HP-Unix系统性能数据</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#paramikohp-unix">使用paramiko获取HP-Unix系统性能数据</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_1">使用的命令</a></li>
+        
+            <li><a class="toctree-l4" href="#paramikounix">使用paramiko连接unix服务器</a></li>
+        
+            <li><a class="toctree-l4" href="#_2">验证结果</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.6/">6.监控Oracle alert日志</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">时悦的个人网站     Python自动化运维</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>使用Python监控Linux/Unix系统 &raquo;</li>
+        
+      
+    
+    <li>5.获取HP-Unix系统性能数据</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="paramikohp-unix">使用paramiko获取HP-Unix系统性能数据</h1>
+<p>前面介绍了如何运用Python获取Oracle数据库的信息以及将数据存入MySQL数据库中</p>
+<p>我们知道对于运维Oracle数据库不能忽略系统的性能指标包括CPU内存等</p>
+<p>这个专题将介绍如何使用Python监控linux/Unix服务器的性能指标</p>
+<p>上节我们讲了如何连接linux服务器并获取相关信息</p>
+<p>这节我们用一节来讲解如何获取HP-Unix的内存,CPU及磁盘分区信息</p>
+<p><strong>环境设置</strong></p>
+<p>Linux系统为 Centos 6.8 </p>
+<p>Python环境为 Python 3.6 </p>
+<p>连接Unix类服务器模块: paramiko</p>
+<h2 id="_1">使用的命令</h2>
+<p>跟linux有所区别我们获取HP-Unix的信息的命令是不一样的</p>
+<p>CPU:       sar 
+Memory: swapinfo 
+磁盘:       bdf</p>
+<h2 id="paramikounix">使用paramiko连接unix服务器</h2>
+<p>程序名称为:connectunix.py</p>
+<p>如下程序使用paramiko连接unix服务器然后获取CPU,内存，磁盘分区信息</p>
+<p>具体注释情看详细代码</p>
+<pre><code>#!/usr/bin/python
+#coding=utf8
+import paramiko
+def getunixspace(ssh):
+        result=[]
+        stdin,stdout,stderr=ssh.exec_command('bdf |awk \' NR&gt;1 {if ($1==$NF){printf $1}else{print $0}}\'')
+        err=stderr.readlines()
+        if len(err) != 0:
+            print (err)
+            return False
+        else:
+            stdout_content=stdout.readlines()
+        result= stdout_content
+        try:
+            if  len(result) !=0:
+                return result
+            else:
+                print ('There is something wrong when execute unix bdf command')
+        except  Exception as e :
+            print (e)
+
+
+def getunixcpu(ssh):
+        result=[]
+        stdin,stdout,stderr=ssh.exec_command('sar 1 3 |awk \'END {print 100-$NF }\'')
+        err=stderr.readlines()
+        if len(err) != 0:
+            print (err)
+            return False
+        else:
+            stdout_content=stdout.readlines()
+        result= stdout_content
+        try:
+            if  len(result) !=0:
+                return round(float(result[0].strip()),2)
+            else:
+                print ('There is something wrong when execute unix sar command')
+        except Exception as e:
+            print (e)
+def getunixmem(ssh):
+        result=[]
+        stdin,stdout,stderr=ssh.exec_command('swapinfo -tam | awk \'END { print $5}\'')
+        err=stderr.readlines()
+        if len(err) != 0:
+            print (err)
+            return False
+        else:
+            stdout_content=stdout.readlines()
+        result= stdout_content
+        try:
+            if  len(result) !=0:
+                return round(float(result[0].strip()[0:-1]),2)
+            else:
+                print ('There is something wrong when execute unix swapinfo command')
+        except Exception as e:
+            print (e)
+
+</code></pre>
+
+<h2 id="_2">验证结果</h2>
+<p><img alt="Alt text" src="../image/3/12.png" /></p>
+<p><img alt="Alt text" src="../image/3/13.png" /></p>
+<p>正常情况下会返回该服务器的的相关信息</p>
+<p>如不正常，代码中大量的异常处理可以帮助大家快速定位异常点</p>
+<p><strong>源码位置</strong></p>
+<p>全部代码请查看我的Github主页</p>
+<p><a href="https://github.com/bsbforever/wechat_oms">https://github.com/bsbforever/wechat_oms</a></p>
+<p>今天就讲到这，下节讲述获取如何利用Python检查Oracle alert日志</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../3.6/" class="btn btn-neutral float-right" title="6.监控Oracle alert日志">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../3.4/" class="btn btn-neutral" title="4.获取linux系统磁盘使用率"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>苏ICP备17053688号</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../3.4/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../3.6/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

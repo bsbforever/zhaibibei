@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Zhaibibei">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>2.cx_Oracle模块的安装 - 时悦的个人网站     Python自动化运维</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "2.cx_Oracle\u6a21\u5757\u7684\u5b89\u88c5";
+    var mkdocs_page_input_path = "1.2.md";
+    var mkdocs_page_url = "/1.2/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> 时悦的个人网站     Python自动化运维</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">首页</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Python运维</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../1.1/">1.Python3.6的安装</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">2.cx_Oracle模块的安装</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#cx_oracle">cx_Oracle模块的安装</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#1-oracle-12c-instant-client">1. 安装Oracle 12c Instant Client</a></li>
+        
+            <li><a class="toctree-l4" href="#2cx_oracle">2.下载cx_Oracle模块</a></li>
+        
+            <li><a class="toctree-l4" href="#3cx_oracleroot">3.安装cx_Oracle模块(root用户)</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.3/">3.cx_Oracle模块连接oracle(基础篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.4/">4.使用cx_Oracle连接Oracle(高级篇)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.5/">5.使用Python发送邮件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.6/">6.自动化监控Oracle表空间并发送报警</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../1.7/">7.自动化监控多个Oracle表空间</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Oracle索引</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../2.1/">1.MySQL安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.2/">2.使用Python连接MySQL</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.3/">3.使用Python获取Oracle索引信息</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../2.4/">4.将Oracle已使用过索引存入MySQL中</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">使用Python监控Linux/Unix系统</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../3.1/">1.paramiko模块的安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.2/">2.获取linux系统CPU使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.3/">3.获取linux系统内存使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.4/">4.获取linux系统磁盘使用率</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.5/">5.获取HP-Unix系统性能数据</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../3.6/">6.监控Oracle alert日志</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">时悦的个人网站     Python自动化运维</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Python运维 &raquo;</li>
+        
+      
+    
+    <li>2.cx_Oracle模块的安装</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="cx_oracle">cx_Oracle模块的安装</h1>
+<p>这个专题讲解Python相关方面的内容，首先是运维方面，例如数据库，Linux等，后续会有Web，爬虫等。</p>
+<p>上节讲了如何安装Python3.6 ，这节讲述如何利用Python 模块cx_Oracle 连接Oracle数据库</p>
+<p>这节包含 oracle客户端的安装和cx_Oracle模块的安装两部分</p>
+<p><strong>环境设置</strong></p>
+<p>Linux系统为 Centos 6.8</p>
+<p>Python环境为 Python 3.6</p>
+<p>Oracle 模块:cx_Oracle</p>
+<p>Oracle客户端:Oracle 12c Instant Client</p>
+<h2 id="1-oracle-12c-instant-client">1. 安装Oracle 12c Instant Client</h2>
+<p>由于这次我们使用Python连接Oracle，所以需要oracle客户端，这里我们使用Oracle 12c Instant Client</p>
+<p><strong>注意：12c客户端不支持连接9i及以下数据库，如有需求请下载11g的instant client</strong></p>
+<p><a href="http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html?ssSourceSiteId=otncn">下载地址</a></p>
+<p><img alt="Alt text" src="../image/1497862970550.png" /></p>
+<p>这里我们下载上图圈出来的2个rpm包(需要注册Oracle账号)</p>
+<blockquote>
+<p>oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm </p>
+<p>oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm </p>
+</blockquote>
+<p><strong>1.1安装Oracle客户端(root用户)</strong></p>
+<pre><code>rpm -ivh oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm 
+rpm -ivh oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
+</code></pre>
+
+<hr />
+<p><strong>1.2添加ORACLE_HOME用户环境变量(root用户)</strong>
+<img alt="Alt text" src="../image/1497961554890.png" /></p>
+<pre><code class="python">vim ~/.bash_profile
+export ORACLE_HOME=/usr/lib/oracle/12.2/client64
+export LD_LIBRARY_PATH=/usr/lib/oracle/12.2/client64/lib
+</code></pre>
+
+<h2 id="2cx_oracle">2.下载cx_Oracle模块</h2>
+<p>我们知道Python在强大的在于他强大的模块功能，不论你想做什么都有相应的轮子供我们使用，今天介绍的是专门用户连接Oracle数据的一个模块</p>
+<p><a href="https://pypi.python.org/pypi/cx_Oracle/5.2.1#downloads">下载地址</a></p>
+<p>这里我们选择Linux版本。
+<img alt="Alt text" src="../image/1497863162392.png" /></p>
+<h2 id="3cx_oracleroot">3.安装cx_Oracle模块(root用户)</h2>
+<p>下载完成后我们安装</p>
+<pre><code class="python">tar zxvf cx_Oracle-5.2.1.tar.gz
+cd cx_Oracle-5.2.1
+python setup.py build
+python setup.py  install
+</code></pre>
+
+<p><strong>验证安装</strong></p>
+<p>如import无错误则说明安装成功
+<img alt="Alt text" src="../image/1497959352223.png" /></p>
+<p>至此cx_Oracle模块已经安装完成，下期讲介绍如何利用cx_Oracle模块连接Oracle数据库</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../1.3/" class="btn btn-neutral float-right" title="3.cx_Oracle模块连接oracle(基础篇)">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../1.1/" class="btn btn-neutral" title="1.Python3.6的安装"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>苏ICP备17053688号</p>
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../1.1/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../1.3/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>
