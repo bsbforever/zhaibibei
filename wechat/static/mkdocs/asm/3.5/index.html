@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>5.asmcmd管理ASM文件 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../3.4/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../3.6/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#asmcmdasm">asmcmd管理ASM文件</a></li>
+        
+            <li><a href="#11-cd">1.1 cd</a></li>
+        
+            <li><a href="#12-cp">1.2 cp</a></li>
+        
+            <li><a href="#13-du">1.3 du</a></li>
+        
+            <li><a href="#14-find">1.4 find</a></li>
+        
+            <li><a href="#15-ls">1.5 ls</a></li>
+        
+            <li><a href="#16-lsof">1.6 lsof</a></li>
+        
+            <li><a href="#17-mkalias">1.7 mkalias</a></li>
+        
+            <li><a href="#18-mkdir">1.8 mkdir</a></li>
+        
+            <li><a href="#19-pwd">1.9 pwd</a></li>
+        
+            <li><a href="#110-rm">1.10 rm</a></li>
+        
+            <li><a href="#111-rmalias">1.11 rmalias</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="asmcmdasm">asmcmd管理ASM文件</h1>
+<p>原创 2017-11-16 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>这节讲ASM 的asmcmd命令</p>
+<p>asmcmd命令是我们管理ASM的一个命令行工具</p>
+<p>我们可以使用help dsget的形式查看帮助</p>
+<p>通过grid用户进入</p>
+<p><img alt="Alt text" src="../image/3/3.5/1.png" /></p>
+<p>ASM文件相关命令</p>
+<h2 id="11-cd">1.1 cd</h2>
+<p>该命令用户改变当前所在的目录</p>
+<p><img alt="Alt text" src="../image/3/3.5/2.png" /></p>
+<h2 id="12-cp">1.2 cp</h2>
+<p>该命令用于在ASM 磁盘组，操作系统，远程系统之间拷贝文件</p>
+<p>注意：不能再2个远程系统间操作</p>
+<pre><code>ASMCMD [+] &gt; cp +data/orcl/datafile/EXAMPLE.265.691577295 /mybackups/example.bak
+
+
+
+ASMCMD [+] &gt;  cp /mybackups/examples.bak +data/orcl/datafile/myexamples.bak
+
+
+
+ASMCMD [+] &gt; cp +data/orcl/datafile/EXAMPLE.265.691577295 sys@myserver.+ASM:/scratch/backup/myexamples.bak
+
+Enter Password:
+</code></pre>
+
+<h2 id="13-du">1.3 du</h2>
+<p>该命令计算目录已使用的大小，若不指定目录则计算当前目录</p>
+<p>注意：不能计算文件的大小</p>
+<p><img alt="Alt text" src="../image/3/3.5/3.png" /></p>
+<p>Used_MB不包括镜像使用的大小 </p>
+<p>Mirror_used_MB包括镜像使用的大小</p>
+<h2 id="14-find">1.4 find</h2>
+<p>该命令查找指定目录的文件</p>
+<p><img alt="Alt text" src="../image/3/3.5/4.png" /></p>
+<h2 id="15-ls">1.5 ls</h2>
+<p>该命令列出当前目录的文件信息</p>
+<p>他有不同的参数</p>
+<p>-l 代表显示详细信息 
+-s代表显示空间使用 
+-t代表按时间排序而不是按名称 
+–permission表示显示权限信息</p>
+<p><img alt="Alt text" src="../image/3/3.5/5.png" />
+<img alt="Alt text" src="../image/3/3.5/6.png" />
+<img alt="Alt text" src="../image/3/3.5/7.png" />
+<img alt="Alt text" src="../image/3/3.5/8.png" /></p>
+<h2 id="16-lsof">1.6 lsof</h2>
+<p>该命令列出当前客户端正在打开的文件</p>
+<p><img alt="Alt text" src="../image/3/3.5/9.png" />
+<img alt="Alt text" src="../image/3/3.5/10.png" /></p>
+<h2 id="17-mkalias">1.7 mkalias</h2>
+<p>该命令为系统生产的文件名设置别名</p>
+<pre><code>ASMCMD [+data/orcl/datafile] &gt; mkalias SYSAUX.257.721811945 sysaux.f
+
+ASMCMD [+data/orcl/datafile] &gt; ls --absolutepath
+
+none =&gt; EXAMPLE.265.721812093
+
++DATA/ORCL/DATAFILE/sysaux.f =&gt; SYSAUX.257.721811945
+
+none =&gt; SYSTEM.256.721811945
+
+none =&gt; UNDOTBS1.258.721811945
+
+none =&gt; USERS.259.721811947
+
+sysaux.f
+</code></pre>
+
+<h2 id="18-mkdir">1.8 mkdir</h2>
+<p>该命令在当前目录创建文件夹，可以同时创建多个</p>
+<p>注意：无法在根目录创建文件夹</p>
+<pre><code>ASMCMD [+data] &gt; mkdir subdir1 subdir2
+
+ASMCMD [+data] &gt; ls
+
+                ASM/
+
+                ORCL/
+
+                subdir1/
+
+                subdir2/
+</code></pre>
+
+<h2 id="19-pwd">1.9 pwd</h2>
+<p>该命令获取当前目录的绝对路径</p>
+<pre><code>ASMCMD&gt; pwd
+       +hdb_data/hdb/controlfile
+</code></pre>
+
+<h2 id="110-rm">1.10 rm</h2>
+<p>该命令删除指定的文件或目录</p>
+<p><img alt="Alt text" src="../image/3/3.5/11.png" /></p>
+<pre><code>ASMCMD [+data/orcl/datafile] &gt; rm myexamples.bak
+
+ASMCMD [+data] &gt; rm -r subdir2
+
+You may delete multiple files and/or directories.
+
+Are you sure? (y/n) y
+</code></pre>
+
+<h2 id="111-rmalias">1.11 rmalias</h2>
+<p>该命令删除文件的别名,并不会删除该文件</p>
+<pre><code>ASMCMD [+data/orcl/datafile] &gt; rmalias sysaux.f
+</code></pre>
+
+<p>具体请参考下面链接或点击阅读原文:</p>
+<p><a href="https://docs.oracle.com/cd/E11882_01/server.112/e18951/asm_util003.htm#OSTMG01643">https://docs.oracle.com/cd/E11882_01/server.112/e18951/asm_util003.htm#OSTMG01643</a></p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

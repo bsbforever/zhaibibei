@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>3.ASM Instances管理 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.2/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../1.4/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#asm-instances">ASM Instances管理</a></li>
+        
+            <li><a href="#1-server-control-utility-srvctlasm">1. 使用Server Control Utility (SRVCTL)管理ASM</a></li>
+        
+            <li><a href="#2-asm">2. 启动ASM实例</a></li>
+        
+            <li><a href="#3-asm">3. 关闭ASM实例</a></li>
+        
+            <li><a href="#4-asm">4. ASM后台进程</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="asm-instances">ASM Instances管理</h1>
+<p>2017-10-19 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>内容主要来自官方文档，加上一些自己的理解及实践</p>
+<p>这节将ASM实例的一些参数，这节讲如何管理ASM实例</p>
+<h2 id="1-server-control-utility-srvctlasm">1. 使用Server Control Utility (SRVCTL)管理ASM</h2>
+<p>可以使用SRVCTL做如下操作:</p>
+<ul>
+<li>
+<p>从OCR中添加和删除ASM记录</p>
+</li>
+<li>
+<p>启用，禁用，启动和停止ASM实例</p>
+</li>
+<li>
+<p>显示ASM实例的配置和状态</p>
+</li>
+</ul>
+<pre><code>srvctl add asm -n node_name -i +asm_instance_name -o oracle_home
+</code></pre>
+
+<p>具体可参见如下链接:</p>
+<p><a href="https://docs.oracle.com/cd/B28359_01/rac.111/b28254/storage.htm#RACAD826">官方网站</a></p>
+<h2 id="2-asm">2. 启动ASM实例</h2>
+<p>启动ASM实例不同于Oracle数据库的启动那样mount和open数据文件，它会首先启动实例然后挂在磁盘组</p>
+<ul>
+<li>
+<p>ASM_DISKGROUPS参数中的磁盘组</p>
+</li>
+<li>
+<p>Cluster Synchronization Services (CSS)服务需要的磁盘组</p>
+</li>
+<li>
+<p>OCR需要的磁盘组</p>
+</li>
+<li>
+<p>存储SPFILE文件需要的磁盘组</p>
+</li>
+</ul>
+<p>当上面列表中没有磁盘组时，ASM实例会启动起来，但不会挂载任何磁盘组</p>
+<p>之后可以通过命令ALTER DISKGROUP…MOUNT来挂载</p>
+<p><strong>mount force</strong></p>
+<p>当normal，high级别的磁盘组中有磁盘损坏的话，ASM 提供 mount force命令来强制mount磁盘组</p>
+<p>前提是磁盘组中有至少一份完整的数据文件拷贝</p>
+<p>注意：如果磁盘组中的磁盘都是好的，这时使用mount force，会导致命令失败</p>
+<h3 id="21-startup">2.1 startup 参数</h3>
+<p>我们使用startup命令来启动ASM实例</p>
+<p>和Oracle数据库启动一样，startup有一些参数可以使用</p>
+<p><strong>FORCE</strong></p>
+<p>在启动ASM之前先执行 shutdown abort命令</p>
+<p><strong>MOUNT or OPEN</strong></p>
+<p>开启ASM实例并mount磁盘组，这是默认参数</p>
+<p><strong>NOMOUNT</strong></p>
+<p>开启ASM实例但是不mount磁盘组</p>
+<p><strong>RESTRICT</strong></p>
+<p>开启ASM实例并只允许具有 CREATE SESSION 和 RESTRICTED SESSION 系统权限的用户登入</p>
+<p>可以用在 mount,nomount,open参数后面</p>
+<p>下图为一个开启ASM实例的例子</p>
+<p><img alt="Alt text" src="../image/1/1.3/1.png" /></p>
+<h3 id="22-restrict">2.2 RESTRICT模式</h3>
+<p>当ASM以RESTRICT模式启动时，磁盘组是以RESTRICT模式挂载的，这种情况下数据库无法访问ASM磁盘组，便于维护</p>
+<pre><code>startup mount RESTRICT 
+</code></pre>
+
+<p>维护结束后需要dismout然后重新mount磁盘组</p>
+<h3 id="23-cluster-synchronization-servicescss">2.3 Cluster Synchronization Services(CSS)服务</h3>
+<p>该服务进程为ASM提供集群服务，ASM和数据库实例间的通信以及其他的一些服务，在ASM启动前需确保其开启状态</p>
+<p><strong>检查CSS是否启动</strong></p>
+<pre><code>crsctl check cssd
+</code></pre>
+
+<p><img alt="Alt text" src="../image/1/1.3/2.png" /></p>
+<p><strong>开启CSS服务</strong> </p>
+<p>使用root 用户登录并确保$ORACLE_HOME/bin 在环境变量中</p>
+<pre><code>localconfig add
+</code></pre>
+
+<h2 id="3-asm">3. 关闭ASM实例</h2>
+<p>ASM实例的关闭包括dismount磁盘组和关闭实例两步</p>
+<p>关闭ASM前需要先关闭相关的数据库实例</p>
+<p>我们使用shutdown命令来关闭ASM实例，它有如下参数:</p>
+<p><strong>NORMAL</strong></p>
+<p>ASM 等待现有SQL执行完成后才会dismount磁盘组，然后需要等到所有用户断开连接才会关闭实例</p>
+<p>如果有数据库实例连接到ASM实例，则该命令失败，ASM实力仍为running状态 </p>
+<p>这是默认的参数</p>
+<p><strong>IMMEDIATE 或TRANSACTIONAL</strong></p>
+<p>ASM 等待现有SQL执行完成后才会dismount磁盘组，然后不需要等到所有用户断开连接才会关闭实例 </p>
+<p>如果有数据库实例连接到ASM实例，则该命令失败，ASM实力仍为running状态</p>
+<p><strong>ABORT</strong></p>
+<p>ASM实例立刻关闭而不需要dismount磁盘组</p>
+<p>下次启动时会进行ASM实例恢复</p>
+<p>如有数据库实例连接在ASM实例，则数据库也会关闭</p>
+<h2 id="4-asm">4. ASM后台进程</h2>
+<p>ASM后台进程主要有下面几个</p>
+<ul>
+<li>
+<p>ARBn 进程负责磁盘组重新平衡，同一时间可以有很多该进程，依次为ARB0 ARB1….</p>
+</li>
+<li>
+<p>ASMB 进程运行在数据库端用来和ASM进程通信以及管理存储，ASM端运行cp命令或者使用spfile启动时会在ASM端出现</p>
+</li>
+<li>
+<p>GMON进程负责维护磁盘组中的磁盘成员关系</p>
+</li>
+<li>
+<p>MARK 进程负责将写入损坏磁盘失败的AU标记未stale</p>
+</li>
+</ul>
+<p>RBAL进程运行在数据库端负责打开ASM磁盘，运行在ASM端负责重新平衡磁盘组</p>
+<p>另外还有一些通用的进程，如DBWn ,LGWR ,PMON ,SMON</p>
+<p>还有一些为完成特别任务才有的进程，如 Snnn</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

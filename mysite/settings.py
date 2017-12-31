@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!uk&gp@(^vml--7k32wbi)e=6d!cc0s-h@cl0l^!o7-oe8j*2w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['120.77.154.136','www.zhaibibei.cn','zhaibibei.cn']
 

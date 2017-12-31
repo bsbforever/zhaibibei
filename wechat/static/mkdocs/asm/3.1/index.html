@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.Oracle ASM Files - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.10/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../3.2/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#oracle-asm-files">Oracle ASM Files</a></li>
+        
+            <li><a href="#1-asmasm-files">1. ASM文件(ASM Files)</a></li>
+        
+            <li><a href="#2-extents">2. 区(Extents)</a></li>
+        
+            <li><a href="#3-asmasm-striping">3. ASM条带化(ASM Striping)</a></li>
+        
+            <li><a href="#4-file-templates">4. 文件模板(File Templates)</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="oracle-asm-files">Oracle ASM Files</h1>
+<p>原创 2017-10-17 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>内容主要来自官方文档，加上一些自己的理解及实践</p>
+<p>这节讲ASM文件，并介绍其如何在磁盘组中分布的</p>
+<h2 id="1-asmasm-files">1. ASM文件(ASM Files)</h2>
+<p>存储在ASM 磁盘组的文件称之为ASM 文件，Oracle数据库和ASM通过ASM 文件来交互</p>
+<p>磁盘组支持如下类型的文件</p>
+<ul>
+<li>
+<p>控制文件</p>
+</li>
+<li>
+<p>数据文件，临时文件，数据文件拷贝</p>
+</li>
+<li>
+<p>SPFILEs</p>
+</li>
+<li>
+<p>在线重做日志，归档日志，闪回日志</p>
+</li>
+<li>
+<p>RMAN备份</p>
+</li>
+<li>
+<p>灾难复原配置</p>
+</li>
+<li>
+<p>Change tracking bitmaps</p>
+</li>
+<li>
+<p>数据泵dump集</p>
+</li>
+</ul>
+<p><strong>注意：Oracle可执行和 ASCII 文件，例如alert日志，trace文件等无法放在ASM 磁盘组中</strong></p>
+<p>ASM会自动命令ASM文件名，当然你也可以手动指定路径和名称 </p>
+<p>名称路径最前面为+号，后面跟上磁盘组名称，如+HDB_DATA</p>
+<h2 id="2-extents">2. 区(Extents)</h2>
+<p>ASM Extents为分配空间的最小单位，一个区只会包含在一个磁盘中，一个区包含一个或多个AU</p>
+<p>Oracle ASM 支持可变大小的区(Variable size extents)</p>
+<p><img alt="Alt text" src="../image/3/3.1/1.png" /></p>
+<p>上图显示出了ASM 文件在磁盘组中的分配情况</p>
+<p>最小的长方形代表一个AU</p>
+<ul>
+<li>
+<p>前20000个extent大小等于AU大小</p>
+</li>
+<li>
+<p>之后的20000个extent(20000 - 39999)大小等于8个AU的大小,即可变大小的区</p>
+</li>
+<li>
+<p>之后的区就是64个AU的大小(图中未显示)</p>
+</li>
+</ul>
+<p>可以看到文件的前8个extent分布在磁盘组中的各个磁盘中</p>
+<h2 id="3-asmasm-striping">3. ASM条带化(ASM Striping)</h2>
+<p>ASM Striping 有2个用处</p>
+<ol>
+<li>
+<p>将文件分散在磁盘组各个磁盘中来平衡负载–Coarse Grained</p>
+</li>
+<li>
+<p>减少I/O延迟–fine grained</p>
+</li>
+</ol>
+<p>为了达到目的，ASM 通过将 ASM文件分成一个个条带(stripes) ，然后将其分散在磁盘组中磁盘中</p>
+<hr />
+<p>Oracle提供2种方式的striping</p>
+<h3 id="31-fine-grained-stripe">3.1 细粒度条带(fine-grained stripe )</h3>
+<p>fine-grained stripe 的stripes 的大小始终为128K</p>
+<p><img alt="Alt text" src="../image/3/3.1/2.png" /></p>
+<p>我们将ASM文件分成很多128 K 的chunks，每个AU也划分为每个128K的chunks，首先放入第一个磁盘的第一个extent，然后第二个磁盘的第一个extent，然后循环起来直至ASM 文件全部放置完成</p>
+<p>可以看出这种方式将文件细分成很小的大小分散在各个磁盘中，提高了I/O的响应速度，对并发高，要求延迟小的OLTP系统有利</p>
+<h3 id="32-coarse-grained-striping">3.2 粗粒度条带( Coarse-Grained Striping)</h3>
+<p>Coarse-grained stripe 的stripes 的大小为AU的大小</p>
+<p><img alt="Alt text" src="../image/3/3.1/3.png" /></p>
+<p>我们将ASM文件分解成很多块，每个大小为AU的大小,首先放入第一个磁盘的第一个extent，然后第二个磁盘的第一个extent，以此类推直至所有ASM文件放置完成</p>
+<p>可以看出这种方式每次I/O可访问更多的数据，对对吞吐量要求较高的OLAP系统有利</p>
+<h2 id="4-file-templates">4. 文件模板(File Templates)</h2>
+<p>模板为一个集合，里面包含冗余级别和条带化的属性值，在建立文件时可指定模板</p>
+<p>ASM 提供默认模板供不同的文件类型使用，你可以自定义其中的属性来满足需求</p>
+<h3 id="41-striping">4.1 Striping 属性可选值</h3>
+<p><img alt="Alt text" src="../image/3/3.1/4.png" /></p>
+<h3 id="42-redundancy">4.2 Redundancy 属性可选值</h3>
+<p><img alt="Alt text" src="../image/3/3.1/5.png" /></p>
+<h3 id="43">4.3 默认模板属性值</h3>
+<p>下图为一些文件类型默认的模板属性值</p>
+<p><img alt="Alt text" src="../image/3/3.1/6.png" /></p>
+<p>好了，ASM File 就这么多了，下节讲ASM的管理</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>8.磁盘组的相关视图 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.7/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.9/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#_1">磁盘组的相关视图</a></li>
+        
+            <li><a href="#1">1.查看磁盘组的的属性值</a></li>
+        
+            <li><a href="#2">2.查看磁盘组的兼容性值</a></li>
+        
+            <li><a href="#3">3. 查看磁盘组中磁盘的情况</a></li>
+        
+            <li><a href="#4">4.查看磁盘组客户端情况</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="_1">磁盘组的相关视图</h1>
+<p>原创 2017-11-07 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<h2 id="1">1.查看磁盘组的的属性值</h2>
+<pre><code>SELECT dg.name AS diskgroup, SUBSTR(a.name,1,18) AS name,
+
+SUBSTR(a.value,1,24) AS value, read_only FROM V$ASM_DISKGROUP dg,
+
+V$ASM_ATTRIBUTE a WHERE dg.name = 'HDB_DATA'
+
+AND dg.group_number = a.group_number;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.8/1.png" /></p>
+<h2 id="2">2.查看磁盘组的兼容性值</h2>
+<pre><code>SELECT name AS diskgroup, compatibility AS asm_compat,
+
+database_compatibility AS db_compat FROM V$ASM_DISKGROUP;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.8/2.png" /></p>
+<h2 id="3">3. 查看磁盘组中磁盘的情况</h2>
+<pre><code>select name, state, type, total_mb, free_mb, required_mirror_free_mb req_free, usable_file_mb use_mb
+
+from v$asm_diskgroup
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.8/3.png" /></p>
+<p>下节详细讲解该视图</p>
+<h2 id="4">4.查看磁盘组客户端情况</h2>
+<pre><code>SELECT dg.name AS diskgroup, SUBSTR(c.instance_name,1,12) AS instance, SUBSTR(c.db_name,1,12) AS dbname, SUBSTR(c.SOFTWARE_VERSION,1,12) AS software, SUBSTR(c.COMPATIBLE_VERSION,1,12) AS compatible FROM V$ASM_DISKGROUP dg, V$ASM_CLIENT c WHERE dg.group_number = c.group_number;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.8/4.png" /></p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

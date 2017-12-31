@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>5.开始我们的第一个网页 - 打造属于自己的监控系统-Django|Python|Oracle</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">打造属于自己的监控系统-Django|Python|Oracle</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Django创建网站 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Django框架介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.数据库,模块等环境的准备</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.使用Django创建网站</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.使用Django管理数据库表</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">5.开始我们的第一个网页</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Django执行Oracle命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.执行Oracle命令界面建立</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.获取Oracle数据文件创建的时间</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.获取Oracle表的分析时间</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.获取Oracle数据库段的大小</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.通过进程号获取SQL语句</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.通过会话查看进程号</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.获取Oracle临时表空间的使用率</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.获取Oracle执行次数等于一的语句(硬解析状况)</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.检查未绑定变量的语句(硬解析状况)</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Django自定义命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.让Django运行自定义命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.使用自定义命令获取Oracle监控指标</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.将Oracle监控指标在前端展现</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.4/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.1/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#_1">开始我们的第一个网页</a></li>
+        
+            <li><a href="#urlspy">urls.py设置</a></li>
+        
+            <li><a href="#viewspy">views.py设定</a></li>
+        
+            <li><a href="#bootstrap">安装bootstrap</a></li>
+        
+            <li><a href="#_2">模板文件</a></li>
+        
+            <li><a href="#_3">查看页面</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="_1">开始我们的第一个网页</h1>
+<p>上节讲了如何利用Django建立自己的第一个网站以及操作MySQL数据库</p>
+<p>这节讲如何利用Django建立我们的第一个界面</p>
+<p>首先看下利用Django 新建页面的步骤</p>
+<p><img alt="Alt text" src="../image/1/17.png" /></p>
+<p><strong>开发环境</strong></p>
+<p>操作系统:CentOS 7.3</p>
+<p>Python版本 :2.7</p>
+<p>Django版本: 1.10.5</p>
+<p>操作系统用户:oracle</p>
+<h2 id="urlspy">urls.py设置</h2>
+<p><strong>修改mysite/urls.py文件</strong></p>
+<pre><code>from django.conf.urls import include, url
+from django.contrib import admin
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^monitor/', include('monitor.urls')),
+    url(r'^', include('monitor.urls'))
+]
+</code></pre>
+
+<p>这里的include设定指的是monitor 应用的url跳转到monitor文件夹下面的urls文件</p>
+<p><strong>新建 monitor/urls.py</strong></p>
+<pre><code>from django.conf.urls import  url, include
+from monitor import views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+]
+</code></pre>
+
+<p>^代表以后面的字符开头</p>
+<p>$代表以前面的字符结尾</p>
+<h2 id="viewspy">views.py设定</h2>
+<p>这里新建index函数对应urls.py文件中的定义</p>
+<p>这里摘取一部分，其他的查看我的Github主页</p>
+<pre><code>from django.http import HttpRequest
+from django import template
+from monitor.models import *
+
+def index(request):
+    result=oraclelist.objects.all().order_by('tnsname')
+    dic={'result':result}
+    return render_to_response('index.html',dic)
+</code></pre>
+
+<p>Django 可以使用一些方法获取数据库的信息，如上面的objects.all方法用来获取所有行，其结果为字典，之后将其重定向到index.html文件</p>
+<p>其他可参考如下链接</p>
+<p><a href="https://docs.djangoproject.com/en/1.11/topics/db/queries/">https://docs.djangoproject.com/en/1.11/topics/db/queries/</a></p>
+<h2 id="bootstrap">安装bootstrap</h2>
+<p>前端的界面我们采用bootstrap，我们需要下载bootstrap文件放在static目录中</p>
+<p>下载 bootstrap 3</p>
+<p><a href="http://getbootstrap.com/getting-started/#download">http://getbootstrap.com/getting-started/#download</a></p>
+<p>将所有文件夹(css/fonts/js)放在 static目录</p>
+<p><img alt="Alt text" src="../image/1/18.png" /></p>
+<h2 id="_2">模板文件</h2>
+<p>在monitor/目录新建 templates目录用于存放模板文件</p>
+<pre><code>[oracle@asensvr-oms monitor]$ mkdir -p ~/mysite/monitor/templates
+</code></pre>
+
+<p><strong>新建index html文件</strong></p>
+<p>vim index.html</p>
+<pre><code>    &lt;h1 class='page-header'&gt;数据库概况&lt;/h1&gt;
+&lt;div class=&quot;table-responsive&quot;&gt;
+&lt;table class=&quot;table&quot; id='table1' class=&quot;table table-striped&quot; width='1052'&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;数据库&lt;/th&gt;
+      &lt;th&gt;IP地址&lt;/th&gt;
+      &lt;th&gt;端口&lt;/th&gt;
+      &lt;th&gt;主机名&lt;/th&gt;
+      &lt;th&gt;版本&lt;/th&gt;
+      &lt;th&gt;字符集&lt;/th&gt;
+      &lt;th&gt;国家字符集&lt;/th&gt;
+      &lt;th&gt;日志位置&lt;/th&gt;
+     &lt;!--   &lt;th&gt;用途&lt;/th&gt;    --&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+{% for i in result %}
+&lt;tbody&gt;
+            &lt;tr&gt;
+                &lt;td&gt;{{i.tnsname}}&lt;/td&gt;
+                &lt;td&gt;{{i.ipaddress}}&lt;/td&gt;
+                &lt;td&gt;{{i.port}}&lt;/td&gt;
+                &lt;td&gt;{{i.hostname}}&lt;/td&gt;
+                &lt;td&gt;{{i.version}}&lt;/td&gt;
+                &lt;td&gt;{{i.charset}}&lt;/td&gt;
+                &lt;td&gt;{{i.ncharset}}&lt;/td&gt;
+                &lt;td&gt;{{i.alertpath}}&lt;/td&gt;
+&lt;!--                &lt;td&gt;{{i.content}}&lt;/td&gt;   --&gt;
+            &lt;/tr&gt;
+&lt;/tbody&gt;
+{% endfor %}
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>同样Django也提供了非常强大的模板功能，可以直接将变量传至html文件</p>
+<p>大家可先照着我的写，其实固定常用的就那么几个，可根据单词猜出意思</p>
+<p>具体可参考:</p>
+<p><a href="https://docs.djangoproject.com/en/1.11/topics/templates/">https://docs.djangoproject.com/en/1.11/topics/templates/</a></p>
+<p><a href="http://www.runoob.com/django/django-template.html">http://www.runoob.com/django/django-template.html</a></p>
+<h2 id="_3">查看页面</h2>
+<pre><code>[oracle@oms mysite]$ python manage.py runserver 0.0.0.0:8081
+</code></pre>
+
+<p><img alt="Alt text" src="../image/1/20.png" /></p>
+<p>这样我们就通过网页的形式展示了数据库的基本信息
+方便我们日常查看数据库基本信息</p>
+<p><strong>源码地址</strong></p>
+<p>源码请查看我的GitHub主页</p>
+<p><a href="https://github.com/bsbforever/wechat_monitor">https://github.com/bsbforever/wechat_monitor</a></p>
+<p>今天介绍了介绍了如何建立第一个页面</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

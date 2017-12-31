@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.让Django运行自定义命令 - 打造属于自己的监控系统-Django|Python|Oracle</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">打造属于自己的监控系统-Django|Python|Oracle</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Django创建网站 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Django框架介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.数据库,模块等环境的准备</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.使用Django创建网站</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.使用Django管理数据库表</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.5/">5.开始我们的第一个网页</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Django执行Oracle命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.执行Oracle命令界面建立</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.获取Oracle数据文件创建的时间</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.获取Oracle表的分析时间</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.获取Oracle数据库段的大小</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.通过进程号获取SQL语句</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.通过会话查看进程号</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.获取Oracle临时表空间的使用率</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.获取Oracle执行次数等于一的语句(硬解析状况)</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.检查未绑定变量的语句(硬解析状况)</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Django自定义命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.让Django运行自定义命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.使用自定义命令获取Oracle监控指标</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.将Oracle监控指标在前端展现</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.9/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../3.2/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#django">让Django运行自定义命令</a></li>
+        
+            <li><a href="#_1">何时用到自定义命令</a></li>
+        
+            <li><a href="#_2">何为自定义命令</a></li>
+        
+            <li><a href="#_3">如何建立自定义命令</a></li>
+        
+            <li><a href="#_4">运行命令</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="django">让Django运行自定义命令</h1>
+<p>这节讲述如何运行自定义命令</p>
+<p>这个专题主要内容有：</p>
+<ol>
+<li>
+<p>如何新建自定义命令 </p>
+</li>
+<li>
+<p>如何使用自定义命令获取Oracle监控指标并写入数据库 </p>
+</li>
+<li>
+<p>如何将获取到的数据库监控指标在前端显示</p>
+</li>
+</ol>
+<p><strong>开发环境</strong></p>
+<p>操作系统:CentOS 7.3 </p>
+<p>Python版本 :2.7 </p>
+<p>Django版本: 1.10.5 </p>
+<p>操作系统用户:oracle</p>
+<h2 id="_1">何时用到自定义命令</h2>
+<p>我们在使用Django的过程中是否有这样的困惑</p>
+<p>我们在model中定义的数据表如何才能取出来供我们使用呢</p>
+<p>是否可以不用第三方模块呢</p>
+<p>这些都可以在自定义命令中得到解决</p>
+<p>使用自定义命令的最常用的用途为可以直接使用Django model中定义的数据</p>
+<p>就像前面执行Oracle命令中view.py中的语句，可以直接调用而不需要使用额外的第三方模块</p>
+<pre><code>def oracle_command(request):
+  result=oraclelist.objects.all().order_by('tnsname')
+  dic={'result':result}
+  return render_to_response('oracle_command.html',dic)
+</code></pre>
+
+<p>如上图result就是取oraclelist表中的所有数据</p>
+<h2 id="_2">何为自定义命令</h2>
+<p>Django内置提供了一些功能如开启web服务，迁移数据库等命令</p>
+<p>我们在mysite目录下运行python manage.py命令会输出Django提供的内置的命令</p>
+<p><img alt="Alt text" src="../image/3/1.png" /></p>
+<p>上面显示出的命令即为内置的命令</p>
+<p>而自定义命令如下图</p>
+<p><img alt="Alt text" src="../image/3/2.png" /></p>
+<p>上图圈出来的hello_world即为我们今天介绍的自定义命令</p>
+<h2 id="_3">如何建立自定义命令</h2>
+<p>下面我们来说如何使python manage.py命令识别出我们的自定义命令</p>
+<p>根据前面的章节，我们app的路径为 /home/oracle/mysite/monitor</p>
+<p>主要分为2步</p>
+<p><strong>1.我们需要建立两个目录</strong></p>
+<pre><code>[oracle@asensvr-oms]mkdir -p /home/oracle/mysite/monitor/management/commands
+</code></pre>
+
+<p><strong>2.再在两个目录新建init文件,内容为空</strong></p>
+<pre><code>[oracle@asensvr-oms ]$ touch /home/oracle/mysite/monitor/management/__init__.py
+[oracle@asensvr-oms ]$ touch /home/oracle/mysite/monitor/management/commands/__init__.py
+</code></pre>
+
+<p>到这里我们已经完成了前置的工作</p>
+<p><strong>3.接下来我们编写一个hello world 程序来测试下</strong></p>
+<p>注意:我们所有的自定义命令需要全部在commands目录下</p>
+<p>[oracle@asensvr-oms commands]$ vim hello_world.py</p>
+<pre><code>from django.core.management.base import BaseCommand
+from django.contrib.contenttypes.models import ContentType
+from monitor.models import oraclelist
+class Command(BaseCommand):
+    def handle(self, *args, **options):
+        print 'hello world'
+</code></pre>
+
+<p>前面2行为导入需要的模块 </p>
+<p>第三行为导入model中定义的oraclelist表 </p>
+<p>下面2行为固定格式，请不要变更</p>
+<p>我们的程序写在handle函数下面</p>
+<h2 id="_4">运行命令</h2>
+<p>这时我们就可以用python manage.py命令运行我们的命令了</p>
+<p><img alt="Alt text" src="../image/3/3.png" /></p>
+<p><strong>源码位置</strong> </p>
+<p>源码请查看我的主页</p>
+<p><a href="https://github.com/bsbforever/wechat_monitor">https://github.com/bsbforever/wechat_monitor</a></p>
+<p>好了，这节介绍了如何新建一个简单的自定义命令</p>
+<p>下节将介绍如何利用自定义命令获取Oracle数据库指标并保存在MySQL数据库中</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

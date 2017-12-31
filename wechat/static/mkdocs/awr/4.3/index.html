@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>3.db file scattered read等待事件 - Oracle awr 报告全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle awr 报告全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../1.1/">十步解析awr报告</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Efficiency Percentages <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Buffer Nowait</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.Redo NoWait %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.Buffer Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.In-memory Sort %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.Library Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Soft Parse %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.Execute to Parse %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.Latch Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.Parse CPU to Parse Elapsd %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.% Non-Parse CPU</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle  Statistic <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Shared Pool Statistic</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.Wait Events Statistics</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.SQL Statistics</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.IO Stats</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Top 5 Timed Events <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../4.1/">1.Top 5 Timed Events</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.2/">2.db file sequential read等待事件</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">3.db file scattered read等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.4/">4.log file sync等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.5/">5.log file parallel write等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.6/">6.log buffer spaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.7/">7.SQL*Net message from dblink</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.8/">8.SQL*Net message to dblink等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.9/">9.SQL*Net message from client等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.10/">10.SQL*Net message to client等待事件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../4.2/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../4.4/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#db-file-scattered-read">db file scattered read等待事件</a></li>
+        
+            <li><a href="#db-file-scattered-read_1">db file scattered read</a></li>
+        
+            <li><a href="#_1">何时会发生</a></li>
+        
+            <li><a href="#_2">如何处理</a></li>
+        
+            <li><a href="#_3">查看高物理读的数据文件</a></li>
+        
+            <li><a href="#sql">查看高物理读的SQL语句</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="db-file-scattered-read">db file scattered read等待事件</h1>
+<p>原创 2017-07-22 Oracle 宅必备</p>
+<p>从今天开始讲解awr报告Top 5 Timed Events部分</p>
+<p>今天讲scattered read等待事件</p>
+<h2 id="db-file-scattered-read_1">db file scattered read</h2>
+<p><img alt="Alt text" src="../image/4/0.png" /></p>
+<p>物理读发生在一个用户需要的数据块不在SGA，从而将其从磁盘读取到SGA中</p>
+<p>如果此时别的会话需要该数据块则必须等待这个过程结束，这时就产生了等待</p>
+<p>离散读是物理读的一种方式,这里的离散指的是读取数据块到一块离散(不连续)的内存区域，而且一般读取多个数据块( multi-block read)，可能为单个数据库</p>
+<p>如该等待严重则说明该数据块存在严重的争用情况</p>
+<p>每次读取的块数由DB_FILE_MULTIBLOCK_READ_COUNT参数控制</p>
+<p>这点不同于sequential read，可参考下一篇关于sequential read 的文章</p>
+<p>下图为各种读取方式的比较
+<img alt="Alt text" src="../image/4/7.png" /></p>
+<h2 id="_1">何时会发生</h2>
+<p>多数据块读(multi-block read)是由SQL语句引起的(用户发出或者递归调用)</p>
+<p>一般发生在以下情况:</p>
+<ul>
+<li>全表扫描( full table scans )</li>
+<li>索引快速全扫描( index fast full scans)</li>
+</ul>
+<h2 id="_2">如何处理</h2>
+<p>由于物理读是非常正常的，出现这个等待事件不意味着数据库出现性能问题</p>
+<p>但是如果我们在TOP 5 Wait Event中看到其处于非常前的位置(第二甚至第一)时就需要引起我们的注意了，OLTP系统中应避免此等待</p>
+<p>特别需要关注Avg Waits 参数，最好小于10ms，这里可采用如下方法进行解决</p>
+<ul>
+<li>将数据文件放在高速磁盘中，提高读取性能</li>
+<li>将数据文件放在LUN(即一些存储设备)中，可确保数据块分散在足够多的磁盘中</li>
+</ul>
+<p>在优化磁盘的同时，我们还需要注意应用程序的SQL语句问题，因为一般这种等待都是SQL语句造成的，我们需要找出相应的SQL语句</p>
+<ol>
+<li>通过执行计划进行优化判断全表扫描或者索引全扫描是否合理，是否使用了合适的驱动表，以需要达到减少物理读和逻辑读的目的</li>
+<li>执行计划中 HASH JOIN和SORT MERGE动作(operation)会导致scattered read</li>
+<li>可增加 DB_FILE_MULTIBLOCK_READ_COUNT参数的值来减少IO次数</li>
+<li>调整HASH_AREA_SIZE 和OPTIMIZER_INDEX_COST_ADJ 参数的值也可用来优化scattered read</li>
+<li>保证统计信息的及时性</li>
+</ol>
+<p>如下是一些常用的诊断方式，通过下面方式定位到具体的会话，在通过sql_id或hash_value找出具体的语句用于优化</p>
+<p><strong>1. 查看当前正在等待的会话</strong></p>
+<p>我们可以查看v$session_wait 视图的TIME_WAITED栏位来定位当前哪个会话等待 scattered read过长时间(<strong>实时</strong>)</p>
+<pre><code>select * from v$session_Wait where event = 'db file scattered read'
+</code></pre>
+
+<p><img alt="Alt text" src="../image/4/8.png" /></p>
+<p>P1代表File ID，可通过dba_data_File视图的FILE_ID字段看出是哪个数据文件</p>
+<p>P2代表 First block，即该块在数据库上开始的位置</p>
+<p>P3代表块数，该值的取值范围为1-DB_FILE_MULTIBLOCK_READ_COUNT的值</p>
+<p>我们可以通过P1 P2参数得出对象的名称和类型</p>
+<pre><code>select
+   segment_name,
+   segment_type
+from 
+   dba_extents
+where
+   file_id = 15 
+and
+   1106397 between 
+   block_id and (block_id + blocks - 1);
+</code></pre>
+
+<p><img alt="Alt text" src="../image/4/9.png" /></p>
+<p><strong>2.查看从实例启动以来等待的会话</strong></p>
+<p>使用 v$session_event视图来定位哪个会话等待 scattered read过长时间(<strong>非实时</strong>)</p>
+<p>也可使用v$system_event视图查看系统整体的等待事件</p>
+<pre><code>SELECT sid, total_waits, time_waited
+  FROM v$session_event
+ WHERE event='db file scattered read'
+  and total_waits&gt;0
+ ORDER BY 3 desc ,2
+</code></pre>
+
+<p><img alt="Alt text" src="../image/4/10.png" /></p>
+<p>注意由于SID是可以复用的，这样查出来的有可能有问题</p>
+<p>比如查看SID为587的会话对应的语句也有可能是上个SQL语句导致的scattered read等待，这点需要注意</p>
+<h2 id="_3">查看高物理读的数据文件</h2>
+<p>我们可以通过awr报告中的 Tablespace IO Stats 和File IO Stats 区域来定位最多IO操作的表空间和数据文件，如果可以请将其放置在高速的磁盘中(SSD)</p>
+<p><img alt="Alt text" src="../image/4/11.png" /></p>
+<h2 id="sql">查看高物理读的SQL语句</h2>
+<p>同样可以查看v$sql中高物理读的语句以及awr SQL ordered by Reads区域</p>
+<p><img alt="Alt text" src="../image/4/12.png" /></p>
+<p><strong>参考资料</strong></p>
+<p><a href="https://www.toadworld.com/platforms/oracle/w/wiki/787.db-file-scattered-read">https://www.toadworld.com/platforms/oracle/w/wiki/787.db-file-scattered-read</a></p>
+<p><a href="https://asktom.oracle.com/pls/asktom/f?p=100:11:0::::P11_QUESTION_ID:957829973821">https://asktom.oracle.com/pls/asktom/f?p=100:11:0::::P11_QUESTION_ID:957829973821</a></p>
+<p><a href="https://gerardnico.com/wiki/database/oracle/db_file_scattered_read">https://gerardnico.com/wiki/database/oracle/db_file_scattered_read</a></p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

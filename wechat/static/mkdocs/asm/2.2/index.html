@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>2.新建磁盘组 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.1/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.3/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#_1">新建磁盘组</a></li>
+        
+            <li><a href="#1">1. 新建磁盘组命令</a></li>
+        
+            <li><a href="#2">2.新建磁盘组例子</a></li>
+        
+            <li><a href="#3asmca">3.使用asmca图形化新建磁盘组</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="_1">新建磁盘组</h1>
+<p>原创 2017-10-23 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>接下来讲ASM 磁盘组相关的管理操作，首先是新建磁盘组</p>
+<h2 id="1">1. 新建磁盘组命令</h2>
+<p>我们通过create diskgroup命令来新建磁盘组，这里我们可以:</p>
+<h3 id="11">1.1 为磁盘组指定一个唯一的名称</h3>
+<p>磁盘组名称不区分大小写，存储时会以大写保存</p>
+<h3 id="12">1.2 指定磁盘组的冗余级别</h3>
+<p>为使ASM镜像文件，我们需要指定Normal级别和High级别</p>
+<ul>
+<li>
+<p>Normal级别可以提供两路镜像和三路镜像(需要三个故障组)</p>
+</li>
+<li>
+<p>High级别提供三路镜像</p>
+</li>
+<li>
+<p>External不使用ASM提供的冗余功能</p>
+</li>
+</ul>
+<p>磁盘组一旦创建你不可以更改冗余级别，如果需要可以建立需要的冗余级别磁盘组，然后将文件转移过去</p>
+<p>Oracle建议故障组设置相同的大小</p>
+<h3 id="13">1.3 指定需要放入磁盘组格式化的磁盘</h3>
+<p>可以使用通配符来增加磁盘</p>
+<p>可以使用name关键字手动指定磁盘的名称</p>
+<h3 id="14">1.4 指定各个故障组包括的磁盘(可选)</h3>
+<p>如果不指定，则Oracle会将每个磁盘化为各自的故障组</p>
+<h3 id="15">1.5 指定故障组的类型(可选)</h3>
+<p>可以设定故障组类型为QUORUM和REGULAR</p>
+<ul>
+<li>
+<p>QUORUM类型限定只能存放OCR及voting file</p>
+</li>
+<li>
+<p>REGULAR可以放ASM允许的所有文件类型，这个为默认值</p>
+</li>
+</ul>
+<h3 id="16">1.6 设定磁盘组的属性值(可选)</h3>
+<p>这里设定磁盘组的属性值，例如软件的兼容性和AU的大小</p>
+<h3 id="_2">其他的介绍</h3>
+<p>Oracle会自动检测磁盘的大小，如果无法获取，我们可以通过size 关键字手动指定</p>
+<p>如果一个磁盘通过force方式drop，我们必须通过force方式重新挂载</p>
+<p>无法通过force方式挂载一个noforce方式dismount的磁盘</p>
+<p>如果使用的是spfile，ASM会自动将建立的磁盘组加入到ASM_DISKGROUPS参数中，否则需要手动添加</p>
+<h2 id="2">2.新建磁盘组例子</h2>
+<p><img alt="Alt text" src="../image/2/2.2/1.png" /></p>
+<ul>
+<li>
+<p>上面的语句新建一个normal级别的名为data磁盘组</p>
+</li>
+<li>
+<p>有controller1 controller2两个故障组</p>
+</li>
+<li>
+<p>各个磁盘通过name关键字指定别名</p>
+</li>
+<li>
+<p>通过 ATTRIBUTE 设置了au_size等参数，具体的意义后面介绍</p>
+</li>
+</ul>
+<h2 id="3asmca">3.使用asmca图形化新建磁盘组</h2>
+<p>我们也可以通过asmca命令图形化新建磁盘组，通过grid用户运行</p>
+<pre><code>asmca
+</code></pre>
+
+<p>好了，这节讲了如何新建磁盘组，下节是alter磁盘组</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

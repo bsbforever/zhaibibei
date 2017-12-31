@@ -1,195 +1,203 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta name="author" content="Zhaibibei">
-  <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>5.使用Python发送邮件 - 时悦的个人网站     Python自动化运维</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="../css/highlight.css">
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "5.\u4f7f\u7528Python\u53d1\u9001\u90ae\u4ef6";
-    var mkdocs_page_input_path = "1.5.md";
-    var mkdocs_page_url = "/1.5/";
-  </script>
-  
-  <script src="../js/jquery-2.1.1.min.js"></script>
-  <script src="../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
-  
-</head>
+	<title>5.使用Python发送邮件 - Python自动化运维-Oracle|MySQL|paramiko</title>
 
-<body class="wy-body-for-nav" role="document">
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
 
-  <div class="wy-grid-for-nav">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
 
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-      <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> 时悦的个人网站     Python自动化运维</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-  </form>
-</div>
-      </div>
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">首页</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Python运维</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../1.1/">1.Python3.6的安装</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../1.2/">2.cx_Oracle模块的安装</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../1.3/">3.cx_Oracle模块连接oracle(基础篇)</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../1.4/">4.使用cx_Oracle连接Oracle(高级篇)</a>
-                </li>
-                <li class=" current">
-                    
-    <a class="current" href="./">5.使用Python发送邮件</a>
-    <ul class="subnav">
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Python自动化运维-Oracle|MySQL|paramiko</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
             
-    <li class="toctree-l3"><a href="#5python">5.使用Python发送邮件</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#python">使用Python发送邮件</a></li>
-        
-        </ul>
-    
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Python运维基础 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Python3.6的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.cx_Oracle模块的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.cx_Oracle模块连接oracle(基础篇)</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.使用cx_Oracle连接Oracle(高级篇)</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">5.使用Python发送邮件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.6/">6.自动化监控Oracle表空间并发送报警</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.7/">7.自动化监控多个Oracle表空间</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.8/">8.MySQL安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.9/">9.使用Python连接MySQL</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.10/">10.使用Python获取Oracle索引信息</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.11/">11.将Oracle已使用过索引存入MySQL中</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Python日常运维脚本 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.自动备份思科交换机配置</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Python监控Linux/Unix系统 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.paramiko模块的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.获取linux系统CPU使用率</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.获取linux系统内存使用率</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.获取linux系统磁盘使用率</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.获取HP-Unix系统性能数据</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.监控Oracle alert日志</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
 
-    </ul>
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.4/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../1.6/">6.自动化监控Oracle表空间并发送报警</a>
+                <li >
+                    <a rel="prev" href="../1.6/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../1.7/">7.自动化监控多个Oracle表空间</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">使用Python监控Oracle索引</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../2.1/">1.MySQL安装</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../2.2/">2.使用Python连接MySQL</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../2.3/">3.使用Python获取Oracle索引信息</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../2.4/">4.将Oracle已使用过索引存入MySQL中</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">使用Python监控Linux/Unix系统</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../3.1/">1.paramiko模块的安装</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../3.2/">2.获取linux系统CPU使用率</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../3.3/">3.获取linux系统内存使用率</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../3.4/">4.获取linux系统磁盘使用率</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../3.5/">5.获取HP-Unix系统性能数据</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../3.6/">6.监控Oracle alert日志</a>
-                </li>
-    </ul>
-	    </li>
-          
-        </ul>
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">时悦的个人网站     Python自动化运维</a>
-      </nav>
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
-    
-      
-        
-          <li>Python运维 &raquo;</li>
-        
-      
-    
-    <li>5.使用Python发送邮件</li>
-    <li class="wy-breadcrumbs-aside">
-      
-    </li>
-  </ul>
-  <hr/>
+                
+            </ul>
+        </div>
+    </div>
 </div>
-          <div role="main">
-            <div class="section">
-              
-                <h1 id="5python">5.使用Python发送邮件</h1>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#5python">5.使用Python发送邮件</a></li>
+        
+            <li><a href="#python">使用Python发送邮件</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="5python">5.使用Python发送邮件</h1>
 <p>上节讲了如何利用Python连接Oracle数据库并执行语句</p>
 <p>其中讲到了利用查看表空间的使用率，这时我们就可以利用Python监控这个数值，等超过阈值后发送邮件通知我们</p>
 <p>这节就讲述如何利用Python的email模块发送邮件</p>
@@ -251,53 +259,21 @@ True
 <p>可以看到发送成功</p>
 <p><strong>源码位置</strong></p>
 <p><a href="https://github.com/bsbforever/wechat_oms">https://github.com/bsbforever/wechat_oms</a></p>
-<p>至此使用Python发送邮件已经讲完，下节讲述如何自动化监控Oracle表空间使用率</p>
-              
-            </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../1.6/" class="btn btn-neutral float-right" title="6.自动化监控Oracle表空间并发送报警">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../1.4/" class="btn btn-neutral" title="4.使用cx_Oracle连接Oracle(高级篇)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-    
-      <p>苏ICP备17053688号</p>
-    
-  </div>
-
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-	  
+<p>至此使用Python发送邮件已经讲完，下节讲述如何自动化监控Oracle表空间使用率</p></div>
         </div>
-      </div>
 
-    </section>
-    
-  </div>
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../1.4/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../1.6/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
-</div>
-    <script src="../js/theme.js"></script>
 
-</body>
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
 </html>

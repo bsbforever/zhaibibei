@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.8/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.10/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#required_mirror_free_mb-usable_file_mb">深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a></li>
+        
+            <li><a href="#1-external">1. External 类型磁盘组</a></li>
+        
+            <li><a href="#2-normal">2. normal 类型磁盘组</a></li>
+        
+            <li><a href="#22">2.2 指定故障组磁盘数</a></li>
+        
+            <li><a href="#3-high">3. High 类型磁盘组</a></li>
+        
+            <li><a href="#4">4. 结论</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="required_mirror_free_mb-usable_file_mb">深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</h1>
+<p>原创 2017-11-08 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>Normal 或 High 类型的磁盘组需要额外的空间用来在一个或2个故障组失效时进行数据的重建，若空间不足，将导致文件无法冗余，这时如果在有磁盘故障，则会导致数据丢失</p>
+<p>下面我们通过V$ASM_DISKGROUP视图和例子来帮助理解</p>
+<pre><code>ASM&gt; select label,os_mb from v$asm_disk
+
+2 where label like 'SAN%' order by label;
+
+LABEL OS_MB
+
+------------------------------- ----------
+
+SAN01 255
+
+SAN02 255
+
+SAN03 255
+
+SAN04 255
+
+SAN05 255
+
+SAN06 255
+</code></pre>
+
+<p>这里我们建立6块255M的磁盘</p>
+<h2 id="1-external">1. External 类型磁盘组</h2>
+<p>我们建立一个external类型的磁盘组</p>
+<pre><code>ASM&gt; create diskgroup demo external redundancy
+
+         disk 'ORCL:san01'
+
+         disk 'ORCL:san02'
+
+         disk 'ORCL:san03'
+
+        disk 'ORCL:san04'
+
+        disk 'ORCL:san05'
+
+        disk 'ORCL:san06'
+
+       attribute 'compatible.asm' = '11.2.0.0.0';
+</code></pre>
+
+<p>现在我们查询视图</p>
+<p><img alt="Alt text" src="../image/2/2.9/1.png" /></p>
+<p>可以看到:</p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1468M 不见得62M用于存储元数据文件</p>
+<p>REQ_FREE=0是由于使用的是external类型，无需对文件进行冗余</p>
+<p>USE_MB=FREE_MB-REQ_FREE=1468M</p>
+<h2 id="2-normal">2. normal 类型磁盘组</h2>
+<h3 id="21">2.1 不指定故障组磁盘数</h3>
+<pre><code>ASM&gt; create diskgroup demo normal redundancy
+
+        failgroup FG1 disk
+
+        'ORCL:san01'
+
+        failgroup FG2 disk
+
+        'ORCL:san02'
+
+        failgroup FG3 disk
+
+       'ORCL:san03'
+
+        failgroup FG4 disk
+
+       'ORCL:san04'
+
+       failgroup FG5 disk
+
+      'ORCL:san05'
+
+      failgroup FG6 disk
+
+      'ORCL:san06'
+
+     attribute 'compatible.asm' = '11.2.0.0.0';
+
+Diskgroup created.
+</code></pre>
+
+<p>首先我们创建一个normal类型的磁盘组，包含六块磁盘，每个磁盘属于自己的故障组</p>
+<p>存储在一个故障组的数据会在另外个故障组有一个副本</p>
+<pre><code>ASM&gt; select name, state, type, total_mb, free_mb, required_mirror_free_mb req_free, usable_file_mb use_mb from v$asm_diskgroup where name = 'DEMO';
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/2.png" /></p>
+<p>可以看到:</p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1365M</p>
+<p>REQ_FREE=255</p>
+<p>表示需要255M用来当一个磁盘的大小失效时重建数据,</p>
+<p>一般为一个故障组的大小，如故障组大小不同，会使用最大的那个</p>
+<p>USE_MB=(FREE_MB-REQ_FREE)/2=555M</p>
+<hr />
+<p>接下来我们在磁盘组中新建一个200M的数据文件</p>
+<pre><code>SQL&gt; create tablespace foo datafile '+DEMO' size 200m;
+
+Tablespace created.
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/3.png" /></p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1530-(200*2)=939M</p>
+<p>REQ_FREE=255M</p>
+<p>USE_MB=(FREE_MB-REQ_FREE)/2=342M</p>
+<hr />
+<p>然后我们再新建一个200M的数据文件</p>
+<pre><code>SQL&gt; alter tablespace foo add datafile '+DEMO' size 200m;
+
+Tablespace altered.
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/4.png" /></p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1530-(200<em>2)-(200</em>2)=534M</p>
+<p>REQ_FREE=255M</p>
+<p>USE_MB=(FREE_MB-REQ_FREE)/2=139M</p>
+<p>这里我们可以看到可用空间为139M，那么我们是否可以继续增加数据文件呢</p>
+<pre><code>SQL&gt; alter tablespace foo add datafile '+DEMO' size 200m;
+
+Tablespace altered.
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/5.png" /></p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1530-(200<em>2)-(200</em>2)-(200*2)=129M</p>
+<p>REQ_FREE=255M</p>
+<p>USE_MB=(FREE_MB-REQ_FREE)/2=-63M</p>
+<p>可以看到其实我们还是可以新建数据文件的</p>
+<p>只不过可用的大小变为了负数，这意味着如果这时磁盘失效ASM将无法重建数据，这时如果有其他磁盘损坏则会导致数据丢失</p>
+<h2 id="22">2.2 指定故障组磁盘数</h2>
+<p>现在我们新建一个磁盘组，共三个故障组，每个故障组2块磁盘</p>
+<pre><code>ASM&gt; create diskgroup demo normal redundancy
+
+          failgroup FG1 disk
+
+         'ORCL:san01',
+
+         'ORCL:san02'
+
+         failgroup FG2 disk
+
+         'ORCL:san03',
+
+         'ORCL:san04'
+
+         failgroup FG3 disk
+
+        'ORCL:san05',
+
+         'ORCL:san06'
+
+        attribute 'compatible.asm' = '11.2.0.0.0';
+
+Diskgroup created.
+</code></pre>
+
+<p>我们查询ASM磁盘状况</p>
+<p><img alt="Alt text" src="../image/2/2.9/6.png" /></p>
+<p>这里每个故障组的大小为510M</p>
+<p><img alt="Alt text" src="../image/2/2.9/7.png" /></p>
+<p>这里的REQ_FREE为510M，为最大的故障组大小</p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1365</p>
+<p>REQ_FREE=510M</p>
+<p>USE_MB=(FREE_MB-REQ_FREE)/2=427M</p>
+<p>接下来我们建立的磁盘组只有2个故障组，每个故障组三块磁盘</p>
+<pre><code>
+ASM&gt; create diskgroup demo normal redundancy
+
+         failgroup FG1 disk
+
+          'ORCL:san01',
+
+          'ORCL:san02',
+
+          'ORCL:san03'
+
+        failgroup FG2 disk
+
+         'ORCL:san04',
+
+         'ORCL:san05',
+
+         'ORCL:san06'
+
+      attribute 'compatible.asm' = '11.2.0.0.0';
+
+Diskgroup created.
+</code></pre>
+
+<p>我们查看ASM磁盘组信息</p>
+<pre><code>ASM&gt; select failgroup,sum(total_mb) from v$asm_disk
+
+ where label like 'SAN%' group by failgroup order by failgroup;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/8.png" /></p>
+<p>可以看到一共2个故障组，每个故障组765M</p>
+<p>接下来让我们看下这时的空间是如何管理的</p>
+<pre><code>ASM&gt; select name, state, type, total_mb, free_mb, required_mirror_free_mb req_free, usable_file_mb use_mb  from v$asm_diskgroup where name = 'DEMO';
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/9.png" /></p>
+<p>我们看到这时REQ_FREE的大小为255M而不是想象中的765M，意味着ASM只预计单块磁盘的大小而不是故障组中的所有磁盘</p>
+<h2 id="3-high">3. High 类型磁盘组</h2>
+<h3 id="31">3.1 不指定故障组磁盘数量</h3>
+<p>最后我们建立一个high类型的磁盘组</p>
+<pre><code>ASM&gt; create diskgroup demo high redundancy
+
+        failgroup FG1 disk
+
+         'ORCL:san01'
+
+        failgroup FG2 disk
+
+         'ORCL:san02'
+
+       failgroup FG3 disk
+
+         'ORCL:san03'
+
+       failgroup FG4 disk
+
+        'ORCL:san04'
+
+      failgroup FG5 disk
+
+       'ORCL:san05'
+
+      failgroup FG6 disk
+
+       'ORCL:san06'
+
+ attribute 'compatible.asm' = '11.2.0.0.0';
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/10.png" /></p>
+<p>这时 REQ_FREE等于2块故障组的大小，如故障组大小不一样，则等于最大的两个故障组大小</p>
+<p>TOTAL_MB=255*6=1530M</p>
+<p>FREE_MB=1365</p>
+<p>REQ_FREE=255*2=510M</p>
+<p>USE_MB=(FREE_MB-REQ_FREE)/3=285M</p>
+<h3 id="32">3.2 指定故障组磁盘数量</h3>
+<p>接下来我们将2块磁盘划分到一个故障组</p>
+<pre><code>ASM&gt; create diskgroup demo high redundancy
+
+       failgroup FG1 disk
+
+        'ORCL:san01',
+
+        'ORCL:san02'
+
+      failgroup FG2 disk
+
+       'ORCL:san03',
+
+       'ORCL:san04'
+
+      failgroup FG3 disk
+
+       'ORCL:san05',
+
+       'ORCL:san06'
+
+ attribute 'compatible.asm' = '11.2.0.0.0';
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.9/11.png" /></p>
+<p>可以看到共三个故障组，每个故障组大小为510M</p>
+<p><img alt="Alt text" src="../image/2/2.9/12.png" /></p>
+<p>可以看到这里的REQ_FREE为510M，不过这里的大小并不是一个故障组的大小，而是另外2个故障中2块磁盘的大小</p>
+<h2 id="4">4. 结论</h2>
+<p>通过上面的实验我们得出结论：</p>
+<p>REQUIRED_MIRROR_FREE_MB 的大小为ASM 磁盘组为达到指定的冗余级别所需要的用来重建数据的空间，它由磁盘组冗余级别和故障组的数量决定</p>
+<ol>
+<li>
+<p>Normal级别：</p>
+</li>
+<li>
+<p>若拥有至少3个故障组，则该大小为整个故障组的大小，如故障组大小不同，则取最大的故障组大小</p>
+</li>
+<li>
+<p>若只用2个故障组，则该大小为单个磁盘的大小，如磁盘大小不同，则取最大的磁盘大小</p>
+</li>
+<li>
+<p>High级别：</p>
+</li>
+<li>
+<p>若拥有至少4个故障组，则该大小为2个故障组的大小，如故障组大小不同，则取最大的2个故障组大小</p>
+</li>
+<li>
+<p>若只用3个故障组，则该大小为故2个磁盘的大小，如磁盘大小不同，则取最大的2个磁盘的大小</p>
+</li>
+</ol>
+<p>USABLE_FILE_MB 为可存放数据的大小，大小计算公式为：</p>
+<pre><code>USABLE_FILE_MB = (FREE_MB – REQUIRED_MIRROR_FREE_MB) / [2|3]
+</code></pre>
+
+<p>本文参考自:</p>
+<p><a href="../Demystifying ASM REQUIRED_MIRROR_FREE_MB and USABLE_FILE_MB">https://prutser.wordpress.com/2013/01/03/demystifying-asm-required_mirror_free_mb-and-usable_file_mb/</a></p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

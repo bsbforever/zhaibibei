@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>4.一步步搭建物理备库 - Oracle Data Guard全解析-ADG|物理备库</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle Data Guard全解析-ADG|物理备库</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle Data Guard全解析 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle Data Guard 概念介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.Oracle Data Guard 参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.Oracle Data Guard 工作流程</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">4.一步步搭建物理备库</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.5/">5.Data Guard及ADG日常运维操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.6/">6.物理备库的Switchover</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.3/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../1.5/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#_1">一步步搭建物理备库</a></li>
+        
+            <li><a href="#data-guard">Data Guard 环境规划</a></li>
+        
+            <li><a href="#1">1. 主库环境准备</a></li>
+        
+            <li><a href="#2">2. 备库环境准备</a></li>
+        
+            <li><a href="#3">3. 开始建立物理备库</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="_1">一步步搭建物理备库</h1>
+<p>从这期开始讲Oracle Data Guard方面的内容</p>
+<p>Data Guard作为Oracle提供的一个高可用及灾备解决方案,理解并可以实施它对于DBA来说是非常重要套的技能</p>
+<p>经过前面的讲解我们对Data Guard 已经有了一定的认识，今天讲如何一步步搭建Oracle 11g 物理备库</p>
+<p>推荐在创建的过程中打开alert日志方便查看报错信息</p>
+<pre><code>tail -f alert_dg2.log
+</code></pre>
+
+<h2 id="data-guard">Data Guard 环境规划</h2>
+<p><img alt="Alt text" src="../image/1/7.jpg" /></p>
+<h2 id="1">1. 主库环境准备</h2>
+<p><strong>1.1 主库监听及服务名设置</strong></p>
+<p>首先需要启用dg1的监听服务</p>
+<pre><code>lsnrctl start
+</code></pre>
+
+<p>然后配置tnsnames文件增加dg1 dg2的条目</p>
+<p><img alt="Alt text" src="../image/1/8.jpg" /></p>
+<p><strong>1.2 启用强制日志记录</strong></p>
+<pre><code>SQL&gt; ALTER DATABASE FORCE LOGGING;
+</code></pre>
+
+<p><strong>1.3 创建密码文件</strong></p>
+<p>默认新建数据库已经创建如果没有则需要创建 </p>
+<p>注意：如修改了sys密码，需重新拷贝至备库 </p>
+<p>具体请参考如下连接</p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzI5NjIxNTU2OQ==&amp;mid=2650215804&amp;idx=1&amp;sn=dee776c644c0ec226f3e4e72976b8685&amp;chksm=f4440002c333891438fd888a4e5125c2f7ba9fba379f526d4a5bd7d12044805ac6535c3c19f0&amp;scene=21#wechat_redirect">[Oracle概念]密码文件</a></p>
+<p><strong>1.4 创建standby redo log(可选)</strong></p>
+<p>虽然SRL只是数据库处于Standby状态才会使用 </p>
+<p>但是还是建议在主库上创建SRL，为了角色切换后能接收传过来redo data</p>
+<p>这里我们就不创建了</p>
+<p><strong>1.5 启用归档</strong></p>
+<pre><code>SQL&gt;STARTUP MOUNT;
+SQL&gt;ALTER DATABASE ARCHIVELOG;
+</code></pre>
+
+<p><strong>1.6 主库参数文件设置</strong></p>
+<p>下面参数的后半段为当主库角色变为备库时生效</p>
+<p>vim initdg1.ora</p>
+<pre><code>*.db_name='dg1'
+*.DB_UNIQUE_NAME='dg1'
+*.LOG_ARCHIVE_CONFIG='DG_CONFIG=(dg1,dg2)'
+*.log_archive_dest_1='LOCATION=/oralog/dg1/arch
+   VALID_FOR=(ALL_LOGFILES,ALL_ROLES)
+   DB_UNIQUE_NAME=dg1'
+*.log_archive_dest_2='
+   SERVICE=dg2  LGWR SYNC AFFIRM
+   VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE)
+   DB_UNIQUE_NAME=dg2'
+*.LOG_ARCHIVE_DEST_STATE_1='ENABLE'
+*.LOG_ARCHIVE_DEST_STATE_2='ENABLE'
+*.REMOTE_LOGIN_PASSWORDFILE='EXCLUSIVE'
+*.LOG_ARCHIVE_FORMAT='%t_%s_%r.arc'
+*.LOG_ARCHIVE_MAX_PROCESSES=30
+
+#Parameter for standby role
+*.FAL_CLIENT='dg1'
+*.FAL_SERVER='dg2'
+*.DB_FILE_NAME_CONVERT='/oradata/dg2','/oradata/dg1'
+*.LOG_FILE_NAME_CONVERT='/oradata/dg2','/oradata/dg1'.'/oralog/dg2','/oralog/dg1'
+*.STANDBY_FILE_MANAGEMENT='AUTO'
+</code></pre>
+
+<h2 id="2">2. 备库环境准备</h2>
+<p><strong>2.1 备库监听及服务名设置</strong></p>
+<p>首先需要启用dg1的监听服务</p>
+<pre><code>lsnrctl start
+</code></pre>
+
+<p>然后配置tnsnames文件增加dg1 dg2的条目</p>
+<p><img alt="Alt text" src="../image/1/8.jpg" /></p>
+<p><strong>2.2 参数文件及密码文件拷贝</strong></p>
+<p>拷贝主库上的密码文件和参数文件至相应目录并改名</p>
+<pre><code>scp $ORACLE_HOME/dbs/initdg1.ora oracle@10.65.206.202:/u01/app/oracle/product/11.2.0/db_1/dbs
+scp $ORACLE_HOME/dbs/orapwdg1 oracle@10.65.206.202:/u01/app/oracle/product/11.2.0/db_1/dbs 
+</code></pre>
+
+<pre><code>mv initdg1.ora initdg2.ora
+mv orapwdg1 orapwdg2
+</code></pre>
+
+<p><strong>2.3 创建必要的文件夹</strong></p>
+<pre><code>[oracle@dg2 dbs]$ mkdir -p /u01/app/oracle/admin/dg2/adump
+[oracle@dg2 dbs]$ mkdir -p /oralog/dg2/
+[oracle@dg2 dbs]$ mkdir -p /oradata/dg2/
+[oracle@dg2 dbs]$ mkdir -p /oradata/dg2/srl
+[oracle@dg2 dbs]$ mkdir -p /oralog/dg2/srl
+[oracle@dg2 dbs]$ mkdir -p /oralog/dg2/arch
+[oracle@dg2 dbs]$ mkdir -p /oradata/rman
+</code></pre>
+
+<p><strong>2.4 修改参数文件以用于备库环境</strong></p>
+<p>vim initdg2.ora</p>
+<pre><code>*.db_name='dg1'
+*.DB_UNIQUE_NAME='dg2'
+*.LOG_ARCHIVE_CONFIG='DG_CONFIG=(dg1,dg2)'
+*.log_archive_dest_1=
+  'LOCATION=/oralog/dg2/arch
+  VALID_FOR=(ALL_LOGFILES,ALL_ROLES)
+  DB_UNIQUE_NAME=dg2'
+*.log_archive_dest_2=
+  'SERVICE=dg1  LGWR ASYNC
+   VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE)
+   DB_UNIQUE_NAME=dg1'
+*.LOG_ARCHIVE_DEST_STATE_1=ENABLE
+*.LOG_ARCHIVE_DEST_STATE_2=ENABLE
+*.REMOTE_LOGIN_PASSWORDFILE=EXCLUSIVE
+*.LOG_ARCHIVE_FORMAT=%t_%s_%r.arc
+*.LOG_ARCHIVE_MAX_PROCESSES=30
+
+# Parameter for standby role
+*.FAL_SERVER=dg1
+*.FAL_CLIENT=dg2
+*.DB_FILE_NAME_CONVERT='/oradata/dg1','/oradata/dg2'
+*.LOG_FILE_NAME_CONVERT='/oradata/dg1','/oradata/dg2','/oralog/dg1','/oralog/dg2'
+*.STANDBY_FILE_MANAGEMENT=AUTO
+
+</code></pre>
+
+<h2 id="3">3. 开始建立物理备库</h2>
+<p><strong>3.1 主库上使用RMAN备份主库</strong></p>
+<pre><code>RMAN&gt;BACKUP AS BACKUPSET DATABASE format '/oradata/rman/bk_full_%U_%d.dbf' PLUS ARCHIVELOG format '/oradata/rman/bk_log_%U.dbf';
+</code></pre>
+
+<p><strong>3.2 主库上创建备库的控制文件</strong>*</p>
+<pre><code>SQL&gt; ALTER DATABASE CREATE STANDBY CONTROLFILE AS '/tmp/standby.ctl';
+</code></pre>
+
+<p><strong>3.3 拷贝rman备份文件和standby control file至备库</strong></p>
+<pre><code>scp /oradata/rman/* oracle@10.65.206.202:/oradata/rman
+scp /tmp/standby.ctl oracle@10.65.206.202:/oradata/rman
+</code></pre>
+
+<p><strong>3.4 使用RMAN 还原备库</strong></p>
+<p>3.4.1 启动备库至nomount状态</p>
+<pre><code>SQL&gt;startup nomount pfile='/u01/app/oracle/product/11.2.0/db_1/dbs/initdg2.ora';
+SQL&gt; create spfile from pfile;
+</code></pre>
+
+<p>3.4.2 恢复standby 控制文件</p>
+<pre><code>RMAN&gt;restore controlfile from '/oradata/rman/standby.ctl';
+</code></pre>
+
+<p>3.4.3 启动备库至mount状态</p>
+<pre><code>RMAN&gt;alter database mount standby database;
+</code></pre>
+
+<p>3.4.4 restore 备库文件</p>
+<pre><code>RMAN&gt;catalog start with '/oradata/rman/';
+RMAN&gt;restore database;
+</code></pre>
+
+<p><strong>3.5 备库创建standby redo log</strong></p>
+<p>强烈建议无论什么保护模式都需要创建Standby redo log</p>
+<p>3.5.1 查看主库redo log情形</p>
+<pre><code>SELECT group#, members, bytes byte_mb, status FROM v$log;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/1/10.jpg" /></p>
+<p>3.5.2 创建standby redo log</p>
+<p>这里我们创建4个SRL日志组</p>
+<pre><code>alter database add standby logfile group 10 ('/oradata/dg2/srl/srl10a.log','/oralog/dg2/srl/srl10b.log')   size 52428800;
+alter database add standby logfile group 11 ('/oradata/dg2/srl/srl11a.log','/oralog/dg2/srl/srl11b.log')   size 52428800;
+alter database add standby logfile group 12 ('/oradata/dg2/srl/srl12a.log','/oralog/dg2/srl/srl12b.log')   size 52428800;
+alter database add standby logfile group 13 ('/oradata/dg2/srl/srl13a.log','/oralog/dg2/srl/srl13b.log')   size 52428800;
+</code></pre>
+
+<p>3.5.3 Standby redo log最佳实践</p>
+<ul>
+<li>
+<p>请确保SRL的大小和主库的redo size相同，请使用bytes指定 </p>
+</li>
+<li>
+<p>SRL日志组数量至少比主库多1个,RAC环境中需要考虑到所有instance</p>
+</li>
+<li>
+<p>不要给SRL分配thread号，这样所有thread都可以使用该SRL，甚至是RAC环境 </p>
+</li>
+<li>
+<p>建议在主库也建立Standby redo log，这样在switchover后原主库可以使用实时同步功能</p>
+</li>
+</ul>
+<p><strong>3.6 备库开启同步</strong></p>
+<p>实时同步</p>
+<pre><code>SQL&gt;ALTER DATABASE RECOVER MANAGED STANDBY DATABASE USING CURRENT LOGFILE DISCONNECT;
+</code></pre>
+
+<p>非实时同步</p>
+<pre><code>SQL&gt;alter database recover managed standby database disconnect from session;
+</code></pre>
+
+<p>取消同步</p>
+<pre><code>alter database recover managed standby database cancel;
+</code></pre>
+
+<p>好了，到这里我们已经可以搭建Oracle 物理备库了,下节将介绍Data Guard日常的一些运维操作</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>7.使用SQL*Plus创建数据库文件 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../3.6/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a rel="prev" >
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#sqlplus">使用SQL*Plus创建数据库文件</a></li>
+        
+            <li><a href="#1-asm">1. 创建一个使用ASM的数据库</a></li>
+        
+            <li><a href="#2-asm">2. 创建一个使用ASM的表空间</a></li>
+        
+            <li><a href="#3asmredo-log">3.创建使用ASM的redo log文件</a></li>
+        
+            <li><a href="#4-asm">4. 创建使用ASM的归档日志文件</a></li>
+        
+            <li><a href="#5-asm">5. 创建使用ASM的控制文件</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="sqlplus">使用SQL*Plus创建数据库文件</h1>
+<p>原创 2017-11-21 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>这节讲使用SQL*Plus创建数据库文件</p>
+<h2 id="1-asm">1. 创建一个使用ASM的数据库</h2>
+<p>一般来说我们推荐使用DBCA来创建数据库，当我们需要手动命令创建的时候可以指定使用ASM，下面的语句创建一个数据库</p>
+<pre><code>CREATE DATABASE orcl;
+</code></pre>
+
+<p>该数据库包括以下内容：</p>
+<ul>
+<li>
+<p>data 磁盘组中包含一个system表空间数据文件</p>
+</li>
+<li>
+<p>data 磁盘组中包含一个SYSAUX表空间数据文件,表空间是本地管理的而且使用ASSM</p>
+</li>
+<li>
+<p>两个在线重做日志组，每组包含两个成员,分别在data磁盘组和fra磁盘组</p>
+</li>
+<li>
+<p>如果启用了自动undo空间管理，则会在data磁盘组创建undo文件</p>
+</li>
+<li>
+<p>如果没有指定CONTROL_FILES初始化参数，则会在data和fra磁盘组创建两个控制文件，data 磁盘组的控制文件为主控制文件</p>
+</li>
+</ul>
+<p>以上要求参数文件包含下面内容:</p>
+<pre><code>DB_CREATE_FILE_DEST = +data
+
+DB_RECOVERY_FILE_DEST = +fra
+
+DB_RECOVERY_FILE_DEST_SIZE = 10G
+</code></pre>
+
+<h2 id="2-asm">2. 创建一个使用ASM的表空间</h2>
+<p>使用ASM创建的表空间默认情况下数据文件会是自动扩展的(auto-extensible)，大小无限制(最大操作系统允许)，数据文件大小为100M，你可以在创建时指定相应的属性</p>
+<p>我们可以使用RMAN命令讲ASM文件和非ASM文件相互转换</p>
+<h3 id="21-datatblspace">2.1 在data磁盘组新建表空间tblspace</h3>
+<pre><code>CREATE TABLESPACE tblspace DATAFILE +data;
+</code></pre>
+
+<h3 id="22-omf">2.2 使用OMF创建表空间</h3>
+<p>假设设置了如下参数</p>
+<pre><code>DB_CREATE_FILE_DEST = +data
+</code></pre>
+
+<p>接下来创建表空间tblspace</p>
+<pre><code>CREATE TABLESPACE tblspace;
+</code></pre>
+
+<h2 id="3asmredo-log">3.创建使用ASM的redo log文件</h2>
+<p>在线重做日志可以存在于不同的磁盘组</p>
+<h3 id="31-2redo-log">3.1 创建2个redo log组，每组一个成员</h3>
+<pre><code>ALTER DATABASE ADD LOGFILE (+data1,+data2);
+</code></pre>
+
+<h3 id="32-omfredo-log">3.2 使用OMF创建redo log</h3>
+<p>假设在参数文件设置了如下参数</p>
+<pre><code>DB_CREATE_ONLINE_LOG_DEST_1 = +data1
+
+DB_CREATE_ONLINE_LOG_DEST_2 = +data2
+</code></pre>
+
+<p>接下来创建redo log</p>
+<pre><code>ALTER DATABASE ADD LOGFILE;
+</code></pre>
+
+<h2 id="4-asm">4. 创建使用ASM的归档日志文件</h2>
+<p>我们可以在LOG_ARCHIVE_DEST 和LOG_ARCHIVE_DEST_n参数中指定磁盘组名称，这时会自动生成唯一名称</p>
+<p>当参数设置成磁盘组时， LOG_ARCHIVE_FORMAT 参数会被忽略，如果设置的是磁盘组的一个目录，此时是生效的</p>
+<p>下面内容为将LOG_ARCHIVE_DEST_n设置为+data时的目录结构</p>
+<pre><code>+DATA/ORCL/ARCHIVELOG/2009_09_23/thread_1_seq_38.614.541956473
+
++DATA/ORCL/ARCHIVELOG/2009_09_23/thread_4_seq_35.609.541956477
+
++DATA/ORCL/ARCHIVELOG/2009_09_23/thread_2_seq_34.603.541956487
+
++DATA/ORCL/ARCHIVELOG/2009_09_25/thread_3_seq_100.621.541956497
+
++DATA/ORCL/ARCHIVELOG/2009_09_25/thread_1_seq_38.614.541956511
+</code></pre>
+
+<h2 id="5-asm">5. 创建使用ASM的控制文件</h2>
+<p>下图为一个创建控制文件的例子，具体请看官方文档</p>
+<p><img alt="Alt text" src="../image/3/3.7/1.png" /></p>
+<p>具体请参考下面链接:</p>
+<p><a href="https://docs.oracle.com/cd/E11882_01/server.112/e18951/asmbysql.htm#OSTMG95282">https://docs.oracle.com/cd/E11882_01/server.112/e18951/asmbysql.htm#OSTMG95282</a></p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

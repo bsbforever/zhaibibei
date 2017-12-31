@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>2.管理ASM 文件 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../3.1/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../3.3/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#asm">管理ASM 文件</a></li>
+        
+            <li><a href="#1-asm">1. ASM支持的文件类型</a></li>
+        
+            <li><a href="#2-asm">2. ASM 文件名称</a></li>
+        
+            <li><a href="#3-asm">3. 使用ASM 文件名</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="asm">管理ASM 文件</h1>
+<p>原创 2017-11-10 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<h2 id="1-asm">1. ASM支持的文件类型</h2>
+<p>ASM支持绝大多数文件类型，不包括trace file和操作系统文件 </p>
+<p><img alt="Alt text" src="../image/3/3.2/1.png" /></p>
+<h2 id="2-asm">2. ASM 文件名称</h2>
+<h3 id="21">2.1 完全限定文件名</h3>
+<p>ASM新建立的每个文件都有一个系统生成的名称，这个名称称之为完全限定文件名(fully qualified filename)</p>
+<p>你可以通过这个名称定位到具体的文件，你也可以给文件名称起别名</p>
+<p>格式如下:</p>
+<pre><code>+group/dbname/file_type/file_type_tag.file.incarnation
+</code></pre>
+
+<ul>
+<li>
+<p>+group为磁盘组的名称，我们可以认为+号为一个文件的跟，类比linux的根目录符号/</p>
+</li>
+<li>
+<p>dbname是文件所属数据库的DB_UNIQUE_NAME名称</p>
+</li>
+<li>
+<p>file_type 为文件的类型，例如CONTROLFILE，DATAFILE,ONLINELOG等,详细见下图</p>
+</li>
+<li>
+<p>file_type_tag 为文件类型的一个标签，如文件所处的表空间名称等，详细见下图</p>
+</li>
+<li>
+<p>file.incarnation是一个file/incarnation对，用于唯一标识一个文件</p>
+</li>
+</ul>
+<p><img alt="Alt text" src="../image/3/3.2/2.png" /></p>
+<p>一个完全限定文件名可以如下:</p>
+<pre><code>+dgroup2/sample/controlfile/Current.256.541956473
+</code></pre>
+
+<h3 id="22-numeric-asm-filename">2.2 Numeric ASM Filename</h3>
+<p>数字ASM文件名可以用于定位一个存在的文件，它由完全限定域名而来</p>
+<p>用来简化我们的输入</p>
+<p>格式如下:</p>
+<pre><code>+group.file.incarnation
+</code></pre>
+
+<p>例子如下：</p>
+<pre><code>+dgroup2.257.541956473
+</code></pre>
+
+<h3 id="23-alias-asm-filenames">2.3 别名(Alias ASM Filenames)</h3>
+<p>别名可用在创建ASM文件以及定位已存在ASM文件</p>
+<p><strong>注意:为文件名建立别名，将不受Oracle Managed Files 管理，如数据文件不会在表空间删除时删除</strong></p>
+<p>我们可以为除了根(+)目录外所有目录以及文件指定别名，和完全限定文件名和数字文件名不同的是它不可以以数字对的形式结尾，如123.456</p>
+<pre><code>+dgroup1/myfiles/control_file1
+
++dgroup2/mydir/second.dbf
+</code></pre>
+
+<p>新建文件时指定别名，其首先创建一个完全限定文件名，再添加一个别名，我们可以通过2者来定位文件</p>
+<p>新建文件时未指定别名的话，哪怕是后来添加别名，我们也不能通过别名来定位该文件</p>
+<p>如下为一些数据库使用别名定位文件的例子：</p>
+<ul>
+<li>
+<p>别名会通过v$视图反映出来。例如我们查询v$datafile时文件名显示的为别名</p>
+</li>
+<li>
+<p>控制文件中指向的数据文件和在线重做日志</p>
+</li>
+<li>
+<p>参数文件中的控制文件名称</p>
+</li>
+</ul>
+<h2 id="3-asm">3. 使用ASM 文件名</h2>
+<h3 id="31-asm">3.1 为ASM文件名建立别名</h3>
+<pre><code>ALTER DISKGROUP dgroup1 ADD ALIAS '+dgroup1/mydir/second.dbf'
+
+FOR '+dgroup1/sample/datafile/mytable.342.3';
+</code></pre>
+
+<pre><code>ALTER DISKGROUP dgroup1 ADD ALIAS '+dgroup1/mydir/second.dbf'
+
+FOR '+dgroup1.342.3';
+</code></pre>
+
+<h3 id="32">3.2 修改文件名别名</h3>
+<pre><code>ALTER DISKGROUP dgroup1 RENAME ALIAS '+dgroup1/mydir/datafile.dbf'
+
+TO '+dgroup1/payroll/compensation.dbf';
+</code></pre>
+
+<h3 id="33">3.3 删除别名</h3>
+<p>注意该命令只可以删除别名，不可以删除系统生成的名称</p>
+<pre><code>ALTER DISKGROUP dgroup1 DROP ALIAS '+dgroup1/payroll/compensation.dbf';
+</code></pre>
+
+<h3 id="34">3.4 从磁盘组删除文件</h3>
+<pre><code>ALTER DISKGROUP dgroup1 DROP FILE '+dgroup1/payroll/compensation.dbf';
+</code></pre>
+
+<pre><code>ALTER DISKGROUP dgroup1
+
+DROP FILE '+dgroup1/sample/datafile/mytable.342.372642';
+</code></pre>
+
+<h3 id="35-omf">3.5 OMF管理的文件建立</h3>
+<pre><code>CREATE TABLESPACE  tspace2 DATAFILE '+dgroup2' SIZE 200M AUTOEXTEND ON;
+</code></pre></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

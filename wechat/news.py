@@ -116,7 +116,7 @@ def weibo():
         content=j.text.strip()
         print (content)
 
-#toutiao()
+toutiao()
 print ('\n')
 cnbeta()
 print ('\n')

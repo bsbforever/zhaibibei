@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>4.log file sync等待事件 - Oracle awr 报告全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle awr 报告全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../1.1/">十步解析awr报告</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Efficiency Percentages <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Buffer Nowait</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.Redo NoWait %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.Buffer Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.In-memory Sort %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.Library Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Soft Parse %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.Execute to Parse %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.Latch Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.Parse CPU to Parse Elapsd %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.% Non-Parse CPU</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle  Statistic <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Shared Pool Statistic</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.Wait Events Statistics</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.SQL Statistics</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.IO Stats</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Top 5 Timed Events <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../4.1/">1.Top 5 Timed Events</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.2/">2.db file sequential read等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.3/">3.db file scattered read等待事件</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">4.log file sync等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.5/">5.log file parallel write等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.6/">6.log buffer spaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.7/">7.SQL*Net message from dblink</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.8/">8.SQL*Net message to dblink等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.9/">9.SQL*Net message from client等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.10/">10.SQL*Net message to client等待事件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../4.3/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../4.5/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#log-file-sync">log file sync等待事件</a></li>
+        
+            <li><a href="#log-file-sync_1">log file sync</a></li>
+        
+            <li><a href="#_1">如何发生的</a></li>
+        
+            <li><a href="#log-buffer">log buffer大小</a></li>
+        
+            <li><a href="#lgwr">查看LGWR进程等待情况(整体)</a></li>
+        
+            <li><a href="#lgwr_1">查询当前LGWR进程状态(实时)</a></li>
+        
+            <li><a href="#_2">原因及改善</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="log-file-sync">log file sync等待事件</h1>
+<p>原创 2017-07-25 Oracle 宅必备</p>
+<p>从今天开始讲解awr报告Top 5 Timed Events部分</p>
+<p>今天讲log file sync等待事件</p>
+<h2 id="log-file-sync_1">log file sync</h2>
+<p><img alt="Alt text" src="../image/4/13.png" /></p>
+<h2 id="_1">如何发生的</h2>
+<p>要弄懂log file sync，我们首先说下他们是如何发生的</p>
+<p>当用户提交(commit)语句时，一个进程会建立一个redo 记录并把它拷贝至SGA中的log buffer中，然后这个进程会通知LGWR进程再将log buffer中的内容写入日志文件(redo file)中，同时清空log buffer的内容，最后返回完成消息，这就完成了一次commit操作</p>
+<p><img alt="Alt text" src="../image/4/14.png" /></p>
+<p>commit动作在LGWR进程没有返回完成消息前是不会完成的，我们把LGWR将log buffer中的内容写入日志文件(redo file)以及返回完成消息的这段时间标记为log file sync等待事件，它有个1s的超时时间</p>
+<p>这个等待事件往往伴随着log file parallel write等待事件，这个下期讲解</p>
+<h2 id="log-buffer">log buffer大小</h2>
+<p><img alt="Alt text" src="../image/4/15.png" /></p>
+<p>这里需要注意的是LGWR写log buffer内容至日志文件有多种情况</p>
+<ul>
+<li>每三秒钟</li>
+<li>每一次commit</li>
+<li>当其 1/3满的时候</li>
+<li>当其达到1M的时候</li>
+</ul>
+<h2 id="lgwr">查看LGWR进程等待情况(整体)</h2>
+<p>通过上面的讲解我们知道log file sync事件和LWGR进程相关，我们可以查询</p>
+<pre><code>select sid, event, time_waited, time_waited_micro
+  from v$session_event
+ where sid in (select sid from v$session where program like '%LGWR%')
+ order by 3
+</code></pre>
+
+<p><img alt="Alt text" src="../image/4/16.png" /></p>
+<p>通过上图我们可以看到LGWR进程主要的等待有哪些，哪些等待比较严重</p>
+<ol>
+<li>rdbms ipc message 表示LGWR正在等待写redo log，表示其处于空闲状体，我们不必理会</li>
+<li>log file single/parallel write 即我们今天所说的LGWR写redo 文件</li>
+</ol>
+<p>其他的暂不讨论，大家可自行搜索</p>
+<p>注意该视图中的数字是从实例启动起来的累计值</p>
+<h2 id="lgwr_1">查询当前LGWR进程状态(实时)</h2>
+<pre><code>select a.*
+  from v$Session_wait a, v$session b
+ where a.sid = b.sid
+   and b.program like '%LGWR%';
+</code></pre>
+
+<p><img alt="Alt text" src="../image/4/17.png" /></p>
+<p>通过上图我们发现当前LGWR进程处于空闲状态，如发现为log file write等说明目前 LGWR进程正在繁忙</p>
+<h2 id="_2">原因及改善</h2>
+<p>如果log file sync 等待事件占有过多的CPU时间，我们就需要注意了</p>
+<ol>
+<li>低速的磁盘可能会导致LGWR进程写文件较慢从而导致log file sync等待，我们可以简单的通过avg waits 来判断，如超过15ms则说明磁盘可能是瓶颈，需要放到高速的磁盘，另外加日志组中成员文件放在不同的磁盘中</li>
+<li>服务器CPU内存资源不足会导致进程相应缓慢，同样会增加log file sync等待，所以在调优时首先保证系统资源充足</li>
+<li>数据库锁及latch也会影响log file sync等待</li>
+<li>过大的log buffer 大小，log buffer过大可能导致刷新过于次数过低，从而导致单次刷新过慢</li>
+<li>过多的commit操作，通过上面我们知道每次commit操作都会导致LGWR写操作，如commit过多则该等待则会明显的上升</li>
+</ol></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.Redhat 4.8的安装 - Oracle数据库安装文档-Oracle 9i安装|Oracle RAC安装</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle数据库安装文档-Oracle 9i安装|Oracle RAC安装</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 9.2.0.8安装 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.Redhat 4.8的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.Redhat 4.8的配置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.Oracle软件的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.新建数据库实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 11g RAC安装 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.OPENFILER安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.OPENFILER配置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.UDEV设置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4. RAC环境准备</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.Grid安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Oracle软件安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.Oracle 实例安装</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="..">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../1.2/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#redhat-48">Redhat 4.8的安装</a></li>
+        
+    
+        <li class="main "><a href="#_1">注意事项</a></li>
+        
+    
+        <li class="main "><a href="#_2">安装开始</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="redhat-48">Redhat 4.8的安装</h1>
+<p>这个专题是关于如何在redhat 4.8上安装orale 9.2.0.8</p>
+<p><strong>系统及数据库安装文件</strong></p>
+<p>Redhat 4.8系统: </p>
+<p><a href="https://pan.baidu.com/s/1pL2owOF">https://pan.baidu.com/s/1pL2owOF</a></p>
+<p>Oracle 9i 安装文件 </p>
+<p><a href="https://pan.baidu.com/s/1mhNdyXi">https://pan.baidu.com/s/1mhNdyXi</a></p>
+<p>第一章节是安装redhat 4.8操作系统</p>
+<h1 id="_1">注意事项</h1>
+<ol>
+<li>
+<p>系统安装选择软件包的时候:</p>
+</li>
+<li>
+<p>Desktops 需要全部选择 </p>
+</li>
+<li>
+<p>Development需要全部选择</p>
+</li>
+</ol>
+<h1 id="_2">安装开始</h1>
+<p><strong>点击下一步</strong></p>
+<p><img alt="Alt text" src="../image/1/1.jpg" /></p>
+<p><strong>选择安装语言</strong></p>
+<p><img alt="Alt text" src="../image/1/2.jpg" /></p>
+<p><strong>选择键盘模式</strong></p>
+<p><img alt="Alt text" src="../image/1/3.jpg" /></p>
+<p><strong>选择手动分区</strong></p>
+<p><img alt="Alt text" src="../image/1/4.jpg" /></p>
+<p><strong>新建lvm分区</strong></p>
+<p>/oradata放置数据文件 </p>
+<p>/oralog放置归档文件</p>
+<p><img alt="Alt text" src="../image/1/5.jpg" /></p>
+<p><strong>点击下一步</strong></p>
+<p><img alt="Alt text" src="../image/1/6.jpg" /></p>
+<p><strong>设置ip地址及主机名</strong></p>
+<p><img alt="Alt text" src="../image/1/7.jpg" /></p>
+<p><strong>禁用防火墙和selinux</strong></p>
+<p><img alt="Alt text" src="../image/1/8.jpg" /></p>
+<p><strong>选择额外的语言包</strong></p>
+<p>勾选Chinese(P.R. of China) </p>
+<p>勾选Chinese(Taiwan)</p>
+<p><img alt="Alt text" src="../image/1/9.jpg" /></p>
+<p><strong>选择时区</strong></p>
+<p><img alt="Alt text" src="../image/1/10.jpg" /></p>
+<p><strong>设置root密码</strong></p>
+<p><img alt="Alt text" src="../image/1/11.jpg" /></p>
+<p><strong>安装包的选择</strong></p>
+<p>重要:</p>
+<p>Desktops 需要全部选择 </p>
+<p>Development需要全部选择</p>
+<p><img alt="Alt text" src="../image/1/12.jpg" /></p>
+<p><img alt="Alt text" src="../image/1/13.jpg" /></p>
+<p><img alt="Alt text" src="../image/1/14.jpg" /></p>
+<p><strong>点击下一步</strong></p>
+<p><img alt="Alt text" src="../image/1/15.jpg" /></p>
+<p><strong>开始安装</strong></p>
+<p><img alt="Alt text" src="../image/1/16.jpg" /></p>
+<p><strong>安装完成</strong></p>
+<p>点击reboot重启后进行最后设置</p>
+<p><img alt="Alt text" src="../image/1/17.jpg" /></p>
+<p><strong>点击下一步</strong></p>
+<p><img alt="Alt text" src="../image/1/18.jpg" /></p>
+<p><strong>同意条款</strong></p>
+<p><img alt="Alt text" src="../image/1/19.jpg" /></p>
+<p><strong>设置ntp服务器</strong> </p>
+<p>这里也可手动设置时间</p>
+<p><img alt="Alt text" src="../image/1/20.jpg" /></p>
+<p><strong>设置分辨率</strong></p>
+<p><img alt="Alt text" src="../image/1/21.jpg" /></p>
+<p><strong>设置登陆redhat</strong></p>
+<p>这里我们不需要登陆</p>
+<p><img alt="Alt text" src="../image/1/22.jpg" /></p>
+<p><img alt="Alt text" src="../image/1/23.jpg" /></p>
+<p><strong>创建新用户</strong></p>
+<p>这里我们不创建</p>
+<p><img alt="Alt text" src="../image/1/24.jpg" /></p>
+<p><strong>添加额外CD</strong></p>
+<p>这里我们不需要</p>
+<p><img alt="Alt text" src="../image/1/25.jpg" /></p>
+<p><strong>点击下一步</strong></p>
+<p><img alt="Alt text" src="../image/1/26.jpg" /></p>
+<p>到这里redhat 4.8已安装完成，下一步是系统环境的设置</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

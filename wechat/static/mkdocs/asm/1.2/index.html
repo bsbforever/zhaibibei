@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>2.ASM Instances参数介绍 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.1/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../1.3/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#asm-instances">ASM Instances参数介绍</a></li>
+        
+            <li><a href="#1-asmoracle">1. ASM及Oracle数据库版本兼容性</a></li>
+        
+            <li><a href="#2-asm">2. ASM实例参数</a></li>
+        
+            <li><a href="#3-asm">3. ASM 磁盘组参数</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="asm-instances">ASM Instances参数介绍</h1>
+<p>原创 2017-10-18 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容,版本为11g</p>
+<p>内容主要来自官方文档，加上一些自己的理解及实践</p>
+<p>这节讲ASM Instances的参数</p>
+<h2 id="1-asmoracle">1. ASM及Oracle数据库版本兼容性</h2>
+<ul>
+<li>
+<p>10.1版本的数据库使用11.1版本的ASM将只支持10.1 版本的ASM特性</p>
+</li>
+<li>
+<p>11.1版本的数据库使用10.1版本的ASM将只支持10.1版本的ASM特性</p>
+</li>
+</ul>
+<p>兼容性的值通过COMPATIBLE 参数指定</p>
+<p>可通过V$ASM_CLIENT 视图查看(可以在数据库端或者ASM端查询)</p>
+<p><img alt="Alt text" src="../image/1/1.2/1.png" /></p>
+<p>SOFTWARE_VERSION 表示ASM版本 </p>
+<p>COMPATIBLE_VERSION 表示兼容性的值</p>
+<h2 id="2-asm">2. ASM实例参数</h2>
+<p>ASM支持pfile和spfile两种方式的参数文件，建议使用spfile形式</p>
+<p>当ASM为集群时，各节点共享一个spfile</p>
+<p>修改可使用alter system 命令</p>
+<h3 id="21-asm">2.1 ASM内存管理</h3>
+<p>同Oracle数据库实例一样，ASM实例支持自动内存管理，自动SGA管理等</p>
+<p>具体设置相应的参数 (MEMORY_TARGET ,SGA_TARGET)</p>
+<p><img alt="Alt text" src="../image/1/1.2/2.png" /></p>
+<h3 id="22-asm">2.2 ASM 相关参数</h3>
+<p>下面说明一些ASM实例的参数</p>
+<p><strong>ASM_DISKGROUPS</strong></p>
+<p>该参数指定ASM在启动时需要挂载(mount)的磁盘组名称</p>
+<p><img alt="Alt text" src="../image/1/1.2/3.png" /></p>
+<p>该参数为动态修改的，如果你使用spfile的话，ASM会在你增加(create,mount)或删除(drop,dismount)磁盘组时自动更新该参数</p>
+<pre><code>SQL&gt; ALTER SYSTEM SET ASM_DISKGROUPS = 'CONTROLFILE, DATAFILE, LOGFILE, STANDBY'
+</code></pre>
+
+<p>如果使用的是pfile的话，每次需要手动更新该值</p>
+<p><strong>注意:ALTER DISKGROUP…ALL MOUNT 和 ALTER DISKGROUP…ALL DISMOUNT不会更新该参数</strong></p>
+<p><strong>ASM_DISKSTRING</strong></p>
+<p>该参数的值已冒号分隔，表示ASM可以发现的磁盘的位置，请确保集群中各个节点的asm用户有权限访问该设备</p>
+<p><img alt="Alt text" src="../image/1/1.2/4.png" /></p>
+<p>可以通过通配符进行匹配</p>
+<p>如 /dev/rdsk/* 表示 搜索/dev/rdsk目录下的设备</p>
+<p>默认值为null，表示搜索默认位置，该默认位置跟操作系统有关</p>
+<p><strong>ASM_POWER_LIMIT</strong></p>
+<p>该参数指定磁盘重平衡的速度，取值为1到11，默认值为1</p>
+<p><img alt="Alt text" src="../image/1/1.2/5.png" /></p>
+<p>越大平衡越快，也越消耗I/O</p>
+<p><strong>ASM_PREFERRED_READ_FAILURE_GROUPS</strong></p>
+<p>我们知道normal和high 需要多个故障组，我们假设ASM集群一个磁盘组有2个故障组,A和B，分别处于不同的区域，现在A区域的数据库需要访问磁盘组的数据，如果不设置该参数则可能会读取故障组B上面的数据，这往往是我们不希望的，这时我们可以通过指定该参数来让其读取故障组A上面的数据</p>
+<p>该参数默认值为空</p>
+<p><img alt="Alt text" src="../image/1/1.2/6.png" /></p>
+<p>该参数只适用于集群ASM环境和Oracle RAC环境</p>
+<pre><code>diskgroup_name1.failure_group_name1, ...
+</code></pre>
+
+<p><strong>DIAGNOSTIC_DEST</strong></p>
+<p>指定ASM诊断目录</p>
+<p><img alt="Alt text" src="../image/1/1.2/7.png" /></p>
+<p>各ASM实例的位置如下:</p>
+<p>diagnostic_dest/diag/asm/db_name/instance_name</p>
+<p><strong>INSTANCE_TYPE</strong></p>
+<p>该参数指定实例的类型，对于ASM来说该值为asm</p>
+<p><img alt="Alt text" src="../image/1/1.2/8.png" /></p>
+<p><strong>LARGE_POOL_SIZE</strong></p>
+<p>该值设定larger pool的大小，启用自动内存管理后无需设置
+<img alt="Alt text" src="../image/1/1.2/9.png" /></p>
+<p><strong>PROCESSES</strong>    </p>
+<p>该值设定最大process数量，启用自动内存管理后无需设置</p>
+<p><img alt="Alt text" src="../image/1/1.2/10.png" /></p>
+<p><strong>REMOTE_LOGIN_PASSWORDFILE</strong></p>
+<p>该值设定ASM登陆是否检查密码文件，这个和Oracle数据库相同</p>
+<p>具体查看:</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI5NjIxNTU2OQ==&amp;mid=2650215808&amp;idx=1&amp;sn=a613edeeb0676fc8abe2b32a672abcac&amp;chksm=f44400fec33389e8859e8222ce910fcef08ccc1238716bac8c36b1d17999a57baa0bbf020069&amp;scene=21#wechat_redirect">操作系统认证和密码文件认证</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI5NjIxNTU2OQ==&amp;mid=2650215805&amp;idx=1&amp;sn=0a998780ff0c8831c5e2669742c1c798&amp;chksm=f4440003c3338915431409789370a1dfc6b2e5d5830508a7388a796475b4a2f65787c306aba2&amp;scene=21#wechat_redirect">密码文件</a></p>
+<p><strong>SHARED_POOL_SIZE</strong></p>
+<p><img alt="Alt text" src="../image/1/1.2/11.png" /></p>
+<p>该值设定shared_pool大小,启用自动内存管理后无需设置</p>
+<h2 id="3-asm">3. ASM 磁盘组参数</h2>
+<p>下面是关于磁盘组的一些参数</p>
+<ul>
+<li>
+<p>AU_SIZE</p>
+</li>
+<li>
+<p>COMPATIBLE.ASM</p>
+</li>
+<li>
+<p>COMPATIBLE.RDBMS</p>
+</li>
+<li>
+<p>DISK_REPAIR_TIME</p>
+</li>
+</ul>
+<p>参数讲解将在后面管理磁盘组中说到</p>
+<p>好了，这节讲了ASM 实例相关的参数，下节讲ASM实例的管理</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.Top 5 Timed Events - Oracle awr 报告全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle awr 报告全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../1.1/">十步解析awr报告</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Efficiency Percentages <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Buffer Nowait</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.Redo NoWait %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.Buffer Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.In-memory Sort %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.Library Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Soft Parse %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.Execute to Parse %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.Latch Hit %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.Parse CPU to Parse Elapsd %</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.% Non-Parse CPU</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle  Statistic <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Shared Pool Statistic</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.Wait Events Statistics</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.SQL Statistics</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.IO Stats</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Top 5 Timed Events <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.Top 5 Timed Events</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.2/">2.db file sequential read等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.3/">3.db file scattered read等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.4/">4.log file sync等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.5/">5.log file parallel write等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.6/">6.log buffer spaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.7/">7.SQL*Net message from dblink</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.8/">8.SQL*Net message to dblink等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.9/">9.SQL*Net message from client等待事件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../4.10/">10.SQL*Net message to client等待事件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../3.4/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../4.2/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#top-5-timed-events">Top 5 Timed Events</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="top-5-timed-events">Top 5 Timed Events</h1>
+<p>原创 2017-07-19 Oracle 宅必备</p>
+<p>从今天开始讲解awr报告Top 5 Timed Events部分</p>
+<p>之所以是个专题，因为会对常用的一些等待事件进行说明</p>
+<p><img alt="Alt text" src="../image/4/1.png" /></p>
+<p>今天先对一些术语做解释</p>
+<p>这部分指的是占用数据库时间靠前的一些事件,主要是等待事件</p>
+<ol>
+<li>
+<p>Event 代表事件的名称</p>
+</li>
+<li>
+<p>Waits代表 该事件等待的次数，CPU Time不适用</p>
+</li>
+<li>
+<p>Time(s)代表该事件等待的总时间，单位为秒</p>
+</li>
+<li>
+<p>Avg Wait(ms) 代表平均等待时间(Time(s)/Waits)，单位为毫秒</p>
+</li>
+<li>
+<p>% Total Call Time 代表该事件占整个Call Time的比例，该栏位从10g开始提供</p>
+</li>
+<li>
+<p>Wait Class 代表等待事件的类型，该栏位从10g开始提供</p>
+</li>
+</ol>
+<p>常见的Wait Class 如下</p>
+<p><strong>Administrative</strong></p>
+<p>由于DBA命令导致的等待(如 重建索引)</p>
+<p>Waits resulting from DBA commands that cause users to wait (for example, an index rebuild)</p>
+<p><strong>Application</strong></p>
+<p>用户程序代码导致的等待(如 锁等待)</p>
+<p>Waits resulting from user application code (for example, lock waits caused by row level locking or explicit lock commands)</p>
+<p><strong>Cluster</strong></p>
+<p>和RAC 资源相关的等待(如gc cr block busy)</p>
+<p>Waits related to Real Application Cluster resources (for example, global cache resources such as ‘gc cr block busy’)</p>
+<p><strong>Commit</strong></p>
+<p>这个等待只包含log file sync</p>
+<p>This wait class only comprises one wait event - wait for redo log write confirmation after a commit (that is, ‘log file sync’)</p>
+<p><strong>Concurrency</strong>
+数据库内部资源的等待(如latches)</p>
+<p>Waits for internal database resources (for example, latches)</p>
+<p><strong>Configuration</strong></p>
+<p>由于配置不正确导致的等待(如日志文件大小和共享池大小)</p>
+<p>Waits caused by inadequate configuration of database or instance resources (for example, undersized log file sizes, shared pool size)</p>
+<p><strong>Idle</strong></p>
+<p>空闲等待，一般不需要关注，但有的需要查看,如DB-LINK相关的</p>
+<p>Waits that signify the session is inactive, waiting for work (for example, ‘SQL*Net message from client’)</p>
+<p><strong>Network</strong></p>
+<p>和网络传输相关的等待</p>
+<p>Waits related to network messaging (for example, ‘SQL*Net more data to dblink’)</p>
+<p><strong>Other</strong></p>
+<p>一些不会发生在系统层面的等待</p>
+<p>Waits which should not typically occur on a system (for example, ‘wait for EMON to spawn’)</p>
+<p><strong>Scheduler</strong></p>
+<p>资源管理相关的等待</p>
+<p>Resource Manager related waits (for example, ‘resmgr: become active’)</p>
+<p><strong>System I/O</strong></p>
+<p>后台进程IO相关的等待</p>
+<p>Waits for background process IO (for example, DBWR wait for ‘db file parallel write’)</p>
+<p><strong>User I/O</strong></p>
+<p>重要： 和用户IO 相关的等待(如db file sequential read 等) 
+Waits for user IO (for example ‘db file sequential read’)</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

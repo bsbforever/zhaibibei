@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^laterplay$',views.movie_laterplay, name='movie_laterplay'),
     url(r'^moviesuggest$',views.movie_suggest, name='movie_suggest'),
     url(r'^moviesearch$',views.movie_search, name='movie_search'),
+    url(r'^translate$',views.translate, name='translate'),
+    url(r'^translateresult$',views.translateresult, name='translateresult'),
     url(r'^lyric/(.*)$', views.lyric, name='lyric'),
 ]
 

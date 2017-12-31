@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>3.更改ASM磁盘组 - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.2/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.4/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#asm">更改ASM磁盘组</a></li>
+        
+            <li><a href="#1">1. 向磁盘组增加磁盘</a></li>
+        
+            <li><a href="#2">2. 删除磁盘组的磁盘</a></li>
+        
+            <li><a href="#3">3. 修改磁盘组磁盘大小</a></li>
+        
+            <li><a href="#4">4. 取消删除磁盘</a></li>
+        
+            <li><a href="#5">5. 手动磁盘重平衡操作</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="asm">更改ASM磁盘组</h1>
+<p>原创 2017-10-27 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容</p>
+<p>这节讲如何修改磁盘组，主要包括：</p>
+<ul>
+<li>
+<p>向磁盘组增加磁盘</p>
+</li>
+<li>
+<p>从磁盘组删除磁盘</p>
+</li>
+<li>
+<p>调整磁盘组中磁盘的大小</p>
+</li>
+<li>
+<p>取消删除磁盘组磁盘</p>
+</li>
+<li>
+<p>手动重新平衡磁盘</p>
+</li>
+</ul>
+<p>我们可以使用alter命令来修改磁盘组，例如新增，删除，修改大小磁盘等操作，Oracle建议同一个语句中同时进行多个操作</p>
+<h2 id="1">1. 向磁盘组增加磁盘</h2>
+<p>可使用alter diskgroup的ADD子句新增磁盘</p>
+<p>注意：新增加的磁盘不能属于其他磁盘组</p>
+<h3 id="11">1.1 使用通配符进行添加</h3>
+<pre><code>ALTER DISKGROUP dgroup1 ADD DISK
+    '/devices/diskd*'
+    REBALANCE POWER 5 WAIT;
+</code></pre>
+
+<h3 id="12">1.2 手动指定各个磁盘</h3>
+<pre><code>ALTER DISKGROUP dgroup1 ADD DISK
+    '/devices/diska5' NAME diska5,
+    '/devices/diska6' NAME diska6,
+    '/devices/diska7' NAME diska7,
+    '/devices/diska8' NAME diska8,
+</code></pre>
+
+<h3 id="13-force">1.3 使用force强制增加磁盘</h3>
+<p>force参数在如下情形使用:</p>
+<ul>
+<li>
+<p>新增加的磁盘属于一个已经不存在的磁盘组时</p>
+</li>
+<li>
+<p>如新磁盘在正常的磁盘组，则增加后该磁盘组将无法mount</p>
+</li>
+</ul>
+<pre><code>ALTER DISKGROUP dgroup2 ADD DISK
+    '/devices/diskc3' FORCE;
+</code></pre>
+
+<h3 id="14">1.4 指定故障组</h3>
+<p>默认情况下会将每个磁盘划入各自的故障组</p>
+<pre><code>alter diskgroup DG2
+    add failgroup FG1 disk '/dev/oracleasm/disks/VOL7'
+    add failgroup FG2 disk '/dev/oracleasm/disks/VOL8'
+    add failgroup FG3 disk '/dev/oracleasm/disks/VOL9';
+</code></pre>
+
+<h2 id="2">2. 删除磁盘组的磁盘</h2>
+<p>可使用alter diskgroup的DROP 子句新增磁盘</p>
+<p>使用force参数强制删除磁盘，即使ASM不能识别或写入该磁盘</p>
+<h3 id="21">2.1 删除磁盘组磁盘</h3>
+<pre><code>ALTER DISKGROUP dgroup1 DROP DISK diska5;
+</code></pre>
+
+<h3 id="22">2.2 删除并新增另外一个磁盘</h3>
+<pre><code>ALTER DISKGROUP dgroup1 DROP DISK diska5
+    ADD FAILGROUP failgrp1 DISK '/devices/diska9' NAME diska9;
+</code></pre>
+
+<h2 id="3">3. 修改磁盘组磁盘大小</h2>
+<p>可使用alter diskgroup的resize子句做如下操作:</p>
+<ul>
+<li>
+<p>更改磁盘组中所有磁盘的大小</p>
+</li>
+<li>
+<p>更改制定磁盘的的大小</p>
+</li>
+<li>
+<p>更改制定故障组内所有磁盘的大小</p>
+</li>
+</ul>
+<pre><code>ALTER DISKGROUP dgroup1
+    RESIZE DISKS IN FAILGROUP failgrp1 SIZE 100G;
+</code></pre>
+
+<p>如果不指定size参数，将设置为系统识别到的大小</p>
+<p>上面的语句修改dgroup1磁盘组的failgrp1故障组所有磁盘的大小为100G</p>
+<h2 id="4">4. 取消删除磁盘</h2>
+<p>可以使用ALTER DISKGROUP 的 UNDROP DISKS 字句来取消挂起状态的删除磁盘动作</p>
+<p>如果drop动作已经完成或者使用了force命令删除磁盘，则无法使用取消</p>
+<pre><code>ALTER DISKGROUP dgroup1 UNDROP DISKS;
+</code></pre>
+
+<h2 id="5">5. 手动磁盘重平衡操作</h2>
+<p>ASM会在磁盘组配置更改后自动进行平衡，默认情况下更改命令会立即返回成功</p>
+<p>我们可以使用wait参数使其等到重新平衡完成后才返回成功，这个在脚本中会比较有用</p>
+<p>如果在ALTER DISKGROUP 没有指定POWER参数，则POWER值由ASM_POWER_LIMIT参数指定</p>
+<p><img alt="Alt text" src="../image/2/2.3/1.png" /></p>
+<p>其取值范围从0到11</p>
+<p>为0表示不会自动平衡，需要手动输入命令平衡</p>
+<p>越高重平衡速度越快但也越耗资源</p>
+<p>我们可以使用如下语句手动进行平衡</p>
+<pre><code>ALTER DISKGROUP dgroup2 REBALANCE POWER 5 WAIT;
+</code></pre>
+
+<p>如指定wait参数则可以使用ctrl+c组合键取消</p>
+<p>可以通过V$ASM_OPERATION 视图查看平衡操作</p>
+<p><img alt="Alt text" src="../image/2/2.3/2.png" /></p>
+<p>好了，这节讲了磁盘组的更改命令，下节ASM 磁盘的发现</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

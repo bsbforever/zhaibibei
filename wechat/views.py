@@ -65,7 +65,7 @@ def  check(request):
 		name=dic['Content'].split(':')[1]
 	        #dic['Content']='sss'
 		song=get_name(name)
-		lyric_url1='http://www.shiyue.wiki/lyric'+song['url']
+		lyric_url1='http://www.zhaibibei.cn/lyric'+song['url']
 		if lyrics.objects.filter(lyric_url=lyric_url1).exists():
 		    queryset=lyrics.objects.get(lyric_url=lyric_url1)
 		    dic['title']=queryset.lyric_title
@@ -105,7 +105,7 @@ def  check(request):
 	            dic['Content']='请输入正确的日期格式:20160101235959'
                     return render_to_response('reply_message.html',dic)
             elif  'help' in dic['Content'].lower() or '?' in dic['Content'] or len(dic['Content'])<2:
-	        dic['Content']='欢迎关注公众号，以下为具体功能:\n\n\n个人网站:http://120.77.154.136/\n\n\n输入ORA-00600查询Oracle错误\n\n(支持ORA IMP EXP RMAN等错误)\n\n\n输入青椒肉丝查看做法\n\n\n输入快递+快递单号查询位置\n\n\n可以讲笑话等\n\n\n输入m:行尸走肉查看电影评分\n\n\n输入l:shape of you查看歌曲歌词\n\n\n已接入机器人，可进行自动对话'
+	        dic['Content']='欢迎关注公众号，以下为具体功能:\n\n\n个人网站:http://www.zhaibibei.cn\n\n\n输入ORA-00600查询Oracle错误\n\n(支持ORA IMP EXP RMAN等错误)\n\n\n输入青椒肉丝查看做法\n\n\n输入快递+快递单号查询位置\n\n\n可以讲笑话等\n\n\n输入m:行尸走肉查看电影评分\n\n\n输入l:shape of you查看歌曲歌词\n\n\n已接入机器人，可进行自动对话'
                 return render_to_response('reply_message.html',dic)
 	    else:
 	        #dic['Content']='欢迎关注公众号，以下为具体功能:\n\n\n个人网站:http://www.shiyue.wiki\n\n\n输入ORA-00600查询Oracle 错误\n\n\n输入Joke 查看最新笑话\n\n\n输入m行尸走肉查看电影评分\n\n\n输入d行尸走肉获取下载链接\n\n\n'
@@ -170,6 +170,16 @@ def index(request):
     return render_to_response('index.html',dic)
     #return render_to_response('index.html')
     #return HttpResponse(result)
+
+def translate(request):
+    return render_to_response('translate.html')
+
+
+def translateresult(request):
+    result  = str(request.GET['word'])
+    #return HttpResponse(name1)
+    dic={'result':result}
+    return render_to_response('translateresult.html',dic)
 
 def lyric(request,title):
     #return HttpResponse(title)

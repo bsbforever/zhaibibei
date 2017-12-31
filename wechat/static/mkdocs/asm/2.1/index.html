@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.Oracle ASM Disk Groups - Oracle ASM全解析</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle ASM全解析</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../index1/">Oracle ASM 简介</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 实例 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Oracle ASM Instances</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.ASM Instances参数介绍</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.ASM Instances管理</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.asmcmd管理ASM实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 磁盘组 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.Oracle ASM Disk Groups</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.新建磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.更改ASM磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4.关于ASM磁盘发现</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.ASM镜像和磁盘组冗余</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Dismount和Drop磁盘组</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.磁盘组兼容性属性</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.8/">8.磁盘组的相关视图</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.9/">9.深入了解 REQUIRED_MIRROR_FREE_MB 和USABLE_FILE_MB</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.10/">10.asmcmd管理磁盘组</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle ASM 文件 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../3.1/">1.Oracle ASM Files</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.2/">2.管理ASM 文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.3/">3.管理ASM 目录</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.4/">4.管理磁盘组模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.5/">5.asmcmd管理ASM文件</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.6/">6.asmcmd管理模板</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../3.7/">7.使用SQL*Plus创建数据库文件</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.4/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.2/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#oracle-asm-disk-groups">Oracle ASM Disk Groups</a></li>
+        
+            <li><a href="#asmasm-disk-groups">ASM磁盘组(ASM Disk Groups)</a></li>
+        
+            <li><a href="#_1">镜像功能</a></li>
+        
+            <li><a href="#failure-groups">故障组(failure groups)</a></li>
+        
+            <li><a href="#asmasm-disks">ASM磁盘(ASM Disks)</a></li>
+        
+            <li><a href="#allocation-units">分配单元(Allocation Units)</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="oracle-asm-disk-groups">Oracle ASM Disk Groups</h1>
+<p>原创 2017-10-16 Oracle 宅必备</p>
+<p>这个专题讲ASM相关的内容，版本为11g</p>
+<p>内容主要来自官方文档，加上一些自己的理解及实践</p>
+<h2 id="asmasm-disk-groups">ASM磁盘组(ASM Disk Groups)</h2>
+<p><img alt="Alt text" src="../image/2/2.1/1.png" /></p>
+<ul>
+<li>
+<p>ASM 磁盘组由多个磁盘组成，是ASM管理的基本对象</p>
+</li>
+<li>
+<p>每个磁盘组包含了一些ASM实例用来管理所需的元数据</p>
+</li>
+<li>
+<p>文件在磁盘组中分配，每个ASM 文件(ASM File)只会包含在一个磁盘组中</p>
+</li>
+<li>
+<p>但是每个磁盘组包含多个ASM文件</p>
+</li>
+</ul>
+<h2 id="_1">镜像功能</h2>
+<p>Oracle ASM提供镜像功能来保障数据库完整性和安全性，做法为将数据的副本保存在不同的磁盘 </p>
+<p>当你建立disk group时候，可以指定下面几种冗余级别</p>
+<ul>
+<li>
+<p>Normal for 2-way mirroring</p>
+</li>
+<li>
+<p>High for 3-way mirroring</p>
+</li>
+<li>
+<p>External to not use ASM mirroring, such as when you configure hardware RAID for redundancy</p>
+</li>
+</ul>
+<p>ASM 磁盘组比普通RAID更加灵活，他可以针对不同文件指定不同冗余级别，例如在一个磁盘组中可以针对一个文件使用两路冗余，一个使用三路冗余</p>
+<p><img alt="Alt text" src="../image/2/2.1/2.png" /></p>
+<h2 id="failure-groups">故障组(failure groups)</h2>
+<p>故障组是磁盘组的一个子集</p>
+<p>当ASM 分配一个normal级别的文件的区(extent,分配的最小单位)时，会新建一个主副本(primary copy)和次副本(secondary copy),然后将他们分配到不同的故障组中，这样就确保镜像数据处于不同的故障组中，ASM可以接受故障组中所有的磁盘失效</p>
+<p>你在建立磁盘组的时候指定故障组，当磁盘组建立完成后无法更改冗余级别，如果需要不同级别，请新建一个磁盘组并将文件移过去</p>
+<p>Orale建议故障组的空间一样大</p>
+<p>如果在建立磁盘组时忽略建立故障组，则默认将每个磁盘当作一个故障组，Normal级别至少需要2个故障组，High级别至少需要3个故障组，External不需要故障组</p>
+<p>注意这里指的是至少，可以使用尽可能多的故障组</p>
+<p>Normal级别允许不同故障组的一个ASM 磁盘失败，High级别允许不同故障组的两个磁盘失败</p>
+<h2 id="asmasm-disks">ASM磁盘(ASM Disks)</h2>
+<p>我们知道磁盘组由多个ASM磁盘组成， ASM磁盘允许如下形式的磁盘</p>
+<ul>
+<li>
+<p>磁盘阵列中的一个磁盘或者分区</p>
+</li>
+<li>
+<p>整个磁盘或者其中的一个分区</p>
+</li>
+<li>
+<p>逻辑卷(LV)</p>
+</li>
+<li>
+<p>NFS</p>
+</li>
+</ul>
+<p>当我们增加一个ASM 磁盘到磁盘组时可以指定磁盘名称，也可以让ASM自动命名</p>
+<p>该名称和操作系统设备名(如 /dev/sda)的不一样，在集群中一个ASM 磁盘在不同的节点名称可能不同，但是对于集群来说他们有共同的ASM 磁盘名</p>
+<h2 id="allocation-units">分配单元(Allocation Units)</h2>
+<p>AU是ASM磁盘的最小单位，区是由多个AU构成，区是磁盘组分配空间的最小单位，ASM File由多个区构成</p>
+<p>这里可以类比下Oracle空间的分配</p>
+<p><img alt="Alt text" src="../image/2/2.1/3.png" /></p>
+<p>当我们建立磁盘组时可指定AU的大小，从1M到64M，必须为2的指数倍，大的AU大小对数据仓库类型数据库有帮助</p>
+<p>好了，ASM 磁盘组就这么多了，下节讲ASM File ，包括他们在磁盘组中是如何分配的</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

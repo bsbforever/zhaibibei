@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.记一次library cache pin等待的处理 - Oracle 日常运维命令</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle 日常运维命令</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 日常运维命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.表空间的日常运维命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.Redo Log的相关操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.数据库迁移比对小工具</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.使用expdp/impdp进行迁移</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.5/">5.Oracle DBLink相关内容</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.6/">6.Oracle Job常用操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.7/">7.与系统进程相关的一些命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.8/">8.物化视图相关操作</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 故障处理 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.记一次library cache pin等待的处理</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.8/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a rel="prev" >
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#library-cache-pin">记一次library cache pin等待的处理</a></li>
+        
+            <li><a href="#1">1. 起因</a></li>
+        
+            <li><a href="#2">2. 原因查找</a></li>
+        
+            <li><a href="#3">3.问题处理</a></li>
+        
+            <li><a href="#4">4. 处理完成</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="library-cache-pin">记一次library cache pin等待的处理</h1>
+<p>2017-11-01 Oracle 宅必备</p>
+<p>这个专题讲一些日常运维的异常处理</p>
+<p>今天讲一次library cache pin等待的处理</p>
+<h2 id="1">1. 起因</h2>
+<p>上周我们虚拟化宕机导致上面的2套数据库停机，而这2套数据库和其他数据库有着千丝万缕的联系，这就导致很多进程处于hang的状态，即一直ACTIVE且无法自行结束。</p>
+<p>在数据库恢复后发现有台数据库CPU一直很高，查询v$session_wait视图发现library cache pin 等待严重，这点也可从statpack报告中看出</p>
+<p><img alt="Alt text" src="../image/2/1.png" /></p>
+<pre><code>select sid, event, p1raw, seconds_in_wait, wait_time
+
+from v$session_wait where event = 'library cache pin' and state = 'WAITING';
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/2.png" /></p>
+<h2 id="2">2. 原因查找</h2>
+<p>Library cache pins 用于管理库缓存冲突，库缓存主要用于存放SQL 执行计划用于重用，当一个会话pin的时候需要首先持有该执行计划地址的latch，有NULL, SHARE (S)或EXCLUSIVE(X)三种方式</p>
+<ul>
+<li>
+<p>一个X 请求 (3) 会被其他任何持有 S 模式(2) 的会话阻塞</p>
+</li>
+<li>
+<p>一个 S 请求 (2) 会被其他任何持有X模式 (3) 的会话阻塞, 也会被其他X请求 (3)的会话阻塞</p>
+</li>
+</ul>
+<p>知道了这些我们就来查询下有哪些会话在相互阻塞</p>
+<pre><code>SELECT s.sid, kglpnmod &quot;Mode&quot;, kglpnreq &quot;Req&quot;, SPID &quot;OS Process&quot;
+
+FROM v$session_wait w, x$kglpn p,v$session s ,v$process o
+
+WHERE p.kglpnuse=s.saddr
+
+AND kglpnhdl=w.p1raw
+
+and w.event like '%library cache pin%'
+
+and s.paddr=o.addr
+
+order by &quot;Mode&quot; desc,&quot;Req&quot; 
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/3.png" /></p>
+<p>从上面的结果我们可以看出 会话331 和277持有 X(3) 锁，它们阻塞了下面其他的S(2) 请求</p>
+<h2 id="3">3.问题处理</h2>
+<h3 id="31-sql">3.1 查找SQL语句</h3>
+<p>找到了源头我们先看下这2个会话对应的SQL语句</p>
+<pre><code>select sid,serial#, decode(sql_hash_value,0,prev_hash_value,sql_hash_value) from v$session where sid=277
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/4.png" /></p>
+<p>这里我们可以间隔一段时间后查看 hash_value是否变化</p>
+<p>最后我们查询其对应的语句</p>
+<pre><code>select sql_text from v$sqltext where hash_value=195271222 order by piece;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/5.png" /></p>
+<p>我这里查询的语句为空，表示可能这个会话处于假死状态</p>
+<h3 id="32">3.2 结束会话</h3>
+<p>首先我们采用常规的命令来杀死会话</p>
+<pre><code>alter system kill session '277,35'
+</code></pre>
+
+<p>发现杀不掉，那么我们采用杀死进程的方式</p>
+<p>首先找到该会话对应的进程</p>
+<pre><code>select  b.spid from v$session a,v$process b
+
+where a.PADDR=b.addr and a.SID='277'
+</code></pre>
+
+<pre><code>select  b.spid from v$session a,v$process b
+
+where a.PADDR=b.addr and a.SID='331'
+</code></pre>
+
+<p><img alt="Alt text" src="../image/2/6.png" /></p>
+<p>接下来查询该进程的开始时间</p>
+<p><img alt="Alt text" src="../image/2/7.png" /></p>
+<p>发现时间为10月24日,和故障发生的点契合</p>
+<p>这时我们放心的杀死他</p>
+<pre><code>kill -9 25163
+
+kill -9 25396
+</code></pre>
+
+<h2 id="4">4. 处理完成</h2>
+<p>杀完之后我们在查询</p>
+<p><img alt="Alt text" src="../image/2/8.png" /></p>
+<p>发现已经没有锁了</p>
+<p>最后查询等待事件，发现也没有了library cache pin等待</p>
+<p><img alt="Alt text" src="../image/2/9.png" /></p>
+<p>本文参考自:</p>
+<pre><code>http://blog.csdn.net/tianlesoftware/article/details/6638899
+</code></pre></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

@@ -1,0 +1,389 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "\u6b22\u8fce\u6765\u5230\u5b85\u5fc5\u5907\n\n\n \n\u8be5\u7f51\u7ad9\u4e3a\u6211\u7684\u4e2a\u4eba\u516c\u4f17\u53f7\u7684\u535a\u5ba2\u5730\u5740\uff0c\u6700\u65b0\u6700\u5feb\u8d44\u6599\u8bf7\u5173\u6ce8\u516c\u4f17\u53f7\n\n\n \n\n\n\u8be5\u9875\u9762\u4e3a\nOracle \u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4\n\u4e3b\u9875\u9762\n\n\n\u66f4\u591a\u5185\u5bb9\u8bf7\u70b9\u51fb\n\u8fd4\u56de\u9996\u9875\n\n\n \n\n \n\n \n\n \n\n\n\u6b22\u8fce\u626b\u63cf\u5173\u6ce8\u4e2a\u4eba\u516c\u4f17\u53f7\n\u5b85\u5fc5\u5907",
+            "title": "\u9996\u9875"
+        },
+        {
+            "location": "/#_1",
+            "text": "\u8be5\u7f51\u7ad9\u4e3a\u6211\u7684\u4e2a\u4eba\u516c\u4f17\u53f7\u7684\u535a\u5ba2\u5730\u5740\uff0c\u6700\u65b0\u6700\u5feb\u8d44\u6599\u8bf7\u5173\u6ce8\u516c\u4f17\u53f7     \u8be5\u9875\u9762\u4e3a Oracle \u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4 \u4e3b\u9875\u9762  \u66f4\u591a\u5185\u5bb9\u8bf7\u70b9\u51fb \u8fd4\u56de\u9996\u9875           \u6b22\u8fce\u626b\u63cf\u5173\u6ce8\u4e2a\u4eba\u516c\u4f17\u53f7 \u5b85\u5fc5\u5907",
+            "title": "\u6b22\u8fce\u6765\u5230\u5b85\u5fc5\u5907"
+        },
+        {
+            "location": "/1.1/",
+            "text": "\u8868\u7a7a\u95f4\u7684\u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4\n\n\n\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~\n\n\n1.\u67e5\u8be2\u8868\u7a7a\u95f4\u4f7f\u7528\u7387\n\n\nselect a.tablespace_name,a.bytes/1024/ 1024 \"Sum MB\",(a.bytes-b.bytes)/1024 /1024 \"used MB\",b.bytes/ 1024/1024 \"free MB\",round(((a.bytes-b.bytes)/a.bytes)*100 ,2\n) \"percent_used\"\nfrom\n(select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a,\n(select tablespace_name, sum(bytes) bytes,max (bytes) largest from dba_free_space group by tablespace_name) b\nwhere a.tablespace_name=b.tablespace_name ;\n\n\n\n\n2. \u521b\u5efa\u8868\u7a7a\u95f4\n\n\n\u4e00\u822c\u5efa\u8bae\u6570\u636e\u6587\u4ef6\u8bbe\u7f6e\u6a59\u4e0d\u81ea\u52a8\u6269\u5c55\uff0c\u65e5\u5e38\u8fd0\u7ef4\u6ce8\u610f\u65f6\u523b\u5173\u6ce8\u8868\u7a7a\u95f4\u4f7f\u7528\u7387\n\n\n2.1 \u6570\u636e\u6587\u4ef6\u81ea\u52a8\u6269\u5c55\n\n\ncreate tablespace JGXT LOGGING DATAFILE '/orahdb/oradata/hdb/jgxt01.dbf' SIZE 2048M AUTOEXTEND ON NEXT 1024M\nEXTENT MANAGEMENT LOCAL\nSEGMENT SPACE MANAGEMENT AUTO;\n\n\n\n\n2.2 \u6570\u636e\u6587\u4ef6\u975e\u81ea\u52a8\u6269\u5c55\n\n\ncreate tablespace WEBMINDX1 LOGGING DATAFILE '/oradata/wmsdata/index/WEBMINDX01.dbf' SIZE 2048M AUTOEXTEND OFF\nEXTENT MANAGEMENT LOCAL\nSEGMENT SPACE MANAGEMENT AUTO;\n\n\n\n\n2.3 \u4e0d\u6307\u5b9a\u5177\u4f53\u8def\u5f84(\u4f7f\u7528OMF)\n\n\nCREATE SMALLFILE TABLESPACE \"INDX\" DATAFILE '+HDB_DATA' SIZE 20G LOGGING EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO\n\n\n\n\n3. \u5220\u9664\u8868\u7a7a\u95f4\n\n\nDROP TABLESPACE tablespace_name INCLUDING CONTENTS AND DATAFILES;\n\n\n\n\n4. \u65b0\u589e\u6570\u636e\u6587\u4ef6\n\n\n4.1 \u81ea\u5b9a\u4e49\u6587\u4ef6\u8def\u5f84\n\n\nALTER TABLESPACE EMAPTBS ADD DATAFILE '/u01/oradata/emap/emapdata07.dbf' SIZE 4096M AUTOEXTEND OFF;\n\n\n\n\n4.2 \u4f7f\u7528Oracle-Managed Files\n\n\nALTER TABLESPACE \"INDX\" ADD DATAFILE '+HDB_DATA' SIZE 20G\n\n\n\n\n5. \u66f4\u6539\u6570\u636e\u6587\u4ef6\u5927\u5c0f\n\n\nALTER DATABASE TEMPFILE '+HDB_DATA/hdb/tempfile/temp.263.911574485' RESIZE 30G\n\n\n\n\n6. \u66f4\u6539\u6570\u636e\u6587\u4ef6\u589e\u957f\u65b9\u5f0f\n\n\nALTER DATABASE DATAFILE '+HDB_DATA/hdb/datafile/undotbs1.262.911574483' AUTOEXTEND ON NEXT 100M\n\n\n\n\n7. \u4e34\u65f6\u8868\u7a7a\u95f4\n\n\n7.1 \u65b0\u589e\u4e34\u65f6\u6587\u4ef6\n\n\nalter tablespace temp2 add tempfile '/m11/oradata/BRAT/temp04.dbf' size 2048M\n\n\n\n\n7.2 \u5220\u9664\u4e34\u65f6\u6587\u4ef6\n\n\nalter database tempfile '/m13/oradata/BRAT/temp01.dbf' drop",
+            "title": "1.\u8868\u7a7a\u95f4\u7684\u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4"
+        },
+        {
+            "location": "/1.1/#_1",
+            "text": "\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~",
+            "title": "\u8868\u7a7a\u95f4\u7684\u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4"
+        },
+        {
+            "location": "/1.1/#1",
+            "text": "select a.tablespace_name,a.bytes/1024/ 1024 \"Sum MB\",(a.bytes-b.bytes)/1024 /1024 \"used MB\",b.bytes/ 1024/1024 \"free MB\",round(((a.bytes-b.bytes)/a.bytes)*100 ,2\n) \"percent_used\"\nfrom\n(select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a,\n(select tablespace_name, sum(bytes) bytes,max (bytes) largest from dba_free_space group by tablespace_name) b\nwhere a.tablespace_name=b.tablespace_name ;",
+            "title": "1.\u67e5\u8be2\u8868\u7a7a\u95f4\u4f7f\u7528\u7387"
+        },
+        {
+            "location": "/1.1/#2",
+            "text": "\u4e00\u822c\u5efa\u8bae\u6570\u636e\u6587\u4ef6\u8bbe\u7f6e\u6a59\u4e0d\u81ea\u52a8\u6269\u5c55\uff0c\u65e5\u5e38\u8fd0\u7ef4\u6ce8\u610f\u65f6\u523b\u5173\u6ce8\u8868\u7a7a\u95f4\u4f7f\u7528\u7387  2.1 \u6570\u636e\u6587\u4ef6\u81ea\u52a8\u6269\u5c55  create tablespace JGXT LOGGING DATAFILE '/orahdb/oradata/hdb/jgxt01.dbf' SIZE 2048M AUTOEXTEND ON NEXT 1024M\nEXTENT MANAGEMENT LOCAL\nSEGMENT SPACE MANAGEMENT AUTO;  2.2 \u6570\u636e\u6587\u4ef6\u975e\u81ea\u52a8\u6269\u5c55  create tablespace WEBMINDX1 LOGGING DATAFILE '/oradata/wmsdata/index/WEBMINDX01.dbf' SIZE 2048M AUTOEXTEND OFF\nEXTENT MANAGEMENT LOCAL\nSEGMENT SPACE MANAGEMENT AUTO;  2.3 \u4e0d\u6307\u5b9a\u5177\u4f53\u8def\u5f84(\u4f7f\u7528OMF)  CREATE SMALLFILE TABLESPACE \"INDX\" DATAFILE '+HDB_DATA' SIZE 20G LOGGING EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO",
+            "title": "2. \u521b\u5efa\u8868\u7a7a\u95f4"
+        },
+        {
+            "location": "/1.1/#3",
+            "text": "DROP TABLESPACE tablespace_name INCLUDING CONTENTS AND DATAFILES;",
+            "title": "3. \u5220\u9664\u8868\u7a7a\u95f4"
+        },
+        {
+            "location": "/1.1/#4",
+            "text": "4.1 \u81ea\u5b9a\u4e49\u6587\u4ef6\u8def\u5f84  ALTER TABLESPACE EMAPTBS ADD DATAFILE '/u01/oradata/emap/emapdata07.dbf' SIZE 4096M AUTOEXTEND OFF;  4.2 \u4f7f\u7528Oracle-Managed Files  ALTER TABLESPACE \"INDX\" ADD DATAFILE '+HDB_DATA' SIZE 20G",
+            "title": "4. \u65b0\u589e\u6570\u636e\u6587\u4ef6"
+        },
+        {
+            "location": "/1.1/#5",
+            "text": "ALTER DATABASE TEMPFILE '+HDB_DATA/hdb/tempfile/temp.263.911574485' RESIZE 30G",
+            "title": "5. \u66f4\u6539\u6570\u636e\u6587\u4ef6\u5927\u5c0f"
+        },
+        {
+            "location": "/1.1/#6",
+            "text": "ALTER DATABASE DATAFILE '+HDB_DATA/hdb/datafile/undotbs1.262.911574483' AUTOEXTEND ON NEXT 100M",
+            "title": "6. \u66f4\u6539\u6570\u636e\u6587\u4ef6\u589e\u957f\u65b9\u5f0f"
+        },
+        {
+            "location": "/1.1/#7",
+            "text": "7.1 \u65b0\u589e\u4e34\u65f6\u6587\u4ef6  alter tablespace temp2 add tempfile '/m11/oradata/BRAT/temp04.dbf' size 2048M  7.2 \u5220\u9664\u4e34\u65f6\u6587\u4ef6  alter database tempfile '/m13/oradata/BRAT/temp01.dbf' drop",
+            "title": "7. \u4e34\u65f6\u8868\u7a7a\u95f4"
+        },
+        {
+            "location": "/1.2/",
+            "text": "Redo Log\u7684\u76f8\u5173\u64cd\u4f5c\n\n\n\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~\n\n\n\u8fd9\u8282\u5185\u5bb9\u4e3a\u6211\u5728\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u7528\u5230\u7684\u5173\u4e8eredo log\u65b9\u9762\u7684\u547d\u4ee4\n\n\n\n\n1. \u67e5\u770bRedo Log\u72b6\u6001\n\n\nSELECT group#, members, bytes/1024/1024 byte_mb, status FROM v$log;\n\n\n\n\n\n\nSELECT *FROM v$logfile;\n\n\n\n\n\n\n2. \u589e\u52a0\u65e5\u5fd7\u7ec4\n\n\nSQL>ALTER DATABASE ADD LOGFILE GROUP 4 ('D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo04a.log' ,'D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo04b.log') SIZE 300M;\n\nSQL>ALTER DATABASE ADD LOGFILE GROUP 5 ('D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo05a.log' ,'D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo05b.log') SIZE 300M;\n\nSQL>ALTER DATABASE ADD LOGFILE GROUP 6 ('D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo06a.log' ,'D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo06b.log') SIZE 300M;\n\n\n\n\n3. \u5220\u9664\u65e5\u5fd7\u7ec4\n\n\n3.1 \u5207\u6362Redo Log \u4f7f\u539f\u6765\u7684inactive\n\n\nSQL>ALTER SYSTEM SWITCH LOGFILE;\nSQL>ALTER SYSTEM CHECKPOINT ;\n\n\n\n\n\n\n3.2 \u5220\u9664\u4e0d\u9700\u8981\u7684\u65e5\u5fd7\u7ec4\n\n\n\u5f53\u65e5\u5fd7\u7ec4\u4e3aINACTIVE\u65f6\u5373\u53ef\u5220\u9664\n\n\nSQL>ALTER DATABASE DROP LOGFILE GROUP 3 ;\n\n\n\n\n4. \u67e5\u770b\u65e5\u5fd7\u5207\u6362\u9891\u7387\n\n\ncolumn h0 format 999\ncolumn h1 format 999\ncolumn h2 format 999\ncolumn h3 format 999\ncolumn h4 format 999\ncolumn h5 format 999\ncolumn h6 format 999\ncolumn h7 format 999\ncolumn h8 format 999\ncolumn h9 format 999\ncolumn h10 format 999\ncolumn h11 format 999\ncolumn h12 format 999\ncolumn h13 format 999\ncolumn h14 format 999\ncolumn h15 format 999\ncolumn h16 format 999\ncolumn h17 format 999\ncolumn h18 format 999\ncolumn h19 format 999\ncolumn h20 format 999\ncolumn h21 format 999\ncolumn h22 format 999\ncolumn h23 format 999\ncolumn avg format 999.99\ncolumn day format a6\nSELECT TRUNC (first_time) \"Date\", TO_CHAR (first_time, 'Dy') \"Day\", COUNT (1) \"Total\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '00', 1, 0)) h0,\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '01', 1, 0)) \"h1\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '02', 1, 0)) \"h2\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '03', 1, 0)) \"h3\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '04', 1, 0)) \"h4\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '05', 1, 0)) \"h5\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '06', 1, 0)) \"h6\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '07', 1, 0)) \"h7\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '08', 1, 0)) \"h8\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '09', 1, 0)) \"h9\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '10', 1, 0)) \"h10\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '11', 1, 0)) \"h11\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '12', 1, 0)) \"h12\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '13', 1, 0)) \"h13\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '14', 1, 0)) \"h14\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '15', 1, 0)) \"h15\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '16', 1, 0)) \"h16\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '17', 1, 0)) \"h17\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '18', 1, 0)) \"h18\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '19', 1, 0)) \"h19\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '20', 1, 0)) \"h20\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '21', 1, 0)) \"h21\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '22', 1, 0)) \"h22\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '23', 1, 0)) \"h23\", ROUND (COUNT (1) / 24, 2) \"Avg\"\nFROM gv$log_history\nWHERE first_time >= trunc(SYSDATE) - 68\nand thread# = inst_id\nGROUP BY TRUNC (first_time), TO_CHAR (first_time, 'Dy')\nORDER BY 1 DESC;",
+            "title": "2.Redo Log\u7684\u76f8\u5173\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.2/#redo-log",
+            "text": "\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~  \u8fd9\u8282\u5185\u5bb9\u4e3a\u6211\u5728\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u7528\u5230\u7684\u5173\u4e8eredo log\u65b9\u9762\u7684\u547d\u4ee4",
+            "title": "Redo Log\u7684\u76f8\u5173\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.2/#1-redo-log",
+            "text": "SELECT group#, members, bytes/1024/1024 byte_mb, status FROM v$log;   SELECT *FROM v$logfile;",
+            "title": "1. \u67e5\u770bRedo Log\u72b6\u6001"
+        },
+        {
+            "location": "/1.2/#2",
+            "text": "SQL>ALTER DATABASE ADD LOGFILE GROUP 4 ('D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo04a.log' ,'D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo04b.log') SIZE 300M;\n\nSQL>ALTER DATABASE ADD LOGFILE GROUP 5 ('D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo05a.log' ,'D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo05b.log') SIZE 300M;\n\nSQL>ALTER DATABASE ADD LOGFILE GROUP 6 ('D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo06a.log' ,'D:\\ORACLE\\PRODUCT\\10.2.0\\ORADATA\\HRDB\\redo06b.log') SIZE 300M;",
+            "title": "2. \u589e\u52a0\u65e5\u5fd7\u7ec4"
+        },
+        {
+            "location": "/1.2/#3",
+            "text": "3.1 \u5207\u6362Redo Log \u4f7f\u539f\u6765\u7684inactive  SQL>ALTER SYSTEM SWITCH LOGFILE;\nSQL>ALTER SYSTEM CHECKPOINT ;   3.2 \u5220\u9664\u4e0d\u9700\u8981\u7684\u65e5\u5fd7\u7ec4  \u5f53\u65e5\u5fd7\u7ec4\u4e3aINACTIVE\u65f6\u5373\u53ef\u5220\u9664  SQL>ALTER DATABASE DROP LOGFILE GROUP 3 ;",
+            "title": "3. \u5220\u9664\u65e5\u5fd7\u7ec4"
+        },
+        {
+            "location": "/1.2/#4",
+            "text": "column h0 format 999\ncolumn h1 format 999\ncolumn h2 format 999\ncolumn h3 format 999\ncolumn h4 format 999\ncolumn h5 format 999\ncolumn h6 format 999\ncolumn h7 format 999\ncolumn h8 format 999\ncolumn h9 format 999\ncolumn h10 format 999\ncolumn h11 format 999\ncolumn h12 format 999\ncolumn h13 format 999\ncolumn h14 format 999\ncolumn h15 format 999\ncolumn h16 format 999\ncolumn h17 format 999\ncolumn h18 format 999\ncolumn h19 format 999\ncolumn h20 format 999\ncolumn h21 format 999\ncolumn h22 format 999\ncolumn h23 format 999\ncolumn avg format 999.99\ncolumn day format a6\nSELECT TRUNC (first_time) \"Date\", TO_CHAR (first_time, 'Dy') \"Day\", COUNT (1) \"Total\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '00', 1, 0)) h0,\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '01', 1, 0)) \"h1\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '02', 1, 0)) \"h2\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '03', 1, 0)) \"h3\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '04', 1, 0)) \"h4\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '05', 1, 0)) \"h5\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '06', 1, 0)) \"h6\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '07', 1, 0)) \"h7\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '08', 1, 0)) \"h8\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '09', 1, 0)) \"h9\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '10', 1, 0)) \"h10\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '11', 1, 0)) \"h11\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '12', 1, 0)) \"h12\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '13', 1, 0)) \"h13\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '14', 1, 0)) \"h14\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '15', 1, 0)) \"h15\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '16', 1, 0)) \"h16\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '17', 1, 0)) \"h17\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '18', 1, 0)) \"h18\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '19', 1, 0)) \"h19\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '20', 1, 0)) \"h20\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '21', 1, 0)) \"h21\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '22', 1, 0)) \"h22\",\nSUM (DECODE (TO_CHAR (first_time, 'hh24'), '23', 1, 0)) \"h23\", ROUND (COUNT (1) / 24, 2) \"Avg\"\nFROM gv$log_history\nWHERE first_time >= trunc(SYSDATE) - 68\nand thread# = inst_id\nGROUP BY TRUNC (first_time), TO_CHAR (first_time, 'Dy')\nORDER BY 1 DESC;",
+            "title": "4. \u67e5\u770b\u65e5\u5fd7\u5207\u6362\u9891\u7387"
+        },
+        {
+            "location": "/1.3/",
+            "text": "\u6570\u636e\u5e93\u8fc1\u79fb\u6bd4\u5bf9\u5c0f\u5de5\u5177\n\n\n\u8fd9\u4e2a\u4e13\u9898\u5206\u4eab\u70b9\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u7528\u5230\u7684Python\u811a\u672c\n\n\n\u5728\u505a\u6570\u636e\u5e93\u8fc1\u79fb\u540e\uff0c\u6211\u4eec\u53ef\u80fd\u9700\u8981\u77e5\u9053\u6211\u4eec\u7684\u8868\uff0c\u7d22\u5f15\uff0c\u5b58\u50a8\u8fc7\u7a0b\u7b49\u5bf9\u8c61\u662f\u5426\u8fc1\u79fb\u6210\u529f \n\u8fd9\u65f6\u53ef\u4ee5\u7528\u5982\u4e0b\u811a\u672c\u6765\u8fdb\u884c\u68c0\u67e5\n\n\n\u73af\u5883\u51c6\u5907\n\n\n\u64cd\u4f5c\u7cfb\u7edf: Windows 7\u53ca\u4ee5\u4e0a \n\n\nPython\u7248\u672c :3.5\n\n\n1. \u68c0\u67e5\u6e90\u5e93\u548c\u76ee\u6807\u5e93\u7684\u5bf9\u8c61\n\n\nselect OWNER ||'.'||OBJECT_NAME,OBJECT_TYPE from dba_objects where owner in ('IBIS');\n\n\n\n\n\n\n2. \u4fdd\u5b58\u6e90\u5e93\u548c\u76ee\u6807\u5e93\u4fe1\u606f\u81f3\u6587\u4ef6\n\n\n\u5c06\u6e90\u7aef\u7684\u7684\u4fe1\u606f\u4fdd\u5b58\u5728migrate_from.txt\u6587\u4ef6\u4e2d\n\n\n\u5c06\u76ee\u6807\u5e93\u7684\u4fe1\u606f\u4fdd\u5b58\u5728migrate_to.txt\u6587\u4ef6\u4e2d\n\n\n\u6ce8\u610f:\u6700\u540e\u4e00\u884c\u65f6\u4e0d\u8981\u6362\u884c\n\n\n\n\n3. \u811a\u672c\u5185\u5bb9\n\n\n#coding=utf8\nimport os\ndiff1=[]\ndiff2=[]\nmigrate_from=open(r\"c:\\migrate_from.txt\")\nmigrate_to=open(r\"c:\\migrate_to.txt\")\n\nfor i in migrate_to:\n    diff1.append(i.strip().replace('\\t',' '))\n\nfor k in migrate_from:\n    diff2.append(k.strip().replace('\\t',' '))\n\nprint (\"\u672a\u8fc1\u79fb\u8fc7\u6765\u7684\u5bf9\u8c61\\n\")\nfor j in diff2:\n    if j not in diff1:\n        print(j+'\\n')\n\nprint (\"\u8fc1\u79fb\u540e\u591a\u4f59\u7684\u5bf9\u8c61\\n\")\nfor l in diff1:\n    if l not in diff2:\n        print( l+'\\n')\n\nmigrate_from.close()\nmigrate_to.close()\n\n\n\n\n4. \u5bf9\u6bd4\u7ed3\u679c\n\n\n\u4f7f\u7528pycharm\u8fd0\u884c\u540e:\n\n\n\n\n\n\n\u6ce8\u610f\u4e00\u4e9b\u7d22\u5f15\u548clob\u6bb5\u8fc1\u79fb\u524d\u540e\u540d\u79f0\u4f1a\u4e0d\u540c\n\n\n\u8fd9\u65f6\u53ef\u4ee5\u901a\u8fc7\u67e5\u8be2\u5176\u4e3b\u8868\u662f\u5426\u76f8\u540c\u6765\u5224\u65ad\u662f\u5426\u8fc1\u79fb\u6210\u529f\n\n\nselect * from dba_lobs where owner='IBIS';\nselect * from dba_indexes where owner='IBIS';\n\n\n\n\n\u4e00\u822c\u770b\u6570\u91cf\u5bf9\u4e0a\u5c31\u662f\u6b63\u786e\u7684\u4e86,\u5f53\u7136\u591a\u51fa\u6765\u70b9\u4e5f\u662f\u884c\u7684\n\n\n\u8fd9\u662f\u4e00\u4e2a\u6bd4\u8f83\u7b80\u5355\u7684\u811a\u672c\uff0c\u540e\u7eed\u5e26\u6765\u66f4\u591a\uff0c\u8c22\u8c22\u652f\u6301",
+            "title": "3.\u6570\u636e\u5e93\u8fc1\u79fb\u6bd4\u5bf9\u5c0f\u5de5\u5177"
+        },
+        {
+            "location": "/1.3/#_1",
+            "text": "\u8fd9\u4e2a\u4e13\u9898\u5206\u4eab\u70b9\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u7528\u5230\u7684Python\u811a\u672c  \u5728\u505a\u6570\u636e\u5e93\u8fc1\u79fb\u540e\uff0c\u6211\u4eec\u53ef\u80fd\u9700\u8981\u77e5\u9053\u6211\u4eec\u7684\u8868\uff0c\u7d22\u5f15\uff0c\u5b58\u50a8\u8fc7\u7a0b\u7b49\u5bf9\u8c61\u662f\u5426\u8fc1\u79fb\u6210\u529f \n\u8fd9\u65f6\u53ef\u4ee5\u7528\u5982\u4e0b\u811a\u672c\u6765\u8fdb\u884c\u68c0\u67e5  \u73af\u5883\u51c6\u5907  \u64cd\u4f5c\u7cfb\u7edf: Windows 7\u53ca\u4ee5\u4e0a   Python\u7248\u672c :3.5",
+            "title": "\u6570\u636e\u5e93\u8fc1\u79fb\u6bd4\u5bf9\u5c0f\u5de5\u5177"
+        },
+        {
+            "location": "/1.3/#1",
+            "text": "select OWNER ||'.'||OBJECT_NAME,OBJECT_TYPE from dba_objects where owner in ('IBIS');",
+            "title": "1. \u68c0\u67e5\u6e90\u5e93\u548c\u76ee\u6807\u5e93\u7684\u5bf9\u8c61"
+        },
+        {
+            "location": "/1.3/#2",
+            "text": "\u5c06\u6e90\u7aef\u7684\u7684\u4fe1\u606f\u4fdd\u5b58\u5728migrate_from.txt\u6587\u4ef6\u4e2d  \u5c06\u76ee\u6807\u5e93\u7684\u4fe1\u606f\u4fdd\u5b58\u5728migrate_to.txt\u6587\u4ef6\u4e2d  \u6ce8\u610f:\u6700\u540e\u4e00\u884c\u65f6\u4e0d\u8981\u6362\u884c",
+            "title": "2. \u4fdd\u5b58\u6e90\u5e93\u548c\u76ee\u6807\u5e93\u4fe1\u606f\u81f3\u6587\u4ef6"
+        },
+        {
+            "location": "/1.3/#3",
+            "text": "#coding=utf8\nimport os\ndiff1=[]\ndiff2=[]\nmigrate_from=open(r\"c:\\migrate_from.txt\")\nmigrate_to=open(r\"c:\\migrate_to.txt\")\n\nfor i in migrate_to:\n    diff1.append(i.strip().replace('\\t',' '))\n\nfor k in migrate_from:\n    diff2.append(k.strip().replace('\\t',' '))\n\nprint (\"\u672a\u8fc1\u79fb\u8fc7\u6765\u7684\u5bf9\u8c61\\n\")\nfor j in diff2:\n    if j not in diff1:\n        print(j+'\\n')\n\nprint (\"\u8fc1\u79fb\u540e\u591a\u4f59\u7684\u5bf9\u8c61\\n\")\nfor l in diff1:\n    if l not in diff2:\n        print( l+'\\n')\n\nmigrate_from.close()\nmigrate_to.close()",
+            "title": "3. \u811a\u672c\u5185\u5bb9"
+        },
+        {
+            "location": "/1.3/#4",
+            "text": "\u4f7f\u7528pycharm\u8fd0\u884c\u540e:    \u6ce8\u610f\u4e00\u4e9b\u7d22\u5f15\u548clob\u6bb5\u8fc1\u79fb\u524d\u540e\u540d\u79f0\u4f1a\u4e0d\u540c  \u8fd9\u65f6\u53ef\u4ee5\u901a\u8fc7\u67e5\u8be2\u5176\u4e3b\u8868\u662f\u5426\u76f8\u540c\u6765\u5224\u65ad\u662f\u5426\u8fc1\u79fb\u6210\u529f  select * from dba_lobs where owner='IBIS';\nselect * from dba_indexes where owner='IBIS';  \u4e00\u822c\u770b\u6570\u91cf\u5bf9\u4e0a\u5c31\u662f\u6b63\u786e\u7684\u4e86,\u5f53\u7136\u591a\u51fa\u6765\u70b9\u4e5f\u662f\u884c\u7684  \u8fd9\u662f\u4e00\u4e2a\u6bd4\u8f83\u7b80\u5355\u7684\u811a\u672c\uff0c\u540e\u7eed\u5e26\u6765\u66f4\u591a\uff0c\u8c22\u8c22\u652f\u6301",
+            "title": "4. \u5bf9\u6bd4\u7ed3\u679c"
+        },
+        {
+            "location": "/1.4/",
+            "text": "\u4f7f\u7528expdp/impdp\u8fdb\u884c\u8fc1\u79fb\n\n\n\u8fd9\u671f\u5185\u5bb9\u4e3a\u4f7f\u7528expdp/impdp\u8fdb\u884c\u8fc1\u79fb\u7684\u4e00\u822c\u6b65\u9aa4\n\n\n\u5206\u4e3a\u5982\u4e0b\u4e94\u4e2a\u90e8\u5206:\n\n\n\n\n\u6e90\u5e93\u73af\u5883\u786e\u8ba4\n\n\n\u76ee\u6807\u7aef\u64cd\u4f5c\n\n\n\u6e90\u5e93\u7aef\u5bfc\u51fa\u6570\u636e\n\n\n\u76ee\u6807\u7aef\u5bfc\u5165\u6570\u636e\n\n\n\u4e8b\u540e\u68c0\u67e5\n\n\n\n\n1.\u6e90\u5e93\u73af\u5883\u786e\u8ba4\n\n\n1.1 \u67e5\u770b\u6570\u636e\u5e93\u7528\u6237\n\n\nSQL>select * from dba_users;\n\n\n\n\n\n\n1.2 \u67e5\u770b\u6570\u636e\u5e93\u89d2\u8272\n\n\nSQL>select * from dba_roles;\n\n\n\n\n\n\n1.3 \u67e5\u770b\u6570\u636e\u5e93\u8868\u7a7a\u95f4\n\n\nSQL>select * from  dba_tablespaces;\n\n\n\n\n\n\n1.4 \u67e5\u770b\u7269\u5316\u89c6\u56fe\n\n\nSQL>select * from dba_mviews;\n\n\n\n\n\n\n1.5 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u65e5\u5fd7\n\n\nSQL>select * from dba_mview_logs;\n\n\n\n\n\n\n1.6 \u67e5\u770bjob\u53cascheduler\n\n\nSQL>select * from dba_jobs;\nSQL>select * from dba_scheduler_jobs;\n\n\n\n\n\n\n1.7 \u67e5\u770bdblink\n\n\nSQL>select * from dba_db_links;\n\n\n\n\n\n\n1.8 \u67e5\u770b\u5176\u4ed6\u6570\u636e\u5e93\u6709\u65e0\u5173\u8054\n\n\n\u8fd9\u91cc\u67e5\u770b\u73af\u5883\u4e2d\u5176\u4ed6\u6570\u636e\u5e93\u7684dblink\u662f\u5426\u548c\u8be5\u6570\u636e\u5e93\u6709\u5173\u8054\n\n\n2. \u76ee\u6807\u7aef\u64cd\u4f5c\n\n\n2.1 \u5efa\u7acb\u8868\u7a7a\u95f4\n\n\nSQL>CREATE SMALLFILE TABLESPACE \"EMAPTBS\" DATAFILE  SIZE 25G LOGGING EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;\n\nSQL>ALTER TABLESPACE \"EMAPTBS\" ADD DATAFILE  SIZE 25G;\n\n\n\n\n\u5177\u4f53\u67e5\u770b:\n\n\u8868\u7a7a\u95f4\u7684\u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4\n\n\n2.2 \u5efa\u7acb\u89d2\u8272\n\n\n\u6ca1\u6709\u9700\u8981\u5efa\u7acb\u7684\u89d2\u8272\n\n\n2.3 \u5efa\u7acb\u7528\u6237\u548c\u6743\u9650\n\n\nSQL>create user emap identified by emap default tablespace emaptbs ;\nSQL>create user emaptest identified by emaptest default tablespace emaptbs;\n\nSQL>grant connect,resource to emap;\nSQL>grant connect,resource to emaptest;\n\nSQL>grant select on v_$session to emap;\nSQL>grant select on v_$session to emaptest;\n\nSQL>grant unlimited tablespace to emap;\nSQL>grant unlimited tablespace to emaptest;\n\n\n\n\n2.4 \u5efa\u7acbdblink(\u53ea\u9700\u5efa\u7acbpublic\u7528\u6237\u7684)\n\n\ncreate public database link MESASSY\nconnect to username IDENTIFIED BY password\nusing '(description=(address=(protocol=TCP)\n(host=10.65.1.113)(port=1521))(connect_data=(SERVICE_NAME = MESASSY)))';\n\n\n\n\n3. \u6e90\u5e93\u7aef\u5bfc\u51fa\u6570\u636e\n\n\n\u8fd9\u91cc\u4f7f\u7528sys\u8d26\u53f7\u8fdb\u884c\n\n\n3.1 \u67e5\u770b\u6570\u636e\u5e93\u76ee\u5f55\u4fe1\u606f\n\n\nSQL>select * from dba_directories;\n\n\n\n\n3.2 \u5efa\u7acb\u65b0\u7684\u76ee\u5f55\u7528\u4e8e\u5b58\u653e\u5bfc\u51fa\u6587\u4ef6\n\n\nSQL>CREATE OR REPLACE DIRECTORY dump_dir AS '/oradata/dump';\n\n\n\n\n3.3 \u5bfc\u51faemap/emaptest\u7528\u6237\u6570\u636e\n\n\n\u5bfc\u51fa\u524d\u9501\u5b9aemap/emaptest\u8d26\u53f7\n\n\nSQL>alter user emap acccount lock;\nSQL>alter user emaptest account lock;\n\n\n\n\n\u6ce8\u610foracle 11.2.0.1 \u4e4b\u540e\u7a7a\u8868\u5982\u6ca1\u6709\u6570\u636e\u5219\u4f1a\u4e0d\u5bfc\u51fa \n\n\n\u8bf7\u4e8b\u5148\u627e\u51fa\u8fd9\u4e9b\u8868\n\n\n\u65b0\u5efaparfile:expdp_emap.txt\n\n\nuserid='sys/ase_sys_1 as sysdba'\njob_name=job_emp_emptest_exp\ndirectory=dump_dir\nfilesize=15G\ndumpfile=expdp_emap_%U.dmp\nlogfile=emp_emptest_expdp.log\nschemas=emap,emaptest\nparallel=4\ncontent=all\n\n\n\n\n3.4 \u5bfc\u51fa\u6570\u636e\n\n\nexpdp parfile=expdp_emap.txt\n\n\n\n\n4. \u76ee\u6807\u7aef\u5bfc\u5165\u6570\u636e\n\n\n4.1 \u67e5\u770b\u6570\u636e\u5e93\u76ee\u5f55\u4fe1\u606f\n\n\nSQL>select * from dba_directories\n\n\n\n\n4.2 \u5efa\u7acb\u65b0\u7684\u76ee\u5f55\u7528\u4e8e\u5b58\u653e\u5bfc\u51fa\u6587\u4ef6\n\n\nSQL>CREATE OR REPLACE DIRECTORY dump_dir AS '/oradata/dump/';\n\n\n\n\n4.3 \u62f7\u8d1dexpdp\u6587\u4ef6\u81f3\u8be5\u76ee\u5f55\n\n\nscp expdp_emp_0* oracle@10.65.202.201:/oradata/dump/\n\n\n\n\n4.4 \u5bfc\u5165emap/emaptest\u7528\u6237\u6570\u636e\n\n\n\u65b0\u5efaparfile:impdp_emap.txt\n\n\nuserid='sys/ase_password as sysdba'\njob_name=job_emp_emptest_imp\ndirectory=dump_dir\ndumpfile=expdp_emap_%U.dmp\nlogfile=emp_emptest_impdp.log\nschemas=emap,emaptest\nparallel=4\ncontent=all\n\n\n\n\n\u5bfc\u5165\u6570\u636e\n\n\nimpdp parfile=exp_emap.txt\n\n\n\n\n5. \u4e8b\u540e\u68c0\u67e5\n\n\n5.1 \u68c0\u67e5\u5bf9\u8c61\u662f\u5426\u8fc1\u79fb\u5b8c\u6210\n\n\n\u53c2\u89c1Python\u811a\u672c\n\n\nPython\u7a0b\u5e8f\u6570\u636e\u5e93\u8fc1\u79fb\u6bd4\u5bf9\u5c0f\u5de5\u5177\n\n\n5.2 \u68c0\u67e5\u5bf9\u8c61\u662f\u5426\u5931\u6548\n\n\n\n\n\n\n\u68c0\u67e5\u5982\u4e0b\u5bf9\u8c61\u662f\u5426\u5931\u6548\n\n\n\n\n\n\n\u7269\u5316\u89c6\u56fe \n\n\n\n\n\n\nJob\u53cascheduler\n\n\n\n\n\n\nProcedure\n\n\n\n\n\n\nPackage\u7b49\u7b49\n\n\n\n\n\n\n5.2 \u65b0\u73af\u5883\u53c2\u6570\u68c0\u67e5\n\n\n\u68c0\u67e5\u5982\u4e0b\u53c2\u6570\u662f\u5426\u548c\u6e90\u5e93\u4e00\u81f4\u6216\u8bbe\u7f6e\u5408\u7406(\u4e0d\u4fdd\u8bc1\u5168\u9762)\n\n\n\n\n\n\nsga \n\n\n\n\n\n\npga \n\n\n\n\n\n\nPROCESSES \n\n\n\n\n\n\nSESSIONS \n\n\n\n\n\n\ncase_sensitive \n\n\n\n\n\n\ndeffer_creation_segement \n\n\n\n\n\n\nopen_cursor \n\n\n\n\n\n\njob_queue_processes",
+            "title": "4.\u4f7f\u7528expdp/impdp\u8fdb\u884c\u8fc1\u79fb"
+        },
+        {
+            "location": "/1.4/#expdpimpdp",
+            "text": "\u8fd9\u671f\u5185\u5bb9\u4e3a\u4f7f\u7528expdp/impdp\u8fdb\u884c\u8fc1\u79fb\u7684\u4e00\u822c\u6b65\u9aa4  \u5206\u4e3a\u5982\u4e0b\u4e94\u4e2a\u90e8\u5206:   \u6e90\u5e93\u73af\u5883\u786e\u8ba4  \u76ee\u6807\u7aef\u64cd\u4f5c  \u6e90\u5e93\u7aef\u5bfc\u51fa\u6570\u636e  \u76ee\u6807\u7aef\u5bfc\u5165\u6570\u636e  \u4e8b\u540e\u68c0\u67e5",
+            "title": "\u4f7f\u7528expdp/impdp\u8fdb\u884c\u8fc1\u79fb"
+        },
+        {
+            "location": "/1.4/#1",
+            "text": "1.1 \u67e5\u770b\u6570\u636e\u5e93\u7528\u6237  SQL>select * from dba_users;   1.2 \u67e5\u770b\u6570\u636e\u5e93\u89d2\u8272  SQL>select * from dba_roles;   1.3 \u67e5\u770b\u6570\u636e\u5e93\u8868\u7a7a\u95f4  SQL>select * from  dba_tablespaces;   1.4 \u67e5\u770b\u7269\u5316\u89c6\u56fe  SQL>select * from dba_mviews;   1.5 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u65e5\u5fd7  SQL>select * from dba_mview_logs;   1.6 \u67e5\u770bjob\u53cascheduler  SQL>select * from dba_jobs;\nSQL>select * from dba_scheduler_jobs;   1.7 \u67e5\u770bdblink  SQL>select * from dba_db_links;   1.8 \u67e5\u770b\u5176\u4ed6\u6570\u636e\u5e93\u6709\u65e0\u5173\u8054  \u8fd9\u91cc\u67e5\u770b\u73af\u5883\u4e2d\u5176\u4ed6\u6570\u636e\u5e93\u7684dblink\u662f\u5426\u548c\u8be5\u6570\u636e\u5e93\u6709\u5173\u8054",
+            "title": "1.\u6e90\u5e93\u73af\u5883\u786e\u8ba4"
+        },
+        {
+            "location": "/1.4/#2",
+            "text": "2.1 \u5efa\u7acb\u8868\u7a7a\u95f4  SQL>CREATE SMALLFILE TABLESPACE \"EMAPTBS\" DATAFILE  SIZE 25G LOGGING EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;\n\nSQL>ALTER TABLESPACE \"EMAPTBS\" ADD DATAFILE  SIZE 25G;  \u5177\u4f53\u67e5\u770b: \u8868\u7a7a\u95f4\u7684\u65e5\u5e38\u8fd0\u7ef4\u547d\u4ee4  2.2 \u5efa\u7acb\u89d2\u8272  \u6ca1\u6709\u9700\u8981\u5efa\u7acb\u7684\u89d2\u8272  2.3 \u5efa\u7acb\u7528\u6237\u548c\u6743\u9650  SQL>create user emap identified by emap default tablespace emaptbs ;\nSQL>create user emaptest identified by emaptest default tablespace emaptbs;\n\nSQL>grant connect,resource to emap;\nSQL>grant connect,resource to emaptest;\n\nSQL>grant select on v_$session to emap;\nSQL>grant select on v_$session to emaptest;\n\nSQL>grant unlimited tablespace to emap;\nSQL>grant unlimited tablespace to emaptest;  2.4 \u5efa\u7acbdblink(\u53ea\u9700\u5efa\u7acbpublic\u7528\u6237\u7684)  create public database link MESASSY\nconnect to username IDENTIFIED BY password\nusing '(description=(address=(protocol=TCP)\n(host=10.65.1.113)(port=1521))(connect_data=(SERVICE_NAME = MESASSY)))';",
+            "title": "2. \u76ee\u6807\u7aef\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.4/#3",
+            "text": "\u8fd9\u91cc\u4f7f\u7528sys\u8d26\u53f7\u8fdb\u884c  3.1 \u67e5\u770b\u6570\u636e\u5e93\u76ee\u5f55\u4fe1\u606f  SQL>select * from dba_directories;  3.2 \u5efa\u7acb\u65b0\u7684\u76ee\u5f55\u7528\u4e8e\u5b58\u653e\u5bfc\u51fa\u6587\u4ef6  SQL>CREATE OR REPLACE DIRECTORY dump_dir AS '/oradata/dump';  3.3 \u5bfc\u51faemap/emaptest\u7528\u6237\u6570\u636e  \u5bfc\u51fa\u524d\u9501\u5b9aemap/emaptest\u8d26\u53f7  SQL>alter user emap acccount lock;\nSQL>alter user emaptest account lock;  \u6ce8\u610foracle 11.2.0.1 \u4e4b\u540e\u7a7a\u8868\u5982\u6ca1\u6709\u6570\u636e\u5219\u4f1a\u4e0d\u5bfc\u51fa   \u8bf7\u4e8b\u5148\u627e\u51fa\u8fd9\u4e9b\u8868  \u65b0\u5efaparfile:expdp_emap.txt  userid='sys/ase_sys_1 as sysdba'\njob_name=job_emp_emptest_exp\ndirectory=dump_dir\nfilesize=15G\ndumpfile=expdp_emap_%U.dmp\nlogfile=emp_emptest_expdp.log\nschemas=emap,emaptest\nparallel=4\ncontent=all  3.4 \u5bfc\u51fa\u6570\u636e  expdp parfile=expdp_emap.txt",
+            "title": "3. \u6e90\u5e93\u7aef\u5bfc\u51fa\u6570\u636e"
+        },
+        {
+            "location": "/1.4/#4",
+            "text": "4.1 \u67e5\u770b\u6570\u636e\u5e93\u76ee\u5f55\u4fe1\u606f  SQL>select * from dba_directories  4.2 \u5efa\u7acb\u65b0\u7684\u76ee\u5f55\u7528\u4e8e\u5b58\u653e\u5bfc\u51fa\u6587\u4ef6  SQL>CREATE OR REPLACE DIRECTORY dump_dir AS '/oradata/dump/';  4.3 \u62f7\u8d1dexpdp\u6587\u4ef6\u81f3\u8be5\u76ee\u5f55  scp expdp_emp_0* oracle@10.65.202.201:/oradata/dump/  4.4 \u5bfc\u5165emap/emaptest\u7528\u6237\u6570\u636e  \u65b0\u5efaparfile:impdp_emap.txt  userid='sys/ase_password as sysdba'\njob_name=job_emp_emptest_imp\ndirectory=dump_dir\ndumpfile=expdp_emap_%U.dmp\nlogfile=emp_emptest_impdp.log\nschemas=emap,emaptest\nparallel=4\ncontent=all  \u5bfc\u5165\u6570\u636e  impdp parfile=exp_emap.txt",
+            "title": "4. \u76ee\u6807\u7aef\u5bfc\u5165\u6570\u636e"
+        },
+        {
+            "location": "/1.4/#5",
+            "text": "5.1 \u68c0\u67e5\u5bf9\u8c61\u662f\u5426\u8fc1\u79fb\u5b8c\u6210  \u53c2\u89c1Python\u811a\u672c  Python\u7a0b\u5e8f\u6570\u636e\u5e93\u8fc1\u79fb\u6bd4\u5bf9\u5c0f\u5de5\u5177  5.2 \u68c0\u67e5\u5bf9\u8c61\u662f\u5426\u5931\u6548    \u68c0\u67e5\u5982\u4e0b\u5bf9\u8c61\u662f\u5426\u5931\u6548    \u7269\u5316\u89c6\u56fe     Job\u53cascheduler    Procedure    Package\u7b49\u7b49    5.2 \u65b0\u73af\u5883\u53c2\u6570\u68c0\u67e5  \u68c0\u67e5\u5982\u4e0b\u53c2\u6570\u662f\u5426\u548c\u6e90\u5e93\u4e00\u81f4\u6216\u8bbe\u7f6e\u5408\u7406(\u4e0d\u4fdd\u8bc1\u5168\u9762)    sga     pga     PROCESSES     SESSIONS     case_sensitive     deffer_creation_segement     open_cursor     job_queue_processes",
+            "title": "5. \u4e8b\u540e\u68c0\u67e5"
+        },
+        {
+            "location": "/1.5/",
+            "text": "Oracle DBLink\u76f8\u5173\u5185\u5bb9\n\n\n\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~\n\n\n1. \u67e5\u770bDB Link\u7684\u72b6\u6001\n\n\nselect * from dba_db_links;\n\n\n\n\n\n\n2. \u83b7\u53d6DBlink \u5b9a\u4e49\u8bed\u53e5\n\n\nSQL>select dbms_metadata.get_ddl('DB_LINK' ,'MESASSY', 'PUBLIC') from sys.dual\n\nSQL>select dbms_metadata.get_ddl('DB_LINK' ,'MESASSY', 'AQASSYREPADMI') from sys.dual\n\n\n\n\n\n\n3. \u65b0\u5efaDBlink\n\n\nsys\u7528\u6237\u6267\u884c\n\n\n\u5982\u4e0d\u662f\u5efa\u7acb\u5171\u7528\u7684db link \u8bf7\u53bb\u6389public\u5173\u952e\u5b57\n\n\n\n\n\n\n\u5982\u5efa\u7acbPublic db link\uff0c\u5219\u8be5db link\u5c5e\u4e8esys\u7528\u6237\n\n\n\n\n\n\n\u5982\u5efa\u7acb\u975epublic\uff0c\u5219\u8be5db link\u5c5e\u4e8e\u5efa\u7acb\u7684\u7528\u6237\uff0c\u5bfc\u51fa(exp/expdp)\u65f6\u4f1a\u5bfc\u51fa\n\n\n\n\n\n\n3.1 \u4e0d\u4f7f\u7528\u672c\u5730\u670d\u52a1\u540d:\n\n\ncreate public database link MESCP\nconnect to XXXX  IDENTIFIED BY XXXX\nusing '(description=(address=(protocol=TCP)\n(host=10.65.1.87)(port=1522))(connect_data=(SERVICE_NAME = MESCP)))';\n\n\n\n\n3.2 \u4f7f\u7528\u672c\u5730\u670d\u52a1\u540d:\n\n\ncreate public database link MESCP\nconnect to XXXX IDENTIFIED BY XXXX\nusing mescp;\n\n\n\n\n4. \u5220\u9664DB Link\uff1a\n\n\ndrop public database link dblinkname;",
+            "title": "5.Oracle DBLink\u76f8\u5173\u5185\u5bb9"
+        },
+        {
+            "location": "/1.5/#oracle-dblink",
+            "text": "\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~",
+            "title": "Oracle DBLink\u76f8\u5173\u5185\u5bb9"
+        },
+        {
+            "location": "/1.5/#1-db-link",
+            "text": "select * from dba_db_links;",
+            "title": "1. \u67e5\u770bDB Link\u7684\u72b6\u6001"
+        },
+        {
+            "location": "/1.5/#2-dblink",
+            "text": "SQL>select dbms_metadata.get_ddl('DB_LINK' ,'MESASSY', 'PUBLIC') from sys.dual\n\nSQL>select dbms_metadata.get_ddl('DB_LINK' ,'MESASSY', 'AQASSYREPADMI') from sys.dual",
+            "title": "2. \u83b7\u53d6DBlink \u5b9a\u4e49\u8bed\u53e5"
+        },
+        {
+            "location": "/1.5/#3-dblink",
+            "text": "sys\u7528\u6237\u6267\u884c  \u5982\u4e0d\u662f\u5efa\u7acb\u5171\u7528\u7684db link \u8bf7\u53bb\u6389public\u5173\u952e\u5b57    \u5982\u5efa\u7acbPublic db link\uff0c\u5219\u8be5db link\u5c5e\u4e8esys\u7528\u6237    \u5982\u5efa\u7acb\u975epublic\uff0c\u5219\u8be5db link\u5c5e\u4e8e\u5efa\u7acb\u7684\u7528\u6237\uff0c\u5bfc\u51fa(exp/expdp)\u65f6\u4f1a\u5bfc\u51fa    3.1 \u4e0d\u4f7f\u7528\u672c\u5730\u670d\u52a1\u540d:  create public database link MESCP\nconnect to XXXX  IDENTIFIED BY XXXX\nusing '(description=(address=(protocol=TCP)\n(host=10.65.1.87)(port=1522))(connect_data=(SERVICE_NAME = MESCP)))';  3.2 \u4f7f\u7528\u672c\u5730\u670d\u52a1\u540d:  create public database link MESCP\nconnect to XXXX IDENTIFIED BY XXXX\nusing mescp;",
+            "title": "3. \u65b0\u5efaDBlink"
+        },
+        {
+            "location": "/1.5/#4-db-link",
+            "text": "drop public database link dblinkname;",
+            "title": "4. \u5220\u9664DB Link\uff1a"
+        },
+        {
+            "location": "/1.6/",
+            "text": "Oracle Job\u5e38\u7528\u64cd\u4f5c\n\n\n\u539f\u521b 2017-10-10 Oracle \u5b85\u5fc5\u5907\n\n\n\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~\n\n\n1. \u624b\u52a8\u8fd0\u884cJob\n\n\n\u62ec\u53f7\u4e2d\u4e3ajob\u53f7\n\n\n1.1 \u4f7f\u7528sys\u7528\u6237\u8fd0\u884c\n\n\nexec dbms_ijob.run(4)\n\n\n\n\n1.2 \u4f7f\u7528\u672c\u8eab\u7528\u6237\u8fd0\u884c\n\n\nexec dbms_job.run(4)\n\n\n\n\n2. \u5220\u9664Job\n\n\nexec dbms_ijob.remove(862)\ncommit;\n\n\n\n\n3. \u505c\u6b62&\u5f00\u542fjob\n\n\nEXEC DBMS_IJOB.BROKEN(1591,TRUE);\nCOMMIT;\nEXEC DBMS_IJOB.BROKEN(552,FALSE);\nCOMMIT;\n\n\n\n\n4. \u8bbe\u7f6eJob\u53ef\u540c\u65f6\u8fd0\u884c\u6570\u91cf\n\n\n\u8bbe\u7f6e\u4e3a0\u8868\u793a\u7981\u6b62job\u8fd0\u884c\n\n\nALTER SYSTEM SET job_queue_processes =20;\n\n\n\n\n5. \u5efa\u7acbJob\n\n\n5.1 \u6bcf\u4e94\u5206\u949f\u8fd0\u884c\u4e00\u6b21\n\n\ndeclare test_job_really number ;\nbegin\ndbms_job.submit(test_job_really, 'dcprod_queue_job;',sysdate ,'sysdate+5/1440');\ncommit;\nend;\n\n\n\n\n5.2 \u6bcf\u5468\u65e520\u70b9\u6267\u884c(\u7acb\u5373\u6267\u884c\u4e00\u6b21)\n\n\ndeclare test_job_really number ;\nbegin\ndbms_job.submit(job=>test_job_really,\nwhat=>'PKG_BONUS_JOB.EXECUTE_WEEKLY;',\nnext_date=>sysdate ,\nInterval => 'NEXT_DAY(TRUNC(SYSDATE), 1)+20/24'\n);\ncommit;\nend;\n\n\n\n\n5.3 \u6bcf\u5468\u65e54\u70b9\u6267\u884c(\u4e0d\u7acb\u5373\u6267\u884c)\n\n\ndeclare job number;\nbegin\nsys.dbms_job.submit(job,'PKG_NME_BONUS.AutoRunData;',\nto_date('25-06-2017 04:00:00', 'dd-mm-yyyy hh24:mi:ss'),\n'TRUNC(next_day(sysdate,1))+4/24');\ncommit;\nend;\n\n\n\n\n5.4 \u6bcf\u5929\u4e03\u70b9\u8fd0\u884c\n\n\ndeclare test_job_really number ;\nbegin\ndbms_job.submit(job=>test_job_really,\nwhat=>'dcb2b.P_SAPAccount_SendMail;',\nnext_date=>to_date('18-04-2017 07:00:00','dd-mm-yyyy hh24:mi:ss'),\nInterval => 'TRUNC(sysdate) + 1 +7/24'\n);\ncommit;\nend;\n\n\n\n\n5.5 \u6bcf\u4e09\u4e2a\u6708\u7684\u7684\u4e00\u53f7(\u4ece\u5f53\u524d\u6708\u4efd\u7b97\u8d77)\n\n\ndeclare test_job_really number ;\nbegin\ndbms_job.submit(job=>test_job_really,\nwhat=>'P_EXT_SendMail;',\nnext_date=>sysdate,\nInterval => 'ADD_MONTHS(TRUNC(SYSDATE ,''MM''),3)'\n);\ncommit;\nend;\n\n\n\n\n6. \u66f4\u6539Job\u6267\u884c\u9891\u7387\n\n\n\u66f4\u6539\u81f3\u4e0b\u4e00\u4e2a\u5c0f\u65f6\n\n\nBEGIN\nDBMS_JOB.CHANGE(289,null,null,'TRUNC(SYSDATE,''HH24'') +1/24');\nEND;",
+            "title": "6.Oracle Job\u5e38\u7528\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.6/#oracle-job",
+            "text": "\u539f\u521b 2017-10-10 Oracle \u5b85\u5fc5\u5907  \u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~",
+            "title": "Oracle Job\u5e38\u7528\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.6/#1-job",
+            "text": "\u62ec\u53f7\u4e2d\u4e3ajob\u53f7  1.1 \u4f7f\u7528sys\u7528\u6237\u8fd0\u884c  exec dbms_ijob.run(4)  1.2 \u4f7f\u7528\u672c\u8eab\u7528\u6237\u8fd0\u884c  exec dbms_job.run(4)",
+            "title": "1. \u624b\u52a8\u8fd0\u884cJob"
+        },
+        {
+            "location": "/1.6/#2-job",
+            "text": "exec dbms_ijob.remove(862)\ncommit;",
+            "title": "2. \u5220\u9664Job"
+        },
+        {
+            "location": "/1.6/#3-job",
+            "text": "EXEC DBMS_IJOB.BROKEN(1591,TRUE);\nCOMMIT;\nEXEC DBMS_IJOB.BROKEN(552,FALSE);\nCOMMIT;",
+            "title": "3. \u505c\u6b62&amp;\u5f00\u542fjob"
+        },
+        {
+            "location": "/1.6/#4-job",
+            "text": "\u8bbe\u7f6e\u4e3a0\u8868\u793a\u7981\u6b62job\u8fd0\u884c  ALTER SYSTEM SET job_queue_processes =20;",
+            "title": "4. \u8bbe\u7f6eJob\u53ef\u540c\u65f6\u8fd0\u884c\u6570\u91cf"
+        },
+        {
+            "location": "/1.6/#5-job",
+            "text": "5.1 \u6bcf\u4e94\u5206\u949f\u8fd0\u884c\u4e00\u6b21  declare test_job_really number ;\nbegin\ndbms_job.submit(test_job_really, 'dcprod_queue_job;',sysdate ,'sysdate+5/1440');\ncommit;\nend;  5.2 \u6bcf\u5468\u65e520\u70b9\u6267\u884c(\u7acb\u5373\u6267\u884c\u4e00\u6b21)  declare test_job_really number ;\nbegin\ndbms_job.submit(job=>test_job_really,\nwhat=>'PKG_BONUS_JOB.EXECUTE_WEEKLY;',\nnext_date=>sysdate ,\nInterval => 'NEXT_DAY(TRUNC(SYSDATE), 1)+20/24'\n);\ncommit;\nend;  5.3 \u6bcf\u5468\u65e54\u70b9\u6267\u884c(\u4e0d\u7acb\u5373\u6267\u884c)  declare job number;\nbegin\nsys.dbms_job.submit(job,'PKG_NME_BONUS.AutoRunData;',\nto_date('25-06-2017 04:00:00', 'dd-mm-yyyy hh24:mi:ss'),\n'TRUNC(next_day(sysdate,1))+4/24');\ncommit;\nend;  5.4 \u6bcf\u5929\u4e03\u70b9\u8fd0\u884c  declare test_job_really number ;\nbegin\ndbms_job.submit(job=>test_job_really,\nwhat=>'dcb2b.P_SAPAccount_SendMail;',\nnext_date=>to_date('18-04-2017 07:00:00','dd-mm-yyyy hh24:mi:ss'),\nInterval => 'TRUNC(sysdate) + 1 +7/24'\n);\ncommit;\nend;  5.5 \u6bcf\u4e09\u4e2a\u6708\u7684\u7684\u4e00\u53f7(\u4ece\u5f53\u524d\u6708\u4efd\u7b97\u8d77)  declare test_job_really number ;\nbegin\ndbms_job.submit(job=>test_job_really,\nwhat=>'P_EXT_SendMail;',\nnext_date=>sysdate,\nInterval => 'ADD_MONTHS(TRUNC(SYSDATE ,''MM''),3)'\n);\ncommit;\nend;",
+            "title": "5. \u5efa\u7acbJob"
+        },
+        {
+            "location": "/1.6/#6-job",
+            "text": "\u66f4\u6539\u81f3\u4e0b\u4e00\u4e2a\u5c0f\u65f6  BEGIN\nDBMS_JOB.CHANGE(289,null,null,'TRUNC(SYSDATE,''HH24'') +1/24');\nEND;",
+            "title": "6. \u66f4\u6539Job\u6267\u884c\u9891\u7387"
+        },
+        {
+            "location": "/1.7/",
+            "text": "\u4e0e\u7cfb\u7edf\u8fdb\u7a0b\u76f8\u5173\u7684\u4e00\u4e9b\u547d\u4ee4\n\n\n\u539f\u521b 2017-11-02 Oracle \u5b85\u5fc5\u5907\n\n\n\u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~\n\n\n1. \u901a\u8fc7\u4f1a\u8bddSID\u67e5\u770b\u64cd\u4f5c\u7cfb\u7edf\u8fdb\u7a0b\u53f7\n\n\n select  b.spid from v$session a,v$process b where a.PADDR=b.addr and a.SID='520';\n\n\n\n\n2. \u6839\u636e\u64cd\u4f5c\u7cfb\u7edf\u8fdb\u7a0b\u53f7\u67e5\u770b\u4f1a\u8bddSID\n\n\nselect  a.sid,a.SERIAL# from v$session a,v$process b where a.PADDR=b.addr and b.spid='16343';\n\n\n\n\n3. \u6839\u636e\u8fdb\u7a0b\u53f7\u67e5\u770b\u4f1a\u8bdd\u53caSQL\u4fe1\u606f\n\n\n\u8981\u6c42\u8fdb\u7a0b\u5904\u4e8eACTIVE\u72b6\u6001\n\n\nselect a.spid,b.sid,c.hash_value,substr(c.sql_text, 0, 40),b.logon_time,b.program from v$process a, v$session b, V$SQL c\n\nwhere a.addr = b.paddr and b.sql_hash_value = c.hash_value and a.spid ='';\n\n\n\n\n4. \u6784\u9020\u8bed\u53e5kill\u8fdb\u7a0b\n\n\nselect 'kill -9 ' || b.spid from v$session a,v$process b\n\nwhere a.PADDR=b.addr and a.SID in (520)",
+            "title": "7.\u4e0e\u7cfb\u7edf\u8fdb\u7a0b\u76f8\u5173\u7684\u4e00\u4e9b\u547d\u4ee4"
+        },
+        {
+            "location": "/1.7/#_1",
+            "text": "\u539f\u521b 2017-11-02 Oracle \u5b85\u5fc5\u5907  \u8fd9\u4e2a\u4e13\u9898\u4e3b\u8981\u662f\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u4e2d\u9700\u8981\u7528\u5230\u7684\u547d\u4ee4\uff0c\u4e0d\u5b9a\u671f\u66f4\u65b0~~",
+            "title": "\u4e0e\u7cfb\u7edf\u8fdb\u7a0b\u76f8\u5173\u7684\u4e00\u4e9b\u547d\u4ee4"
+        },
+        {
+            "location": "/1.7/#1-sid",
+            "text": "select  b.spid from v$session a,v$process b where a.PADDR=b.addr and a.SID='520';",
+            "title": "1. \u901a\u8fc7\u4f1a\u8bddSID\u67e5\u770b\u64cd\u4f5c\u7cfb\u7edf\u8fdb\u7a0b\u53f7"
+        },
+        {
+            "location": "/1.7/#2-sid",
+            "text": "select  a.sid,a.SERIAL# from v$session a,v$process b where a.PADDR=b.addr and b.spid='16343';",
+            "title": "2. \u6839\u636e\u64cd\u4f5c\u7cfb\u7edf\u8fdb\u7a0b\u53f7\u67e5\u770b\u4f1a\u8bddSID"
+        },
+        {
+            "location": "/1.7/#3-sql",
+            "text": "\u8981\u6c42\u8fdb\u7a0b\u5904\u4e8eACTIVE\u72b6\u6001  select a.spid,b.sid,c.hash_value,substr(c.sql_text, 0, 40),b.logon_time,b.program from v$process a, v$session b, V$SQL c\n\nwhere a.addr = b.paddr and b.sql_hash_value = c.hash_value and a.spid ='';",
+            "title": "3. \u6839\u636e\u8fdb\u7a0b\u53f7\u67e5\u770b\u4f1a\u8bdd\u53caSQL\u4fe1\u606f"
+        },
+        {
+            "location": "/1.7/#4-kill",
+            "text": "select 'kill -9 ' || b.spid from v$session a,v$process b\n\nwhere a.PADDR=b.addr and a.SID in (520)",
+            "title": "4. \u6784\u9020\u8bed\u53e5kill\u8fdb\u7a0b"
+        },
+        {
+            "location": "/1.8/",
+            "text": "\u7269\u5316\u89c6\u56fe\u76f8\u5173\u64cd\u4f5c\n\n\n\u539f\u521b 2017-11-24 Oracle \u5b85\u5fc5\u5907\n\n\n1. \u67e5\u770b\u7269\u5316\u89c6\u56fe\u76f8\u5173\u4fe1\u606f\uff1a\n\n\n1.1 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u65e5\u5fd7\n\n\n select * from dba_mview_logs ;\n\n\n\n\n1.2 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u4fe1\u606f\n\n\nSELECT *  FROM dba_MVIEWS;\n\n\n\n\n\n\n1.3 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u4e0a\u6b21\u5237\u65b0\u65f6\u95f4\n\n\nSELECT * FROM dba_MVIEW_REFRESH_TIMES;\n\n\n\n\n\n\n2. \u65b0\u5efa\u7269\u5316\u89c6\u56fe\uff1a\n\n\n2.1 \u786e\u8ba4\u4e3b\u8868\u5927\u5c0f\n\n\nselect segment_name,segment_type,bytes/1024/1024 MB  from dba_segments where lower(segment_name)='fwcatns_boatmap';\n\n\n\n\n2.2 \u786e\u8ba4\u4e3b\u8868\u662f\u5426\u5df2\u6709\u7269\u5316\u89c6\u56fe\u65e5\u5fd7\n\n\nselect * from dba_mview_logs  where lower(master)='fwcatns_pdd_rdstrip' ;\n\n\n\n\n2.3 \u786e\u8ba4\u4e3b\u8868\u7d22\u5f15\u60c5\u51b5\n\n\n\u7269\u5316\u89c6\u56fe\u4e0d\u4f1a\u81ea\u52a8\u521b\u5efa\u539f\u8868\u7d22\u5f15\uff0c\u6211\u4eec\u8fd9\u91cc\u5148\u8bb0\u5f55\u5176\u7d22\u5f15\u4fe1\u606f\n\n\n2.4 \u521b\u5efa\u7269\u5316\u89c6\u56fe\u65e5\u5fd7\uff08\u4e3b\u8868\uff09\n\n\ncreate materialized view log on SAPSR3.ZTMM0117 with rowid;\n\n\n\n\n2.5 \u521b\u5efa\u7269\u5316\u89c6\u56fe\n\n\ncreate materialized view SAPSR3.ZTMM0057\n\ntablespace sapsr3\n\nrefresh fast on demand\n\nwith rowid\n\nstart with sysdate next SYSDATE + 10/1440 \n\nenable query rewrite\n\nas\n\nselect *\n\nfrom SAPSR3.ZTMM0057@SAPPROD;\n\n\n\n\n2.5 \u521b\u5efa\u7d22\u5f15\n\n\n\u8fd9\u91cc\u521b\u5efa\u5728 2.2 \u4e2d\u83b7\u53d6\u7684\u7d22\u5f15\uff0c\u5982\u679c\u9700\u8981\u7684\u8bdd\n\n\n3. \u5220\u9664\u7269\u5316\u89c6\u56fe\uff1a\n\n\n3.1 \u5220\u9664\u4e3b\u8868\u7269\u5316\u89c6\u56fe\u65e5\u5fd7\n\n\nDROP MATERIALIZED VIEW LOG ON SAPSR3.GG_ZLX_ZHU;\n\n\n\n\n3.2 \u5220\u9664\u7269\u5316\u89c6\u56fe\n\n\nDROP MATERIALIZED VIEW SAPSR3.GG_ZLX_ZHU;\n\n\n\n\n4. \u624b\u52a8\u5237\u65b0\u7269\u5316\u89c6\u56fe\n\n\nEXEC DBMS_MVIEW.Refresh('SPCR.DDM_CUST','C');\n\nEXEC DBMS_MVIEW.Refresh('SPCR.DDM_CUST','F');\n\nexec dbms_ijob.run(4)\n\n\n\n\n5. \u91cd\u65b0\u7f16\u8bd1\u7269\u5316\u89c6\u56fe\n\n\nALTER MATERIALIZED VIEW mview_name COMPILE;\n\n\n\n\n6. \u66f4\u6539\u5237\u65b0\u65f6\u95f4\n\n\nalter materialized view sapsr3.inob refresh start with sysdate next sysdate+10/1440\n\n\n\n\n\u8be6\u7ec6\u8bf7\u70b9\u51fb\u9605\u8bfb\u539f\u6587:",
+            "title": "8.\u7269\u5316\u89c6\u56fe\u76f8\u5173\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.8/#_1",
+            "text": "\u539f\u521b 2017-11-24 Oracle \u5b85\u5fc5\u5907",
+            "title": "\u7269\u5316\u89c6\u56fe\u76f8\u5173\u64cd\u4f5c"
+        },
+        {
+            "location": "/1.8/#1",
+            "text": "",
+            "title": "1. \u67e5\u770b\u7269\u5316\u89c6\u56fe\u76f8\u5173\u4fe1\u606f\uff1a"
+        },
+        {
+            "location": "/1.8/#11",
+            "text": "select * from dba_mview_logs ;",
+            "title": "1.1 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u65e5\u5fd7"
+        },
+        {
+            "location": "/1.8/#12",
+            "text": "SELECT *  FROM dba_MVIEWS;",
+            "title": "1.2 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u4fe1\u606f"
+        },
+        {
+            "location": "/1.8/#13",
+            "text": "SELECT * FROM dba_MVIEW_REFRESH_TIMES;",
+            "title": "1.3 \u67e5\u770b\u7269\u5316\u89c6\u56fe\u4e0a\u6b21\u5237\u65b0\u65f6\u95f4"
+        },
+        {
+            "location": "/1.8/#2",
+            "text": "",
+            "title": "2. \u65b0\u5efa\u7269\u5316\u89c6\u56fe\uff1a"
+        },
+        {
+            "location": "/1.8/#21",
+            "text": "select segment_name,segment_type,bytes/1024/1024 MB  from dba_segments where lower(segment_name)='fwcatns_boatmap';",
+            "title": "2.1 \u786e\u8ba4\u4e3b\u8868\u5927\u5c0f"
+        },
+        {
+            "location": "/1.8/#22",
+            "text": "select * from dba_mview_logs  where lower(master)='fwcatns_pdd_rdstrip' ;",
+            "title": "2.2 \u786e\u8ba4\u4e3b\u8868\u662f\u5426\u5df2\u6709\u7269\u5316\u89c6\u56fe\u65e5\u5fd7"
+        },
+        {
+            "location": "/1.8/#23",
+            "text": "\u7269\u5316\u89c6\u56fe\u4e0d\u4f1a\u81ea\u52a8\u521b\u5efa\u539f\u8868\u7d22\u5f15\uff0c\u6211\u4eec\u8fd9\u91cc\u5148\u8bb0\u5f55\u5176\u7d22\u5f15\u4fe1\u606f",
+            "title": "2.3 \u786e\u8ba4\u4e3b\u8868\u7d22\u5f15\u60c5\u51b5"
+        },
+        {
+            "location": "/1.8/#24",
+            "text": "create materialized view log on SAPSR3.ZTMM0117 with rowid;",
+            "title": "2.4 \u521b\u5efa\u7269\u5316\u89c6\u56fe\u65e5\u5fd7\uff08\u4e3b\u8868\uff09"
+        },
+        {
+            "location": "/1.8/#25",
+            "text": "create materialized view SAPSR3.ZTMM0057\n\ntablespace sapsr3\n\nrefresh fast on demand\n\nwith rowid\n\nstart with sysdate next SYSDATE + 10/1440 \n\nenable query rewrite\n\nas\n\nselect *\n\nfrom SAPSR3.ZTMM0057@SAPPROD;",
+            "title": "2.5 \u521b\u5efa\u7269\u5316\u89c6\u56fe"
+        },
+        {
+            "location": "/1.8/#25_1",
+            "text": "\u8fd9\u91cc\u521b\u5efa\u5728 2.2 \u4e2d\u83b7\u53d6\u7684\u7d22\u5f15\uff0c\u5982\u679c\u9700\u8981\u7684\u8bdd",
+            "title": "2.5 \u521b\u5efa\u7d22\u5f15"
+        },
+        {
+            "location": "/1.8/#3",
+            "text": "",
+            "title": "3. \u5220\u9664\u7269\u5316\u89c6\u56fe\uff1a"
+        },
+        {
+            "location": "/1.8/#31",
+            "text": "DROP MATERIALIZED VIEW LOG ON SAPSR3.GG_ZLX_ZHU;",
+            "title": "3.1 \u5220\u9664\u4e3b\u8868\u7269\u5316\u89c6\u56fe\u65e5\u5fd7"
+        },
+        {
+            "location": "/1.8/#32",
+            "text": "DROP MATERIALIZED VIEW SAPSR3.GG_ZLX_ZHU;",
+            "title": "3.2 \u5220\u9664\u7269\u5316\u89c6\u56fe"
+        },
+        {
+            "location": "/1.8/#4",
+            "text": "EXEC DBMS_MVIEW.Refresh('SPCR.DDM_CUST','C');\n\nEXEC DBMS_MVIEW.Refresh('SPCR.DDM_CUST','F');\n\nexec dbms_ijob.run(4)",
+            "title": "4. \u624b\u52a8\u5237\u65b0\u7269\u5316\u89c6\u56fe"
+        },
+        {
+            "location": "/1.8/#5",
+            "text": "ALTER MATERIALIZED VIEW mview_name COMPILE;",
+            "title": "5. \u91cd\u65b0\u7f16\u8bd1\u7269\u5316\u89c6\u56fe"
+        },
+        {
+            "location": "/1.8/#6",
+            "text": "alter materialized view sapsr3.inob refresh start with sysdate next sysdate+10/1440  \u8be6\u7ec6\u8bf7\u70b9\u51fb\u9605\u8bfb\u539f\u6587:",
+            "title": "6. \u66f4\u6539\u5237\u65b0\u65f6\u95f4"
+        },
+        {
+            "location": "/2.1/",
+            "text": "\u8bb0\u4e00\u6b21library cache pin\u7b49\u5f85\u7684\u5904\u7406\n\n\n2017-11-01 Oracle \u5b85\u5fc5\u5907\n\n\n\u8fd9\u4e2a\u4e13\u9898\u8bb2\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u7684\u5f02\u5e38\u5904\u7406\n\n\n\u4eca\u5929\u8bb2\u4e00\u6b21library cache pin\u7b49\u5f85\u7684\u5904\u7406\n\n\n1. \u8d77\u56e0\n\n\n\u4e0a\u5468\u6211\u4eec\u865a\u62df\u5316\u5b95\u673a\u5bfc\u81f4\u4e0a\u9762\u76842\u5957\u6570\u636e\u5e93\u505c\u673a\uff0c\u800c\u8fd92\u5957\u6570\u636e\u5e93\u548c\u5176\u4ed6\u6570\u636e\u5e93\u6709\u7740\u5343\u4e1d\u4e07\u7f15\u7684\u8054\u7cfb\uff0c\u8fd9\u5c31\u5bfc\u81f4\u5f88\u591a\u8fdb\u7a0b\u5904\u4e8ehang\u7684\u72b6\u6001\uff0c\u5373\u4e00\u76f4ACTIVE\u4e14\u65e0\u6cd5\u81ea\u884c\u7ed3\u675f\u3002\n\n\n\u5728\u6570\u636e\u5e93\u6062\u590d\u540e\u53d1\u73b0\u6709\u53f0\u6570\u636e\u5e93CPU\u4e00\u76f4\u5f88\u9ad8\uff0c\u67e5\u8be2v$session_wait\u89c6\u56fe\u53d1\u73b0library cache pin \u7b49\u5f85\u4e25\u91cd\uff0c\u8fd9\u70b9\u4e5f\u53ef\u4ecestatpack\u62a5\u544a\u4e2d\u770b\u51fa\n\n\n\n\nselect sid, event, p1raw, seconds_in_wait, wait_time\n\nfrom v$session_wait where event = 'library cache pin' and state = 'WAITING';\n\n\n\n\n\n\n2. \u539f\u56e0\u67e5\u627e\n\n\nLibrary cache pins \u7528\u4e8e\u7ba1\u7406\u5e93\u7f13\u5b58\u51b2\u7a81\uff0c\u5e93\u7f13\u5b58\u4e3b\u8981\u7528\u4e8e\u5b58\u653eSQL \u6267\u884c\u8ba1\u5212\u7528\u4e8e\u91cd\u7528\uff0c\u5f53\u4e00\u4e2a\u4f1a\u8bddpin\u7684\u65f6\u5019\u9700\u8981\u9996\u5148\u6301\u6709\u8be5\u6267\u884c\u8ba1\u5212\u5730\u5740\u7684latch\uff0c\u6709NULL, SHARE (S)\u6216EXCLUSIVE(X)\u4e09\u79cd\u65b9\u5f0f\n\n\n\n\n\n\n\u4e00\u4e2aX \u8bf7\u6c42 (3) \u4f1a\u88ab\u5176\u4ed6\u4efb\u4f55\u6301\u6709 S \u6a21\u5f0f(2) \u7684\u4f1a\u8bdd\u963b\u585e\n\n\n\n\n\n\n\u4e00\u4e2a S \u8bf7\u6c42 (2) \u4f1a\u88ab\u5176\u4ed6\u4efb\u4f55\u6301\u6709X\u6a21\u5f0f (3) \u7684\u4f1a\u8bdd\u963b\u585e, \u4e5f\u4f1a\u88ab\u5176\u4ed6X\u8bf7\u6c42 (3)\u7684\u4f1a\u8bdd\u963b\u585e\n\n\n\n\n\n\n\u77e5\u9053\u4e86\u8fd9\u4e9b\u6211\u4eec\u5c31\u6765\u67e5\u8be2\u4e0b\u6709\u54ea\u4e9b\u4f1a\u8bdd\u5728\u76f8\u4e92\u963b\u585e\n\n\nSELECT s.sid, kglpnmod \"Mode\", kglpnreq \"Req\", SPID \"OS Process\"\n\nFROM v$session_wait w, x$kglpn p,v$session s ,v$process o\n\nWHERE p.kglpnuse=s.saddr\n\nAND kglpnhdl=w.p1raw\n\nand w.event like '%library cache pin%'\n\nand s.paddr=o.addr\n\norder by \"Mode\" desc,\"Req\" \n\n\n\n\n\n\n\u4ece\u4e0a\u9762\u7684\u7ed3\u679c\u6211\u4eec\u53ef\u4ee5\u770b\u51fa \u4f1a\u8bdd331 \u548c277\u6301\u6709 X(3) \u9501\uff0c\u5b83\u4eec\u963b\u585e\u4e86\u4e0b\u9762\u5176\u4ed6\u7684S(2) \u8bf7\u6c42\n\n\n3.\u95ee\u9898\u5904\u7406\n\n\n3.1 \u67e5\u627eSQL\u8bed\u53e5\n\n\n\u627e\u5230\u4e86\u6e90\u5934\u6211\u4eec\u5148\u770b\u4e0b\u8fd92\u4e2a\u4f1a\u8bdd\u5bf9\u5e94\u7684SQL\u8bed\u53e5\n\n\nselect sid,serial#, decode(sql_hash_value,0,prev_hash_value,sql_hash_value) from v$session where sid=277\n\n\n\n\n\n\n\u8fd9\u91cc\u6211\u4eec\u53ef\u4ee5\u95f4\u9694\u4e00\u6bb5\u65f6\u95f4\u540e\u67e5\u770b hash_value\u662f\u5426\u53d8\u5316\n\n\n\u6700\u540e\u6211\u4eec\u67e5\u8be2\u5176\u5bf9\u5e94\u7684\u8bed\u53e5\n\n\nselect sql_text from v$sqltext where hash_value=195271222 order by piece;\n\n\n\n\n\n\n\u6211\u8fd9\u91cc\u67e5\u8be2\u7684\u8bed\u53e5\u4e3a\u7a7a\uff0c\u8868\u793a\u53ef\u80fd\u8fd9\u4e2a\u4f1a\u8bdd\u5904\u4e8e\u5047\u6b7b\u72b6\u6001\n\n\n3.2 \u7ed3\u675f\u4f1a\u8bdd\n\n\n\u9996\u5148\u6211\u4eec\u91c7\u7528\u5e38\u89c4\u7684\u547d\u4ee4\u6765\u6740\u6b7b\u4f1a\u8bdd\n\n\nalter system kill session '277,35'\n\n\n\n\n\u53d1\u73b0\u6740\u4e0d\u6389\uff0c\u90a3\u4e48\u6211\u4eec\u91c7\u7528\u6740\u6b7b\u8fdb\u7a0b\u7684\u65b9\u5f0f\n\n\n\u9996\u5148\u627e\u5230\u8be5\u4f1a\u8bdd\u5bf9\u5e94\u7684\u8fdb\u7a0b\n\n\nselect  b.spid from v$session a,v$process b\n\nwhere a.PADDR=b.addr and a.SID='277'\n\n\n\n\nselect  b.spid from v$session a,v$process b\n\nwhere a.PADDR=b.addr and a.SID='331'\n\n\n\n\n\n\n\u63a5\u4e0b\u6765\u67e5\u8be2\u8be5\u8fdb\u7a0b\u7684\u5f00\u59cb\u65f6\u95f4\n\n\n\n\n\u53d1\u73b0\u65f6\u95f4\u4e3a10\u670824\u65e5,\u548c\u6545\u969c\u53d1\u751f\u7684\u70b9\u5951\u5408\n\n\n\u8fd9\u65f6\u6211\u4eec\u653e\u5fc3\u7684\u6740\u6b7b\u4ed6\n\n\nkill -9 25163\n\nkill -9 25396\n\n\n\n\n4. \u5904\u7406\u5b8c\u6210\n\n\n\u6740\u5b8c\u4e4b\u540e\u6211\u4eec\u5728\u67e5\u8be2\n\n\n\n\n\u53d1\u73b0\u5df2\u7ecf\u6ca1\u6709\u9501\u4e86\n\n\n\u6700\u540e\u67e5\u8be2\u7b49\u5f85\u4e8b\u4ef6\uff0c\u53d1\u73b0\u4e5f\u6ca1\u6709\u4e86library cache pin\u7b49\u5f85\n\n\n\n\n\u672c\u6587\u53c2\u8003\u81ea:\n\n\nhttp://blog.csdn.net/tianlesoftware/article/details/6638899",
+            "title": "1.\u8bb0\u4e00\u6b21library cache pin\u7b49\u5f85\u7684\u5904\u7406"
+        },
+        {
+            "location": "/2.1/#library-cache-pin",
+            "text": "2017-11-01 Oracle \u5b85\u5fc5\u5907  \u8fd9\u4e2a\u4e13\u9898\u8bb2\u4e00\u4e9b\u65e5\u5e38\u8fd0\u7ef4\u7684\u5f02\u5e38\u5904\u7406  \u4eca\u5929\u8bb2\u4e00\u6b21library cache pin\u7b49\u5f85\u7684\u5904\u7406",
+            "title": "\u8bb0\u4e00\u6b21library cache pin\u7b49\u5f85\u7684\u5904\u7406"
+        },
+        {
+            "location": "/2.1/#1",
+            "text": "\u4e0a\u5468\u6211\u4eec\u865a\u62df\u5316\u5b95\u673a\u5bfc\u81f4\u4e0a\u9762\u76842\u5957\u6570\u636e\u5e93\u505c\u673a\uff0c\u800c\u8fd92\u5957\u6570\u636e\u5e93\u548c\u5176\u4ed6\u6570\u636e\u5e93\u6709\u7740\u5343\u4e1d\u4e07\u7f15\u7684\u8054\u7cfb\uff0c\u8fd9\u5c31\u5bfc\u81f4\u5f88\u591a\u8fdb\u7a0b\u5904\u4e8ehang\u7684\u72b6\u6001\uff0c\u5373\u4e00\u76f4ACTIVE\u4e14\u65e0\u6cd5\u81ea\u884c\u7ed3\u675f\u3002  \u5728\u6570\u636e\u5e93\u6062\u590d\u540e\u53d1\u73b0\u6709\u53f0\u6570\u636e\u5e93CPU\u4e00\u76f4\u5f88\u9ad8\uff0c\u67e5\u8be2v$session_wait\u89c6\u56fe\u53d1\u73b0library cache pin \u7b49\u5f85\u4e25\u91cd\uff0c\u8fd9\u70b9\u4e5f\u53ef\u4ecestatpack\u62a5\u544a\u4e2d\u770b\u51fa   select sid, event, p1raw, seconds_in_wait, wait_time\n\nfrom v$session_wait where event = 'library cache pin' and state = 'WAITING';",
+            "title": "1. \u8d77\u56e0"
+        },
+        {
+            "location": "/2.1/#2",
+            "text": "Library cache pins \u7528\u4e8e\u7ba1\u7406\u5e93\u7f13\u5b58\u51b2\u7a81\uff0c\u5e93\u7f13\u5b58\u4e3b\u8981\u7528\u4e8e\u5b58\u653eSQL \u6267\u884c\u8ba1\u5212\u7528\u4e8e\u91cd\u7528\uff0c\u5f53\u4e00\u4e2a\u4f1a\u8bddpin\u7684\u65f6\u5019\u9700\u8981\u9996\u5148\u6301\u6709\u8be5\u6267\u884c\u8ba1\u5212\u5730\u5740\u7684latch\uff0c\u6709NULL, SHARE (S)\u6216EXCLUSIVE(X)\u4e09\u79cd\u65b9\u5f0f    \u4e00\u4e2aX \u8bf7\u6c42 (3) \u4f1a\u88ab\u5176\u4ed6\u4efb\u4f55\u6301\u6709 S \u6a21\u5f0f(2) \u7684\u4f1a\u8bdd\u963b\u585e    \u4e00\u4e2a S \u8bf7\u6c42 (2) \u4f1a\u88ab\u5176\u4ed6\u4efb\u4f55\u6301\u6709X\u6a21\u5f0f (3) \u7684\u4f1a\u8bdd\u963b\u585e, \u4e5f\u4f1a\u88ab\u5176\u4ed6X\u8bf7\u6c42 (3)\u7684\u4f1a\u8bdd\u963b\u585e    \u77e5\u9053\u4e86\u8fd9\u4e9b\u6211\u4eec\u5c31\u6765\u67e5\u8be2\u4e0b\u6709\u54ea\u4e9b\u4f1a\u8bdd\u5728\u76f8\u4e92\u963b\u585e  SELECT s.sid, kglpnmod \"Mode\", kglpnreq \"Req\", SPID \"OS Process\"\n\nFROM v$session_wait w, x$kglpn p,v$session s ,v$process o\n\nWHERE p.kglpnuse=s.saddr\n\nAND kglpnhdl=w.p1raw\n\nand w.event like '%library cache pin%'\n\nand s.paddr=o.addr\n\norder by \"Mode\" desc,\"Req\"    \u4ece\u4e0a\u9762\u7684\u7ed3\u679c\u6211\u4eec\u53ef\u4ee5\u770b\u51fa \u4f1a\u8bdd331 \u548c277\u6301\u6709 X(3) \u9501\uff0c\u5b83\u4eec\u963b\u585e\u4e86\u4e0b\u9762\u5176\u4ed6\u7684S(2) \u8bf7\u6c42",
+            "title": "2. \u539f\u56e0\u67e5\u627e"
+        },
+        {
+            "location": "/2.1/#3",
+            "text": "",
+            "title": "3.\u95ee\u9898\u5904\u7406"
+        },
+        {
+            "location": "/2.1/#31-sql",
+            "text": "\u627e\u5230\u4e86\u6e90\u5934\u6211\u4eec\u5148\u770b\u4e0b\u8fd92\u4e2a\u4f1a\u8bdd\u5bf9\u5e94\u7684SQL\u8bed\u53e5  select sid,serial#, decode(sql_hash_value,0,prev_hash_value,sql_hash_value) from v$session where sid=277   \u8fd9\u91cc\u6211\u4eec\u53ef\u4ee5\u95f4\u9694\u4e00\u6bb5\u65f6\u95f4\u540e\u67e5\u770b hash_value\u662f\u5426\u53d8\u5316  \u6700\u540e\u6211\u4eec\u67e5\u8be2\u5176\u5bf9\u5e94\u7684\u8bed\u53e5  select sql_text from v$sqltext where hash_value=195271222 order by piece;   \u6211\u8fd9\u91cc\u67e5\u8be2\u7684\u8bed\u53e5\u4e3a\u7a7a\uff0c\u8868\u793a\u53ef\u80fd\u8fd9\u4e2a\u4f1a\u8bdd\u5904\u4e8e\u5047\u6b7b\u72b6\u6001",
+            "title": "3.1 \u67e5\u627eSQL\u8bed\u53e5"
+        },
+        {
+            "location": "/2.1/#32",
+            "text": "\u9996\u5148\u6211\u4eec\u91c7\u7528\u5e38\u89c4\u7684\u547d\u4ee4\u6765\u6740\u6b7b\u4f1a\u8bdd  alter system kill session '277,35'  \u53d1\u73b0\u6740\u4e0d\u6389\uff0c\u90a3\u4e48\u6211\u4eec\u91c7\u7528\u6740\u6b7b\u8fdb\u7a0b\u7684\u65b9\u5f0f  \u9996\u5148\u627e\u5230\u8be5\u4f1a\u8bdd\u5bf9\u5e94\u7684\u8fdb\u7a0b  select  b.spid from v$session a,v$process b\n\nwhere a.PADDR=b.addr and a.SID='277'  select  b.spid from v$session a,v$process b\n\nwhere a.PADDR=b.addr and a.SID='331'   \u63a5\u4e0b\u6765\u67e5\u8be2\u8be5\u8fdb\u7a0b\u7684\u5f00\u59cb\u65f6\u95f4   \u53d1\u73b0\u65f6\u95f4\u4e3a10\u670824\u65e5,\u548c\u6545\u969c\u53d1\u751f\u7684\u70b9\u5951\u5408  \u8fd9\u65f6\u6211\u4eec\u653e\u5fc3\u7684\u6740\u6b7b\u4ed6  kill -9 25163\n\nkill -9 25396",
+            "title": "3.2 \u7ed3\u675f\u4f1a\u8bdd"
+        },
+        {
+            "location": "/2.1/#4",
+            "text": "\u6740\u5b8c\u4e4b\u540e\u6211\u4eec\u5728\u67e5\u8be2   \u53d1\u73b0\u5df2\u7ecf\u6ca1\u6709\u9501\u4e86  \u6700\u540e\u67e5\u8be2\u7b49\u5f85\u4e8b\u4ef6\uff0c\u53d1\u73b0\u4e5f\u6ca1\u6709\u4e86library cache pin\u7b49\u5f85   \u672c\u6587\u53c2\u8003\u81ea:  http://blog.csdn.net/tianlesoftware/article/details/6638899",
+            "title": "4. \u5904\u7406\u5b8c\u6210"
+        }
+    ]
+}

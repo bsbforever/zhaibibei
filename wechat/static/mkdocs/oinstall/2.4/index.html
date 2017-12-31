@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>4. RAC环境准备 - Oracle数据库安装文档-Oracle 9i安装|Oracle RAC安装</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle数据库安装文档-Oracle 9i安装|Oracle RAC安装</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 9.2.0.8安装 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Redhat 4.8的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.Redhat 4.8的配置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.Oracle软件的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.新建数据库实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 11g RAC安装 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.OPENFILER安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.OPENFILER配置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.UDEV设置</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">4. RAC环境准备</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.Grid安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.6/">6.Oracle软件安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.Oracle 实例安装</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.3/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.5/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#rac">RAC环境准备</a></li>
+        
+            <li><a href="#_1">数据库规划</a></li>
+        
+            <li><a href="#11204">数据库安装文件(11.2.0.4)</a></li>
+        
+            <li><a href="#1-hosts">1. 设置Hosts文件</a></li>
+        
+            <li><a href="#2">2. 新建用户</a></li>
+        
+            <li><a href="#3">3. 新建目录</a></li>
+        
+            <li><a href="#4">4. 设置环境变量</a></li>
+        
+            <li><a href="#5-selinux">5. 关闭防火墙以及Selinux</a></li>
+        
+            <li><a href="#6">6. 设置系统参数</a></li>
+        
+            <li><a href="#7-pam">7. 修改PAM</a></li>
+        
+            <li><a href="#8-linux">8. 设置Linux安全参数</a></li>
+        
+            <li><a href="#9ntp">9.关闭ntp服务(可选)</a></li>
+        
+            <li><a href="#10">10. 安装必要的软件包</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="rac">RAC环境准备</h1>
+<p>这个专题说的是如何搭建Oracle 11.2.0.4 RAC 环境</p>
+<h2 id="_1">数据库规划</h2>
+<p><img alt="Alt text" src="../image/2/i.png" /></p>
+<p>这一节接着上一节udev的配置，说如何将配置rac的环境，包括grid和oracle</p>
+<p>注意：我们是无需手动设定两节点间的互信的，安装程序会自动建立，将在下节介绍</p>
+<p>以下所有操作都需在两节点都操作</p>
+<h2 id="11204">数据库安装文件(11.2.0.4)</h2>
+<p>注意:redhat 6.7 不支持grid 11.2.0.1版本。</p>
+<p>下载地址:https://pan.baidu.com/s/1i5aEFYX </p>
+<p>密码:7f7d</p>
+<h2 id="1-hosts">1. 设置Hosts文件</h2>
+<p>两节点相同</p>
+<p>[root@rac1 grid]# vim /etc/hosts</p>
+<pre><code>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# RAC1
+10.65.204.210  rac1
+192.168.25.101 rac1-priv
+10.65.204.211  rac1-vip
+
+#RAC2
+10.65.204.212  rac2
+192.168.25.102 rac2-priv
+10.65.204.213  rac2-vip
+
+# RAC-SCAN
+10.65.204.214  rac-scan
+</code></pre>
+
+<h2 id="2">2. 新建用户</h2>
+<p>两节点相同</p>
+<pre><code>groupadd -g 501 oinstall
+groupadd -g 505 asmdba
+groupadd -g 502 dba
+groupadd -g 503 oper
+groupadd -g 504  asmadmin
+groupadd -g 506 asmoper
+useradd  -u 502 -g oinstall -G  asmadmin,asmdba,asmoper，dba -d /home/grid -s /bin/bash grid
+useradd  -u 501  -g oinstall -G  asmdba,dba,oper  -d /home/oracle -s /bin/bash oracle
+</code></pre>
+
+<h2 id="3">3. 新建目录</h2>
+<p>两节点相同</p>
+<pre><code>mkdir -p /u01/app/grid
+mkdir -p /u01/app/oracle
+mkdir -p /u01/app/oracle/product/11.2.0/db_1
+
+chown -R grid:oinstall /u01
+chmod -R 775 /u01
+chown -R oracle:oinstall /u01/app/oracle
+</code></pre>
+
+<h2 id="4">4. 设置环境变量</h2>
+<p><strong>RAC1节点</strong></p>
+<pre><code>[oracle@rac1 ~]$ vim ~/.bash_profile 
+
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_SID=orcl1
+export NLS_LANG=american_america.al32utf8
+export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1
+export PATH=$PATH:$ORACLE_HOME/bin
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+export ORACLE_TERM=xterm
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/lib64:/usr/lib64
+export NLS_DATE_FORMAT=&quot;YYYY-MM-DD HH24:MI:SS&quot;
+export TNS_ADMIN=$ORACLE_HOME/network/admin
+</code></pre>
+
+<p>[grid@rac1 oracle]$ vim ~/.bash_profile </p>
+<pre><code># .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+export ORACLE_BASE=/u01/app/grid
+export ORACLE_HOME=/u01/app/11.2.0/grid
+export ORACLE_SID=+ASM1
+export PATH=$PATH:$ORACLE_HOME/bin
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/lib64:/usr/lib64
+export ORACLE_TERM=xterm
+export CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+export TNS_ADMIN=$ORACLE_HOME/network/admin
+</code></pre>
+
+<p><strong>RAC2节点</strong></p>
+<p>[oracle@rac2 ~]$ vim ~/.bash_profile </p>
+<pre><code># .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_SID=orcl2
+export NLS_LANG=american_america.al32utf8
+export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1
+export PATH=$PATH:$ORACLE_HOME/bin
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+export ORACLE_TERM=xterm
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/lib64:/usr/lib64
+export NLS_DATE_FORMAT=&quot;YYYY-MM-DD HH24:MI:SS&quot;
+export TNS_ADMIN=$ORACLE_HOME/network/admin
+</code></pre>
+
+<p>[grid@rac2 ~]$ vim ~/.bash_profile </p>
+<pre><code># .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+export ORACLE_BASE=/u01/app/grid
+export ORACLE_HOME=/u01/app/11.2.0/grid
+export ORACLE_SID=+ASM2
+export PATH=$PATH:$ORACLE_HOME/bin
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/lib64:/usr/lib64
+export ORACLE_TERM=xterm
+export CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+export TNS_ADMIN=$ORACLE_HOME/network/admin
+</code></pre>
+
+<h2 id="5-selinux">5. 关闭防火墙以及Selinux</h2>
+<p>两节点相同</p>
+<p>关闭防火墙</p>
+<pre><code>service iptables stop
+chkconfig iptables off
+service ip6tables stop
+chkconfig ip6tables off
+</code></pre>
+
+<p>关闭Selinux</p>
+<p>[root@rac2 grid]# vim /etc/selinux/config </p>
+<pre><code># This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+#     targeted - Targeted processes are protected,
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+
+</code></pre>
+
+<h2 id="6">6. 设置系统参数</h2>
+<p>两节点相同</p>
+<p><strong>6.1 shmmax和shmall的设置</strong></p>
+<p>shmmax指的是单个内存段的最大值，单位为bytes</p>
+<p>shmall指的是Orale能使用的最大内存大小，单位为pages,</p>
+<p>pages大小可通过 getconf PAGE_SIZE 命令查询，一般操作系统page大小为4096bytes</p>
+<p>如操作系统内存为8G，给80%给Oracle使用，则</p>
+<p>kernel.shmmax=(8<em>0.8</em>1024 * 1024 * 1024 )=6871947673</p>
+<p>kernel.shmall=kernel.shmmax/4096=1677721</p>
+<p><strong>6.2 修改/etc/sysctl.conf文件</strong></p>
+<p>如默认大于如下数值，请不要更改</p>
+<pre><code># Controls the maximum shared segment size, in bytes
+kernel.shmmax = 68719476736
+
+# Controls the maximum number of shared memory segments, in pages
+kernel.shmall = 4294967296
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+fs.file-max = 6815744
+fs.aio-max-nr = 1048576
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 4194304
+net.ipv4.tcp_wmem = 262144 262144 262144
+net.ipv4.tcp_rmem = 4194304 4194304 4194304
+
+</code></pre>
+
+<p>修改后使其生效</p>
+<pre><code>/sbin/sysctl -p
+</code></pre>
+
+<h2 id="7-pam">7. 修改PAM</h2>
+<p>两节点相同</p>
+<p>添加如下一行</p>
+<pre><code>vim /etc/pam.d/login
+session    required     pam_limits.so
+</code></pre>
+
+<h2 id="8-linux">8. 设置Linux安全参数</h2>
+<p>两节点相同</p>
+<p>[grid@lixora01 ~]$ more /etc/security/limits.conf </p>
+<pre><code>grid soft nproc 4096
+grid hard nproc 16384
+grid soft nofile 2048
+grid hard nofile 65536
+oracle soft nproc 4096
+oracle hard nproc 16384
+oracle soft nofile 2048
+oracle hard nofile 65536
+</code></pre>
+
+<h2 id="9ntp">9.关闭ntp服务(可选)</h2>
+<p><strong>如有可用的ntp服务器，则无需此步</strong></p>
+<p>两节点相同</p>
+<pre><code>[root@rac1 udev]#/sbin/service ntpd stop
+[root@rac1 udev]#chkconfig ntpd off
+[root@rac1 udev]#mv /etc/ntp.conf /etc/ntp.conf.original
+[root@rac1 udev]#rm /var/run/ntpd.pid
+</code></pre>
+
+<h2 id="10">10. 安装必要的软件包</h2>
+<p>两节点相同</p>
+<p><strong>10.1 安装cvuqdisk包</strong></p>
+<p>该包在grid安装文件rpm目录</p>
+<pre><code>rpm -ivh cvuqdisk-1.0.7-1.rpm
+</code></pre>
+
+<p><strong>10.2 安装pdksh包</strong></p>
+<p>该包在上面的下载链接中</p>
+<pre><code>rpm -ivh pdksh-5.2.14-30.x86_64.rpm
+</code></pre>
+
+<p><strong>10.3 安装其他包</strong></p>
+<p>以下包都在Redhat 系统镜像Package内，可直接运行安装</p>
+<pre><code>rpm -ivh binutils-2.20.51.0.2-5.43.el6.x86_64.rpm
+rpm -ivh binutils-devel-2.20.51.0.2-5.43.el6.x86_64.rpm
+rpm -ivh compat-libstdc++-33-3.2.3-69.el6.x86_64.rpm
+rpm -ivh elfutils-libelf-0.161-3.el6.x86_64.rpm
+rpm -ivh glibc-2.12-1.166.el6.x86_64.rpm
+rpm -ivh glibc-common-2.12-1.166.el6.x86_64.rpm
+rpm -ivh glibc-devel-2.12-1.166.el6.x86_64.rpm
+rpm -ivh gcc-4.4.7-16.el6.x86_64.rpm
+rpm -ivh gcc-c++-4.4.7-16.el6.x86_64.rpm
+rpm -ivh libaio-0.3.107-10.el6.x86_64.rpm
+rpm -ivh libaio-devel-0.3.107-10.el6.x86_64.rpm
+rpm -ivh libgcc-4.4.7-16.el6.x86_64.rpm
+rpm -ivh libstdc++-4.4.7-16.el6.x86_64.rpm
+rpm -ivh libstdc++-devel-4.4.7-16.el6.x86_64.rpm
+rpm -ivh make-3.81-20.el6.x86_64.rpm
+rpm -ivh sysstat-9.0.4-27.el6.x86_64.rpm
+rpm -ivh unixODBC-2.2.14-14.el6.x86_64.rpm
+rpm -ivh unixODBC-devel-2.2.14-14.el6.x86_64.rpm
+rpm -ivh libcap-2.16-5.5.el6.x86_64.rpm
+rpm -ivh libcap-devel-2.16-5.5.el6.x86_64.rpm
+rpm -ivh compat-libcap1-1.10-1.x86_64.rpm
+rpm -ivh libcap-devel-2.16-5.5.el6.x86_64.rpm
+rpm -ivh libcap-ng-0.6.4-3.el6_0.1.x86_64.rpm
+rpm -ivh libcap-ng-devel-0.6.4-3.el6_0.1.x86_64.rpm
+rpm -ivh compat-libstdc++-33-3.2.3-69.el6.x86_64.rpm
+rpm -ivh ksh-20120801-28.el6.x86_64.rpm
+rpm -ivh cpp-4.4.7-16.el6.x86_64.rpm
+rpm -ivh glibc-headers-2.12-1.166.el6.x86_64.rpm
+rpm -ivh mpfr-2.4.1-6.el6.x86_64.rpm
+</code></pre>
+
+<p>到这里gird环境的搭建已经完成，下期将介绍如何搭建grid</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

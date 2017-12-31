@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>2.Redo Log的相关操作 - Oracle 日常运维命令</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle 日常运维命令</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 日常运维命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.表空间的日常运维命令</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">2.Redo Log的相关操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.数据库迁移比对小工具</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.使用expdp/impdp进行迁移</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.5/">5.Oracle DBLink相关内容</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.6/">6.Oracle Job常用操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.7/">7.与系统进程相关的一些命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.8/">8.物化视图相关操作</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 故障处理 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.记一次library cache pin等待的处理</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../1.1/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../1.3/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#redo-log">Redo Log的相关操作</a></li>
+        
+            <li><a href="#1-redo-log">1. 查看Redo Log状态</a></li>
+        
+            <li><a href="#2">2. 增加日志组</a></li>
+        
+            <li><a href="#3">3. 删除日志组</a></li>
+        
+            <li><a href="#4">4. 查看日志切换频率</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="redo-log">Redo Log的相关操作</h1>
+<p>这个专题主要是一些日常运维中需要用到的命令，不定期更新~~</p>
+<p>这节内容为我在日常运维中用到的关于redo log方面的命令</p>
+<p><img alt="Alt text" src="../image/1/1.jpg" /></p>
+<h2 id="1-redo-log">1. 查看Redo Log状态</h2>
+<pre><code>SELECT group#, members, bytes/1024/1024 byte_mb, status FROM v$log;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/1/2.jpg" /></p>
+<pre><code>SELECT *FROM v$logfile;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/1/3.jpg" /></p>
+<h2 id="2">2. 增加日志组</h2>
+<pre><code>SQL&gt;ALTER DATABASE ADD LOGFILE GROUP 4 ('D:\ORACLE\PRODUCT\10.2.0\ORADATA\HRDB\redo04a.log' ,'D:\ORACLE\PRODUCT\10.2.0\ORADATA\HRDB\redo04b.log') SIZE 300M;
+
+SQL&gt;ALTER DATABASE ADD LOGFILE GROUP 5 ('D:\ORACLE\PRODUCT\10.2.0\ORADATA\HRDB\redo05a.log' ,'D:\ORACLE\PRODUCT\10.2.0\ORADATA\HRDB\redo05b.log') SIZE 300M;
+
+SQL&gt;ALTER DATABASE ADD LOGFILE GROUP 6 ('D:\ORACLE\PRODUCT\10.2.0\ORADATA\HRDB\redo06a.log' ,'D:\ORACLE\PRODUCT\10.2.0\ORADATA\HRDB\redo06b.log') SIZE 300M;
+</code></pre>
+
+<h2 id="3">3. 删除日志组</h2>
+<p><strong>3.1 切换Redo Log 使原来的inactive</strong></p>
+<pre><code>SQL&gt;ALTER SYSTEM SWITCH LOGFILE;
+SQL&gt;ALTER SYSTEM CHECKPOINT ;
+</code></pre>
+
+<p><img alt="Alt text" src="../image/1/4.jpg" /></p>
+<p><strong>3.2 删除不需要的日志组</strong></p>
+<p>当日志组为INACTIVE时即可删除</p>
+<pre><code>SQL&gt;ALTER DATABASE DROP LOGFILE GROUP 3 ;
+</code></pre>
+
+<h2 id="4">4. 查看日志切换频率</h2>
+<pre><code>column h0 format 999
+column h1 format 999
+column h2 format 999
+column h3 format 999
+column h4 format 999
+column h5 format 999
+column h6 format 999
+column h7 format 999
+column h8 format 999
+column h9 format 999
+column h10 format 999
+column h11 format 999
+column h12 format 999
+column h13 format 999
+column h14 format 999
+column h15 format 999
+column h16 format 999
+column h17 format 999
+column h18 format 999
+column h19 format 999
+column h20 format 999
+column h21 format 999
+column h22 format 999
+column h23 format 999
+column avg format 999.99
+column day format a6
+SELECT TRUNC (first_time) &quot;Date&quot;, TO_CHAR (first_time, 'Dy') &quot;Day&quot;, COUNT (1) &quot;Total&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '00', 1, 0)) h0,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '01', 1, 0)) &quot;h1&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '02', 1, 0)) &quot;h2&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '03', 1, 0)) &quot;h3&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '04', 1, 0)) &quot;h4&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '05', 1, 0)) &quot;h5&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '06', 1, 0)) &quot;h6&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '07', 1, 0)) &quot;h7&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '08', 1, 0)) &quot;h8&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '09', 1, 0)) &quot;h9&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '10', 1, 0)) &quot;h10&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '11', 1, 0)) &quot;h11&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '12', 1, 0)) &quot;h12&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '13', 1, 0)) &quot;h13&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '14', 1, 0)) &quot;h14&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '15', 1, 0)) &quot;h15&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '16', 1, 0)) &quot;h16&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '17', 1, 0)) &quot;h17&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '18', 1, 0)) &quot;h18&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '19', 1, 0)) &quot;h19&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '20', 1, 0)) &quot;h20&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '21', 1, 0)) &quot;h21&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '22', 1, 0)) &quot;h22&quot;,
+SUM (DECODE (TO_CHAR (first_time, 'hh24'), '23', 1, 0)) &quot;h23&quot;, ROUND (COUNT (1) / 24, 2) &quot;Avg&quot;
+FROM gv$log_history
+WHERE first_time &gt;= trunc(SYSDATE) - 68
+and thread# = inst_id
+GROUP BY TRUNC (first_time), TO_CHAR (first_time, 'Dy')
+ORDER BY 1 DESC;
+</code></pre></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

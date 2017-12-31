@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>6.Oracle软件安装 - Oracle数据库安装文档-Oracle 9i安装|Oracle RAC安装</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle数据库安装文档-Oracle 9i安装|Oracle RAC安装</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 9.2.0.8安装 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../1.1/">1.Redhat 4.8的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.Redhat 4.8的配置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.Oracle软件的安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.新建数据库实例</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 11g RAC安装 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.OPENFILER安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.2/">2.OPENFILER配置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.3/">3.UDEV设置</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.4/">4. RAC环境准备</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.5/">5.Grid安装</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">6.Oracle软件安装</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../2.7/">7.Oracle 实例安装</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../2.5/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../2.7/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#oracle">Oracle软件安装</a></li>
+        
+            <li><a href="#_1">数据库规划</a></li>
+        
+            <li><a href="#_2">数据库安装文件</a></li>
+        
+            <li><a href="#1-oracle-rac">1. Oracle RAC的安装</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="oracle">Oracle软件安装</h1>
+<p>这个专题说的是如何搭建Oracle 11.2.0.4 RAC 环境</p>
+<h2 id="_1">数据库规划</h2>
+<p><img alt="Alt text" src="../image/2/i.png" /></p>
+<p>这一节接着上一节grid环境，说如何创建Oracle rac环境</p>
+<p>注意：我们是无需手动设定两节点间的互信的，安装程序会自动建立</p>
+<p>下面的操作需在rac1节点 oracle用户下操作</p>
+<h2 id="_2">数据库安装文件</h2>
+<p>注意:redhat 6.7 不支持grid 11.2.0.1版本</p>
+<p>下载地址:<a href="https://pan.baidu.com/s/1i5aEFYX">https://pan.baidu.com/s/1i5aEFYX</a></p>
+<p>密码:7f7d</p>
+<h2 id="1-oracle-rac">1. Oracle RAC的安装</h2>
+<p>解压 如下文件提取oracle安装文件</p>
+<pre><code>unzip p13390677_112040_Linux-x86-64_1of7.zip
+unzip p13390677_112040_Linux-x86-64_2of7.zip
+</code></pre>
+
+<p>在RAC1机器上oracle用户下运行oracle安装程序</p>
+<pre><code>./runInstaller
+</code></pre>
+
+<p><strong>1.1 点击下一步</strong></p>
+<p><img alt="Alt text" src="../image/2/50.png" /></p>
+<p><strong>1.2 选择下一步</strong></p>
+<p><img alt="Alt text" src="../image/2/51.png" /></p>
+<p><strong>1.3 选择只安装数据库软件</strong></p>
+<p><img alt="Alt text" src="../image/2/52.png" /></p>
+<p><strong>1.4 设置互信信息</strong></p>
+<p>首先添加rac2节点 </p>
+<p>依次点击 SSH Connectivity ,填写 oracle 
+密码，最后点击setup，安装程序会自动建立两节点互信 
+如之前建立过互信需勾选 reuse private and publick key选项</p>
+<p><img alt="Alt text" src="../image/2/53.png" /></p>
+<p><strong>1.5 选择语言</strong></p>
+<p><img alt="Alt text" src="../image/2/54.png" /></p>
+<p><strong>1.6 选择企业版</strong></p>
+<p><img alt="Alt text" src="../image/2/55.png" /></p>
+<p><strong>1.7 指定安装位置</strong></p>
+<p><img alt="Alt text" src="../image/2/56.png" /></p>
+<p><strong>1.8 指定权限操作系统组</strong></p>
+<p><img alt="Alt text" src="../image/2/57.png" /></p>
+<p><strong>1.9 检查需求</strong></p>
+<p>如有软件包没有安装请移步前面章节安装</p>
+<p><img alt="Alt text" src="../image/2/58.png" /></p>
+<p><strong>1.10 开始安装</strong></p>
+<p><img alt="Alt text" src="../image/2/59.png" /></p>
+<p><strong>1.11 安装完成</strong></p>
+<p><img alt="Alt text" src="../image/2/60.png" /></p>
+<p>到这里Oracle RAC已经搭建完成，下面是最后一个章节，建立Oracle实例</p></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

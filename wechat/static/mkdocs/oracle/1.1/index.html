@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Zhaibibei">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>1.表空间的日常运维命令 - Oracle 日常运维命令</title>
+
+        <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-107412137-1', 'zhaibibei.cn');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Oracle 日常运维命令</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 日常运维命令 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li class="active">
+                            <a href="./">1.表空间的日常运维命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.2/">2.Redo Log的相关操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.3/">3.数据库迁移比对小工具</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.4/">4.使用expdp/impdp进行迁移</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.5/">5.Oracle DBLink相关内容</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.6/">6.Oracle Job常用操作</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.7/">7.与系统进程相关的一些命令</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../1.8/">8.物化视图相关操作</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Oracle 故障处理 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../2.1/">1.记一次library cache pin等待的处理</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="..">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../1.2/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#_1">表空间的日常运维命令</a></li>
+        
+            <li><a href="#1">1.查询表空间使用率</a></li>
+        
+            <li><a href="#2">2. 创建表空间</a></li>
+        
+            <li><a href="#3">3. 删除表空间</a></li>
+        
+            <li><a href="#4">4. 新增数据文件</a></li>
+        
+            <li><a href="#5">5. 更改数据文件大小</a></li>
+        
+            <li><a href="#6">6. 更改数据文件增长方式</a></li>
+        
+            <li><a href="#7">7. 临时表空间</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="_1">表空间的日常运维命令</h1>
+<p>这个专题主要是一些日常运维中需要用到的命令，不定期更新~~</p>
+<h2 id="1">1.查询表空间使用率</h2>
+<pre><code>select a.tablespace_name,a.bytes/1024/ 1024 &quot;Sum MB&quot;,(a.bytes-b.bytes)/1024 /1024 &quot;used MB&quot;,b.bytes/ 1024/1024 &quot;free MB&quot;,round(((a.bytes-b.bytes)/a.bytes)*100 ,2
+) &quot;percent_used&quot;
+from
+(select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a,
+(select tablespace_name, sum(bytes) bytes,max (bytes) largest from dba_free_space group by tablespace_name) b
+where a.tablespace_name=b.tablespace_name ;
+</code></pre>
+
+<h2 id="2">2. 创建表空间</h2>
+<p>一般建议数据文件设置橙不自动扩展，日常运维注意时刻关注表空间使用率</p>
+<p><strong>2.1 数据文件自动扩展</strong></p>
+<pre><code>create tablespace JGXT LOGGING DATAFILE '/orahdb/oradata/hdb/jgxt01.dbf' SIZE 2048M AUTOEXTEND ON NEXT 1024M
+EXTENT MANAGEMENT LOCAL
+SEGMENT SPACE MANAGEMENT AUTO;
+</code></pre>
+
+<p><strong>2.2 数据文件非自动扩展</strong></p>
+<pre><code>create tablespace WEBMINDX1 LOGGING DATAFILE '/oradata/wmsdata/index/WEBMINDX01.dbf' SIZE 2048M AUTOEXTEND OFF
+EXTENT MANAGEMENT LOCAL
+SEGMENT SPACE MANAGEMENT AUTO;
+</code></pre>
+
+<p><strong>2.3 不指定具体路径(使用OMF)</strong></p>
+<pre><code>CREATE SMALLFILE TABLESPACE &quot;INDX&quot; DATAFILE '+HDB_DATA' SIZE 20G LOGGING EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO
+</code></pre>
+
+<h2 id="3">3. 删除表空间</h2>
+<pre><code>DROP TABLESPACE tablespace_name INCLUDING CONTENTS AND DATAFILES;
+</code></pre>
+
+<h2 id="4">4. 新增数据文件</h2>
+<p><strong>4.1 自定义文件路径</strong></p>
+<pre><code>ALTER TABLESPACE EMAPTBS ADD DATAFILE '/u01/oradata/emap/emapdata07.dbf' SIZE 4096M AUTOEXTEND OFF;
+</code></pre>
+
+<p><strong>4.2 使用Oracle-Managed Files</strong></p>
+<pre><code>ALTER TABLESPACE &quot;INDX&quot; ADD DATAFILE '+HDB_DATA' SIZE 20G
+</code></pre>
+
+<h2 id="5">5. 更改数据文件大小</h2>
+<pre><code>ALTER DATABASE TEMPFILE '+HDB_DATA/hdb/tempfile/temp.263.911574485' RESIZE 30G
+</code></pre>
+
+<h2 id="6">6. 更改数据文件增长方式</h2>
+<pre><code>ALTER DATABASE DATAFILE '+HDB_DATA/hdb/datafile/undotbs1.262.911574483' AUTOEXTEND ON NEXT 100M
+</code></pre>
+
+<h2 id="7">7. 临时表空间</h2>
+<p><strong>7.1 新增临时文件</strong></p>
+<pre><code>alter tablespace temp2 add tempfile '/m11/oradata/BRAT/temp04.dbf' size 2048M
+</code></pre>
+
+<p><strong>7.2 删除临时文件</strong></p>
+<pre><code>alter database tempfile '/m13/oradata/BRAT/temp01.dbf' drop
+
+</code></pre></div>
+        </div>
+
+	<footer class="col-md-12">
+		<hr>
+		
+		<p>苏ICP备17053688号</p>
+		
+		<p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+	</footer>
+
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>
